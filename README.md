@@ -1,8 +1,8 @@
 # Sport Matchmaker
 
 Makers:
--pzanni
--aventusM
+*pzanni
+*aventusM
 
 Frontend: React + Redux
 
