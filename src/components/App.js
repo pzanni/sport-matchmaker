@@ -6,19 +6,31 @@ import Navigation from "./Navigation";
 import LandingPage from "./nonLoggedInUserComponents/Landing";
 import SignInPage from "./nonLoggedInUserComponents/SignIn";
 import SignUpPage from "./nonLoggedInUserComponents/SignUp";
+import Home from './loggedInUserComponents/Home'
 
-const App = () => {
-  return (
-    <Router>
-      <div>
-        <Navigation />
+class App extends React.Component {
+  constructor(props){
+    super(props)
+  }
 
-        <Route exact path={routes.LANDING} component={() => <LandingPage />} />
-        <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
-        <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
-      </div>
-    </Router>
-  );
+  componentDidMount(){
+    //Staten muutos tänne reduxin kautta
+    //Navigation authUser poimittava reduxarvosta
+  }
+
+  render(){
+    return (
+      <Router>
+        <div>
+          <Navigation authUser={null}/>
+          <Route exact path={routes.LANDING} component={() => <LandingPage />} />
+          <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
+          <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
+          <Route exact path={routes.HOME} component={() => <Home />} />
+        </div>
+      </Router>
+    );
+  };
 };
 
 export default App;

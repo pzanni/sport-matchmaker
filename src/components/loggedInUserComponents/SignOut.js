@@ -4,7 +4,9 @@ import { auth } from "../../firebase/controller";
 const SignOut = () => {
   return (
     <div>
-      <button onClick={signOut()}>Sign out</button>
+      <button onClick={auth.signOut}>Sign out</button>
     </div>
   );
 };
+
+export default SignOut;
