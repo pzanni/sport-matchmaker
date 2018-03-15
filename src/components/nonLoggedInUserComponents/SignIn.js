@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import * as routes from "../../constants/routes";
-
+import { withRouter } from "react-router-dom";
 import { auth } from "../../firebase/controller";
 
-const SignInPage = () => {
+const SignInPage = ({ history }) => {
   return (
     <div>
       <h1>Sign in</h1>
-      <SignInForm />
+      <SignInForm history={history} />
     </div>
   );
 };
@@ -22,12 +22,11 @@ class SignInForm extends Component {
     event.preventDefault();
     try {
       const email = event.target.email.value;
-      console.log(`email : ${email}`);
       const password = event.target.password.value;
-      console.log(`pw : ${password}`);
-
       const loggedInUser = await auth.signInWithEmailAndPassword(email, password);
       console.log(`loggedInUser -> ${loggedInUser}`);
+      this.props.history.push(routes.HOME);
+      /*Localstoragen käyttöä tänne reittien suojaamiseksi*/
     } catch (exception) {
       console.log(exception);
     }
@@ -55,6 +54,6 @@ const SignUpLink = () => {
   );
 };
 
-export default SignInPage;
+export default withRouter(SignInPage);
 
 export { SignInForm, SignUpLink };
