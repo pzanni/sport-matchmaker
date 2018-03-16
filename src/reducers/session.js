@@ -2,7 +2,7 @@ const DEFAULT_STATE = {
   authUser: null
 }
 
-sessionReducer = (state = DEFAULT_STATE, action) => {
+const sessionReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     //Sign in / Sign up
     case 'SET_AUTH': {
@@ -10,8 +10,7 @@ sessionReducer = (state = DEFAULT_STATE, action) => {
     }
     //Log out
     case 'RESET_AUTH': {
-      //Saattaa vaatia SET_AUTH:n tyylisen muutoksen jos allaoleva default ei toimi
-      return DEFAULT_STATE
+      return { ...state, authUser: null }
     }
     default: return state
   }

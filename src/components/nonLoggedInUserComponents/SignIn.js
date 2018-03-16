@@ -24,6 +24,7 @@ class SignInForm extends Component {
       const email = event.target.email.value;
       const password = event.target.password.value;
       const loggedInUser = await auth.signInWithEmailAndPassword(email, password);
+      
       console.log(`loggedInUser -> ${loggedInUser}`);
       this.props.history.push(routes.HOME);
       /*Localstoragen käyttöä tänne reittien suojaamiseksi*/

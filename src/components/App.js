@@ -18,10 +18,10 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <Navigation authUser={null} />
+          <Navigation store={this.props.store} />
           <Route exact path={routes.LANDING} component={() => <LandingPage />} />
-          <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
-          <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
+          <Route exact path={routes.SIGN_IN} component={() => <SignInPage store={this.props.store} />} />
+          <Route exact path={routes.SIGN_UP} component={() => <SignUpPage store={this.props.store} />} />
           <Route exact path={routes.HOME} component={() => <Home />} />
         </div>
       </Router>
