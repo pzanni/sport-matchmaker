@@ -29,7 +29,7 @@ class SignUpForm extends React.Component {
       const createdUser = await auth.createUserWithEmailAndPassword(email, password);
       console.log(`Käyttäjä luotu -> ${createdUser}`);
       this.props.history.push(routes.HOME);
-      /*Localstoragen käyttöä tänne reittien suojaamiseksi*/
+      /*Localstoragen käyttöä tänne reittien suojaamiseksi samalla tavalla kuin SignIn:ssä*/
     } catch (exception) {
       console.log(exception);
     }
@@ -44,9 +44,8 @@ class SignUpForm extends React.Component {
   render() {
     const { password1, password2 } = this.state;
     const ifInvalidCondition = password1 !== password2 || password1.length === 0;
-    console.log(`pw1: ${password1}`);
-    console.log(`pw2: ${password2}`);
-
+    // console.log(`pw1: ${password1}`);
+    // console.log(`pw2: ${password2}`);
     return (
       <div>
         <form onSubmit={this.onSubmit}>

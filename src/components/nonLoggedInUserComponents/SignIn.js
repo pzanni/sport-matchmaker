@@ -18,16 +18,16 @@ class SignInForm extends Component {
     super(props);
   }
 
-  onSubmit = async event => {
+  onSubmit = async (event) => {
     event.preventDefault();
     try {
       const email = event.target.email.value;
       const password = event.target.password.value;
       const loggedInUser = await auth.signInWithEmailAndPassword(email, password);
-      
-      console.log(`loggedInUser -> ${loggedInUser}`);
+      //Reittien suojaus
+      window.localStorage.setItem('user', loggedInUser)
+      //Uudelleenohjataan nyt sisäänkirjautunut käyttäjä etusivulle
       this.props.history.push(routes.HOME);
-      /*Localstoragen käyttöä tänne reittien suojaamiseksi*/
     } catch (exception) {
       console.log(exception);
     }

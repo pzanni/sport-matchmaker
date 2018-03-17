@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import * as routes from "../constants/routes";
 import SignOut from './loggedInUserComponents/SignOut';
 
-// Redux provider index.js:stä -> app.js -> edelleen eteenpäin tänne
-const Navigation = props => {
-  const { store } = props;
-  const isLoggedIn = store.getState().sessionReducer.authUser
+const Navigation = (props) => {
+  const { authUser } = props;
   return (
     <div>
-      {isLoggedIn ? <AuthNavigation /> : <NonAuthNavigation />}
+      {authUser
+        ? <AuthNavigation />
+        : <NonAuthNavigation />}
     </div>
   )
 }

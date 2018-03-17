@@ -12,5 +12,6 @@ export const signInWithEmailAndPassword = (email, password) => {
 
 // Käyttäjän uloskirjautuminen
 export const signOut = () => {
-  return auth.signOut();
+  auth.signOut();
+  window.localStorage.clear();
 };
