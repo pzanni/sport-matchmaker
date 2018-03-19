@@ -1,18 +1,26 @@
 import React from "react";
 import { auth } from "../../firebase/controller";
+import { withRouter } from 'react-router-dom'
 
 class SignOut extends React.Component {
   constructor(props) {
     super(props)
   }
 
+  logOut = (event) => {
+    event.preventDefault()
+    auth.signOut()
+    this.props.store.dispatch({ type: 'UNSET_AUTH' })
+    this.props.history.push('/')
+  }
+
   render() {
     return (
       <div>
-        <button onClick={auth.signOut}>Sign out</button>
+        <button onClick={this.logOut}>Sign out</button>
       </div>
     )
   }
 }
 
-export default SignOut;
+export default withRouter(SignOut);

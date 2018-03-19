@@ -1,5 +1,3 @@
-/* TÄLLÄ HETKELLÄ REDUNDANTTI TIEDOSTO*/
-
 const DEFAULT_STATE = {
   authUser: null
 }
@@ -12,7 +10,7 @@ const sessionReducer = (state = DEFAULT_STATE, action) => {
       return { ...state, authUser: action.authUser }
     }
     //Log out
-    case 'RESET_AUTH': {
+    case 'UNSET_AUTH': {
       console.log('reset_auth kutsuttu', action)
       return { ...state, authUser: null }
     }

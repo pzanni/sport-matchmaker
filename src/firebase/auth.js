@@ -1,4 +1,6 @@
+import React from 'react'
 import { auth } from "./firebase";
+import { Redirect } from 'react-router-dom'
 
 // Uuden käyttäjätunnuksen luonti
 export const createUserWithEmailAndPassword = (email, password) => {
@@ -12,6 +14,6 @@ export const signInWithEmailAndPassword = (email, password) => {
 
 // Käyttäjän uloskirjautuminen
 export const signOut = () => {
-  auth.signOut();
-  window.localStorage.clear();
+  window.localStorage.clear()
+  return auth.signOut();
 };

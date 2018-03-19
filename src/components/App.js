@@ -14,27 +14,23 @@ import { firebase } from '../firebase/controller'
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      authUser: null
-    }
   }
 
   componentDidMount() {
     firebase.auth.onAuthStateChanged(
       authUser => {
-        authUser
-          ? this.setState({ authUser })
-          : this.setState({ authUser: null })
+        if (authUser) {
+          this.props.store.dispatch({ type: 'SET_AUTH', authUser })
+        }
       }
     )
   }
 
   render() {
-    console.log('App authUser - ', this.state.authUser)
     return (
       <Router>
         <div>
-          <Navigation authUser={this.state.authUser} />
+          <Navigation store={this.props.store} />
           <Route exact path={routes.LANDING} component={() => <LandingPage store={this.props.store} />} />
           <Route exact path={routes.SIGN_IN} component={() => <SignInPage store={this.props.store} />} />
           <Route exact path={routes.SIGN_UP} component={() => <SignUpPage store={this.props.store} />} />
