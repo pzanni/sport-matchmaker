@@ -1,5 +1,7 @@
 import React from "react";
 import { auth } from "../../firebase/controller";
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 import { withRouter } from 'react-router-dom'
 
 class SignOut extends React.Component {
@@ -9,8 +11,9 @@ class SignOut extends React.Component {
 
   logOut = (event) => {
     event.preventDefault()
+    const { unsetAuthAfterSignOut } = this.props
     auth.signOut()
-    this.props.store.dispatch({ type: 'UNSET_AUTH' })
+    unsetAuthAfterSignOut()
     this.props.history.push('/')
   }
 
@@ -23,4 +26,10 @@ class SignOut extends React.Component {
   }
 }
 
-export default withRouter(SignOut);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    unsetAuthAfterSignOut: () => dispatch({ type: 'UNSET_AUTH' })
+  }
+}
+
+export default compose(withRouter, connect(null, mapDispatchToProps))(SignOut);

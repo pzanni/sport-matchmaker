@@ -9,18 +9,19 @@ import SignUpPage from "./nonLoggedInUserComponents/SignUp";
 import Home from "./loggedInUserComponents/Home";
 
 import { firebase } from '../firebase/controller'
+import { connect } from 'react-redux'
 
-//Redux tuo staten propseina tänne
 class App extends React.Component {
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
+    const { setAuthFor } = this.props
     firebase.auth.onAuthStateChanged(
       authUser => {
         if (authUser) {
-          this.props.store.dispatch({ type: 'SET_AUTH', authUser })
+          setAuthFor(authUser)
         }
       }
     )
@@ -30,15 +31,21 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <Navigation store={this.props.store} />
-          <Route exact path={routes.LANDING} component={() => <LandingPage store={this.props.store} />} />
-          <Route exact path={routes.SIGN_IN} component={() => <SignInPage store={this.props.store} />} />
-          <Route exact path={routes.SIGN_UP} component={() => <SignUpPage store={this.props.store} />} />
-          <Route exact path={routes.HOME} component={() => <Home store={this.props.store} />} />
+          <Navigation />
+          <Route exact path={routes.LANDING} component={() => <LandingPage />} />
+          <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
+          <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
+          <Route exact path={routes.HOME} component={() => <Home />} />
         </div>
       </Router >
     );
   }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setAuthFor: (authUser) => dispatch({ type: 'SET_AUTH', authUser })
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);

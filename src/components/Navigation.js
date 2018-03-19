@@ -5,24 +5,24 @@ import SignOut from './loggedInUserComponents/SignOut';
 import { connect } from 'react-redux'
 
 const Navigation = (props) => {
-  const { store, session } = props;
+  const { session } = props;
   return (
     <div>
       {session.authUser
-        ? <AuthNavigation store={store} />
+        ? <AuthNavigation />
         : <NonAuthNavigation />}
     </div>
   )
 }
 
 
-const AuthNavigation = ({ store }) => {
+const AuthNavigation = () => {
   return (
     <div>
       <ul>
         <li><Link to={routes.HOME}>Home</Link></li>
         <li><Link to={routes.ACCOUNT}>Account</Link></li>
-        <li><SignOut store={store} /></li>
+        <li><SignOut /></li>
       </ul>
     </div>
   );
