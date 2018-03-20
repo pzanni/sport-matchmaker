@@ -1,8 +1,8 @@
 # Sport Matchmaker
 
-Makers:
-pzanni
-aventusM
+
+Leader: Anni (pzanni)
+Assistant: Anton (aventusM)
 
 Frontend: React + Redux
 
