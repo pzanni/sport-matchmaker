@@ -1,6 +1,9 @@
 import React from "react";
 import { Redirect } from 'react-router-dom'
 
+//Videomateriaalista löytyy ratkaisu HoC - ongelmaan
+//siinä välissä on kuitenkin muuta kamaa
+//joka täytyy käydä läpi
 const Home = () => {
   //NON - HoC-reittiensuojaus
   //Copypasteratkaisu, mietitään parempaa toteutusta yhdessä!

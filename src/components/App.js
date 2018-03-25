@@ -26,12 +26,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { authUserAdditionFor, authUserRemoval } = this.props
+    const { setAuthUserFor, removeAuthuser } = this.props
+    // console.log('Dispatchaus setAuthUserFor', setAuthUserFor)
+    // console.log('Pelkkä authuserAdditionFor', authUserAdditionFor)
     firebase.auth.onAuthStateChanged(
       authUser => {
         authUser
-          ? authUserAdditionFor(authUser)
-          : authUserRemoval()
+          ? setAuthUserFor(authUser)
+          : removeAuthuser()
       }
     )
   }
@@ -58,4 +60,11 @@ class App extends React.Component {
   }
 }
 
-export default connect(null, { authUserAdditionFor, authUserRemoval })(App);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setAuthUserFor: (authUser) => dispatch(authUserAdditionFor(authUser)),
+    removeAuthuser: () => dispatch(authUserRemoval())
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);
