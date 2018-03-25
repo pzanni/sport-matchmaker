@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import * as routes from "../constants/routes";
 import Navigation from "./Navigation";
 import LandingPage from "./loggedOutUser/Landing";
@@ -12,18 +12,28 @@ import { connect } from 'react-redux'
 
 import { authUserAdditionFor, authUserRemoval } from '../reducers/session'
 
+const NotFoundPage = () => {
+  return (
+    <div>
+      404 - not found
+    </div>
+  )
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
-    const { authUserAdditionFor, authUserRemoval } = this.props
+    const { setAuthUserFor, removeAuthuser } = this.props
+    // console.log('Dispatchaus setAuthUserFor', setAuthUserFor)
+    // console.log('Pelkkä authuserAdditionFor', authUserAdditionFor)
     firebase.auth.onAuthStateChanged(
       authUser => {
         authUser
-          ? authUserAdditionFor(authUser)
-          : authUserRemoval()
+          ? setAuthUserFor(authUser)
+          : removeAuthuser()
       }
     )
   }
@@ -32,17 +42,27 @@ class App extends React.Component {
     return (
       <Router>
         <div>
+            <Navigation />
+          <Switch>
+            <Route exact path={routes.LANDING} component={() => <LandingPage />} />
+            <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
+            <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
+            <Route exact path={routes.HOME} component={() => <Home />} />
 
-          <Navigation />
-
-          <Route exact path={routes.LANDING} component={() => <LandingPage />} />
-          <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
-          <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
-          <Route exact path={routes.HOME} component={() => <Home />} />
+            {/* Switch laittaa tämän reitin aina, kun matchia ylläoleviin reitteihin ei löydy */}
+            <Route component={() => <NotFoundPage />} />
+          </Switch>
         </div>
       </Router >
     );
   }
 }
 
-export default connect(null, { authUserAdditionFor, authUserRemoval })(App);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setAuthUserFor: (authUser) => dispatch(authUserAdditionFor(authUser)),
+    removeAuthuser: () => dispatch(authUserRemoval())
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);
