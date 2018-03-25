@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import * as routes from "../constants/routes";
 import Navigation from "./Navigation";
 import LandingPage from "./loggedOutUser/Landing";
@@ -11,6 +11,14 @@ import { firebase } from '../firebase/controller'
 import { connect } from 'react-redux'
 
 import { authUserAdditionFor, authUserRemoval } from '../reducers/session'
+
+const NotFoundPage = () => {
+  return (
+    <div>
+      404 - not found
+    </div>
+  )
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -35,10 +43,15 @@ class App extends React.Component {
           <MuiThemeProvider>
             <Navigation />
           </MuiThemeProvider>
-          <Route exact path={routes.LANDING} component={() => <LandingPage />} />
-          <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
-          <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
-          <Route exact path={routes.HOME} component={() => <Home />} />
+          <Switch>
+            <Route exact path={routes.LANDING} component={() => <LandingPage />} />
+            <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
+            <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
+            <Route exact path={routes.HOME} component={() => <Home />} />
+
+            {/* Switch laittaa tämän reitin aina, kun matchia ylläoleviin reitteihin ei löydy */}
+            <Route component={() => <NotFoundPage />} />
+          </Switch>
         </div>
       </Router >
     );
