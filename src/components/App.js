@@ -10,18 +10,20 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { firebase } from '../firebase/controller'
 import { connect } from 'react-redux'
 
+import { authUserAdditionFor, authUserRemoval } from '../reducers/session'
+
 class App extends React.Component {
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
-    const { setAuthFor } = this.props
+    const { authUserAdditionFor, authUserRemoval } = this.props
     firebase.auth.onAuthStateChanged(
       authUser => {
-        if (authUser) {
-          setAuthFor(authUser)
-        }
+        authUser
+          ? authUserAdditionFor(authUser)
+          : authUserRemoval()
       }
     )
   }
@@ -43,10 +45,4 @@ class App extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setAuthFor: (authUser) => dispatch({ type: 'SET_AUTH', authUser })
-  }
-}
-
-export default connect(null, mapDispatchToProps)(App);
+export default connect(null, { authUserAdditionFor, authUserRemoval })(App);

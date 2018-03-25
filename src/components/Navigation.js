@@ -55,8 +55,7 @@ const AuthNavigation = () => {
           title="Sport Matchmaker"
           position="static"
           children={children}
-          iconElementRight={rightButtons}>
-        </AppBar>
+          iconElementRight={rightButtons} />
       </ul>
     </div>
   );
