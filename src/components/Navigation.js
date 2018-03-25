@@ -4,9 +4,7 @@ import * as routes from "../constants/routes";
 import SignOut from './loggedInUser/SignOut';
 import { connect } from 'react-redux'
 
-import AppBar from 'material-ui/AppBar';
-import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
-import FlatButton from 'material-ui/FlatButton';
+import { AppBar, Toolbar, Typography, Button } from 'material-ui';
 
 
 const Navigation = (props) => {
@@ -26,38 +24,49 @@ const AuthNavigation = () => {
   const leftButtons = (
     <div>
       <Link to={routes.HOME}>
-        <FlatButton label="Home" />
+        <Button label="Home" />
       </Link>
     </div>
   );
 
-  const rightButtons = (
-    <div>
-      <SignOut />
-    </div>
-  );
+  // const rightButtons = (
+  //   <div>
+  //     <Typography align="right">
+  //         <SignOut />
+  //       </Typography>
+  //   </div>
+  // );
 
-  const children = (
-    <div>
-      <Link to={routes.HOME}>
-        <FlatButton label="Home" />
-      </Link>
-      <Link to={routes.ACCOUNT}>
-        <FlatButton label="Account" />
-      </Link>
-    </div>
-  )
+  // const children = (
+  //   <div>
+  //     <Link to={routes.HOME}>
+  //       <Button label="Home" />
+  //     </Link>
+  //     <Link to={routes.ACCOUNT}>
+  //       <Button label="Account" />
+  //     </Link>
+  //   </div>
+  // )
 
   return (
-    <div>
-      <ul>
-        <AppBar
-          title="Sport Matchmaker"
-          position="static"
-          children={children}
-          iconElementRight={rightButtons} />
-      </ul>
-    </div>
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="headline" gutterBottom color="inherit">
+          Sport matchmaker
+        </Typography>
+        <Link to={routes.HOME}>
+          <Button variant="raised">
+            Home
+        </Button>
+        </Link>
+        <Link to={routes.ACCOUNT}>
+          <Button variant="raised">
+            Account
+        </Button>
+        </Link>
+        <SignOut />
+      </Toolbar>
+    </AppBar>
   );
 };
 

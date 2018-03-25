@@ -6,7 +6,7 @@ import LandingPage from "./loggedOutUser/Landing";
 import SignInPage from "./loggedOutUser/SignIn";
 import SignUpPage from "./loggedOutUser/SignUp";
 import Home from "./loggedInUser/Home";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { firebase } from '../firebase/controller'
 import { connect } from 'react-redux'
 
@@ -32,9 +32,9 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <MuiThemeProvider>
-            <Navigation />
-          </MuiThemeProvider>
+
+          <Navigation />
+
           <Route exact path={routes.LANDING} component={() => <LandingPage />} />
           <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
           <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
