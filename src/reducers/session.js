@@ -18,11 +18,12 @@ const sessionReducer = (state = DEFAULT_STATE, action) => {
   }
 }
 
-//action.authUser implisiittinen
+//action.authUser 'implisiittinen'
 export const authUserAdditionFor = (authUser) => {
   return {
+    //case
     type: 'SET_AUTH',
-    //tästä saadaan action.authUser
+    //action
     authUser
   }
 }

@@ -6,7 +6,6 @@ import LandingPage from "./loggedOutUser/Landing";
 import SignInPage from "./loggedOutUser/SignIn";
 import SignUpPage from "./loggedOutUser/SignUp";
 import Home from "./loggedInUser/Home";
-// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { firebase } from '../firebase/controller'
 import { connect } from 'react-redux'
 
@@ -27,8 +26,6 @@ class App extends React.Component {
 
   componentDidMount() {
     const { setAuthUserFor, removeAuthuser } = this.props
-    // console.log('Dispatchaus setAuthUserFor', setAuthUserFor)
-    // console.log('Pelkkä authuserAdditionFor', authUserAdditionFor)
     firebase.auth.onAuthStateChanged(
       authUser => {
         authUser
@@ -42,7 +39,7 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-            <Navigation />
+          <Navigation />
           <Switch>
             <Route exact path={routes.LANDING} component={() => <LandingPage />} />
             <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />

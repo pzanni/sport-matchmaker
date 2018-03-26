@@ -2,17 +2,21 @@ import React from "react";
 import { auth } from "../../firebase/controller";
 import { withRouter } from "react-router-dom";
 import * as routes from "../../constants/routes";
+import { addFirebaseUser } from '../../reducers/users'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 
-const SignUpPage = ({ history }) => {
-  return (
-    <div>
-      <h1>Sign up Page</h1>
-      <SignUpForm history={history} />
-    </div>
-  );
-};
 
-class SignUpForm extends React.Component {
+// const SignUpPage = (props) => {
+//   return (
+//     <div>
+//       <h1>Sign up Page</h1>
+//       <SignUpForm {...props} />
+//     </div>
+//   );
+// };
+
+class SignUpPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,15 +25,21 @@ class SignUpForm extends React.Component {
     };
   }
 
-  onSubmit = async event => {
+  onSubmit = async (event) => {
     event.preventDefault();
     try {
+      //HUOM - ERI KUIN importti, tämä on dispatchattu, mutta samanniminen
+      const { addFirebaseUser } = this.props
       const email = event.target.email.value;
       const password = this.state.password1;
+      const username = event.target.username.value;
       const createdUser = await auth.createUserWithEmailAndPassword(email, password);
-      console.log(`Käyttäjä luotu -> ${createdUser}`);
+
+      //Yhdistellään reduxia ja firebasea
+      const newUserData = { username, email }
+      addFirebaseUser(newUserData)
+      window.localStorage.setItem('user', createdUser)
       this.props.history.push(routes.HOME);
-      /*Localstoragen käyttöä tänne reittien suojaamiseksi samalla tavalla kuin SignIn:ssä*/
     } catch (exception) {
       console.log(exception);
     }
@@ -44,10 +54,9 @@ class SignUpForm extends React.Component {
   render() {
     const { password1, password2 } = this.state;
     const ifInvalidCondition = password1 !== password2 || password1.length === 0;
-    // console.log(`pw1: ${password1}`);
-    // console.log(`pw2: ${password2}`);
     return (
       <div>
+        <h1>Sign up Page</h1>
         <form onSubmit={this.onSubmit}>
           Username: <input type="text" name="username" />
           Email: <input type="text" name="email" />
@@ -60,5 +69,10 @@ class SignUpForm extends React.Component {
   }
 }
 
-export default withRouter(SignUpPage);
-export { SignUpForm };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addFirebaseUser: (content) => dispatch(addFirebaseUser(content))
+  }
+}
+
+export default compose(withRouter, connect(null, mapDispatchToProps))(SignUpPage)
