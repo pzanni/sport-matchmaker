@@ -10,6 +10,7 @@ import { firebase } from '../firebase/controller'
 import { connect } from 'react-redux'
 
 import { authUserAdditionFor, authUserRemoval } from '../reducers/session'
+import { fetchFirebaseUsers } from '../reducers/users'
 
 const NotFoundPage = () => {
   return (
@@ -25,11 +26,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { setAuthUserFor, removeAuthuser } = this.props
+    const { setAuthUserFor, removeAuthuser, fetchFirebaseUsers } = this.props
     firebase.auth.onAuthStateChanged(
       authUser => {
         authUser
-          ? setAuthUserFor(authUser)
+          ? setAuthUserFor(authUser) && fetchFirebaseUsers()
           : removeAuthuser()
       }
     )
@@ -58,7 +59,8 @@ class App extends React.Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     setAuthUserFor: (authUser) => dispatch(authUserAdditionFor(authUser)),
-    removeAuthuser: () => dispatch(authUserRemoval())
+    removeAuthuser: () => dispatch(authUserRemoval()),
+    fetchFirebaseUsers: () => dispatch(fetchFirebaseUsers())
   }
 }
 

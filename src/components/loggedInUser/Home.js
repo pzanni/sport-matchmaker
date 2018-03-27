@@ -8,13 +8,15 @@ import { connect } from 'react-redux'
 const Home = (props) => {
   const { users } = props
   console.log('usersit homessa:', users)
+  const mappedUsers = users.map((user) => <p key={user.email}>{user.username} - {user.email}</p>)
   //NON - HoC-reittiensuojaus
   //Copypasteratkaisu, mietitään parempaa toteutusta yhdessä!
   if (window.localStorage.getItem('user')) {
     return (
       <div>
         <p>Kirjautuneen käyttäjän etusivu</p>
-        <p>Käyttäjälistakamaa suoraan tietokannasta...</p>
+        <p>Käyttäjälistakamaa suoraan tietokannasta alla...</p>
+        {mappedUsers}
       </div>
     )
   } else {
