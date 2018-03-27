@@ -26,7 +26,7 @@ const setUsers = (users) => {
   }
 }
 
-export const fetchFirebaseUsers = () => {
+export const fetchAndSetFirebaseUsers = () => {
   return async (dispatch) => {
     await db.ref('users').on('value', (snapshot) => {
       const userArray = []
@@ -34,6 +34,7 @@ export const fetchFirebaseUsers = () => {
       // dispatch(setUsers(snapshot.val()))
       snapshot.forEach((childSnapshot) => {
         userArray.push({
+          id: childSnapshot.key,
           ...childSnapshot.val()
         })
       })
