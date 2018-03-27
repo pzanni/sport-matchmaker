@@ -12,15 +12,14 @@ const Navigation = (props) => {
   return (
     <div>
       {session.authUser
-        ? <AuthNavigation />
+        ? <AuthNavigation {...props} />
         : <NonAuthNavigation />}
     </div>
   )
 }
 
 
-const AuthNavigation = () => {
-
+const AuthNavigation = (props) => {
   const leftButtons = (
     <div>
       <Link to={routes.HOME}>
@@ -65,6 +64,8 @@ const AuthNavigation = () => {
         </Button>
         </Link>
         <SignOut />
+        {/* Näyttää kauhealta, mutta tieto kirjautuneen käyttäjän usernamesta on ihan kiva juttu !! */}
+        <h3>Kirjautunut käyttäjä ::: {props.session.authUser.displayName}</h3>
       </Toolbar>
     </AppBar>
   );
@@ -83,7 +84,7 @@ const NonAuthNavigation = () => {
 
 const mapStateToProps = (state) => {
   return {
-    session: state.session
+    session: state.session,
   }
 }
 

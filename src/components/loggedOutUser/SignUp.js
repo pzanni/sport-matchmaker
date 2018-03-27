@@ -6,16 +6,6 @@ import { addFirebaseUser } from '../../reducers/users'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
-
-// const SignUpPage = (props) => {
-//   return (
-//     <div>
-//       <h1>Sign up Page</h1>
-//       <SignUpForm {...props} />
-//     </div>
-//   );
-// };
-
 class SignUpPage extends React.Component {
   constructor(props) {
     super(props);
@@ -30,16 +20,22 @@ class SignUpPage extends React.Component {
     try {
       //HUOM - ERI KUIN importti, tämä on dispatchattu, mutta samanniminen
       const { addFirebaseUser } = this.props
+
       const email = event.target.email.value;
       const password = this.state.password1;
       const username = event.target.username.value;
+
       const createdUser = await auth.createUserWithEmailAndPassword(email, password);
+      const updatedUser = await createdUser.updateProfile({ displayName: username })
+      console.log('luotu käyttäjä', updatedUser)
 
       //Yhdistellään reduxia ja firebasea
       const newUserData = { username, email }
       addFirebaseUser(newUserData)
+
       window.localStorage.setItem('user', createdUser)
       this.props.history.push(routes.HOME);
+
     } catch (exception) {
       console.log(exception);
     }
