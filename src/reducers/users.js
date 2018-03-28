@@ -12,7 +12,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
 }
 
 //Fetch / Set (action)
-const setUsers = (users) => {
+export const setUsers = (users) => {
   return {
     //Case
     type: 'SET_USERS',
