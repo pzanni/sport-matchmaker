@@ -1,6 +1,6 @@
 import * as firebase from "firebase";
 
-var config = {
+const productionConfig = {
   apiKey: "AIzaSyBepNgm9Htu4LqJJaqX8DbHrUqJ02BUQYw",
   authDomain: "matchmaker-dev-be06b.firebaseapp.com",
   databaseURL: "https://matchmaker-dev-be06b.firebaseio.com",
@@ -8,6 +8,19 @@ var config = {
   storageBucket: "matchmaker-dev-be06b.appspot.com",
   messagingSenderId: "293311458536"
 };
+
+const developmentConfig = {
+  apiKey: "AIzaSyDAvR8jpSOgKhiTxOAMnxC89h4mdYA6ho4",
+  authDomain: "matchmaker-test.firebaseapp.com",
+  databaseURL: "https://matchmaker-test.firebaseio.com",
+  projectId: "matchmaker-test",
+  storageBucket: "",
+  messagingSenderId: "144779541380"
+}
+
+let config = process.env.NODE_ENV === 'production'
+  ? productionConfig
+  : developmentConfig
 
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
