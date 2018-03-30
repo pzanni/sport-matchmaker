@@ -1,6 +1,7 @@
 import React from "react";
 import { auth } from "../../firebase/controller";
 import { withRouter } from 'react-router-dom'
+import { Button } from 'material-ui';
 
 class SignOut extends React.Component {
   constructor(props) {
@@ -16,7 +17,9 @@ class SignOut extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.logOut}>Sign out</button>
+        <Button onClick={this.logOut} variant="raised">
+          Sign out
+        </Button>
       </div>
     )
   }

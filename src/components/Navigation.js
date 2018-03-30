@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import * as routes from "../constants/routes";
 import SignOut from './loggedInUser/SignOut';
 import { connect } from 'react-redux'
-
-import { AppBar, Toolbar, Typography, Button } from 'material-ui';
-
+import { AppBar, Toolbar, Typography, Button, Grid, Paper, Menu, MenuItem } from 'material-ui';
+import navigationReducer from '../reducers/navigation';
 
 const Navigation = (props) => {
   const { session } = props;
+
   return (
     <div>
       {session.authUser
@@ -20,52 +20,51 @@ const Navigation = (props) => {
 
 
 const AuthNavigation = (props) => {
-  const leftButtons = (
-    <div>
-      <Link to={routes.HOME}>
-        <Button label="Home" />
-      </Link>
-    </div>
-  );
+  let editLink = <Link to={routes.ACCOUNT} />;
 
-  // const rightButtons = (
-  //   <div>
-  //     <Typography align="right">
-  //         <SignOut />
-  //       </Typography>
-  //   </div>
-  // );
-
-  // const children = (
-  //   <div>
-  //     <Link to={routes.HOME}>
-  //       <Button label="Home" />
-  //     </Link>
-  //     <Link to={routes.ACCOUNT}>
-  //       <Button label="Account" />
-  //     </Link>
-  //   </div>
-  // )
+  const handleClick = event => {
+    // open menu
+  };
 
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="headline" gutterBottom color="inherit">
-          Sport matchmaker
-        </Typography>
-        <Link to={routes.HOME}>
-          <Button variant="raised">
-            Home
-        </Button>
-        </Link>
-        <Link to={routes.ACCOUNT}>
-          <Button variant="raised">
-            Account
-        </Button>
-        </Link>
-        <SignOut />
-        {/* Näyttää kauhealta, mutta tieto kirjautuneen käyttäjän usernamesta on ihan kiva juttu !! */}
-        <h3>Kirjautunut käyttäjä ::: {props.session.authUser.displayName}</h3>
+        <Grid container spacing={8}>
+          <Grid item xs={3}>
+            <Typography variant="headline" gutterBottom color="inherit">
+              Sport matchmaker
+            </Typography>
+          </Grid>
+
+          <Grid item xs={1}>
+            <Link to={routes.HOME} style={{ textDecoration: 'none' }}>
+              <Button variant="raised">
+                Home
+              </Button>
+            </Link>
+          </Grid>
+
+          <Grid item xs={1}>
+            <Link to={routes.ACCOUNT} style={{ textDecoration: 'none' }}>
+              <Button variant="raised">
+                Account
+              </Button>
+            </Link>
+          </Grid>
+
+          <Grid item xs={2}>
+            <SignOut />
+          </Grid>
+
+          <Grid item xs={3}>
+            <Button
+              aria-owns='simple-menu'
+              aria-haspopup="true"
+              onClick={handleClick}>
+              User: <h3>{props.session.authUser.displayName}</h3>
+            </Button>
+          </Grid>
+        </Grid>
       </Toolbar>
     </AppBar>
   );
