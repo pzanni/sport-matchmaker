@@ -38,8 +38,8 @@ export const fetchAndSetFirebaseUsers = () => {
 
 export const addFirebaseUser = (content) => {
   return async (dispatch) => {
-    const { username, email } = content
-    const newUser = { username, email }
+    const { username, email, uid } = content
+    const newUser = { username, email, uid }
     const dbUserRef = await db.ref('users').push(newUser)
   }
 }

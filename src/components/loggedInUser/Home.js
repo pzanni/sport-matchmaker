@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 const Home = (props) => {
   const { users } = props
   console.log('usersit homessa:', users)
-  const mappedUsers = users.map((user) => <p key={user.id}>{user.username} - {user.email} (id: {user.id})</p>)
+  const mappedUsers = users.map((user) => <p key={user.id}>{user.username} - {user.email} (id: {user.id}) (user id: {user.uid})</p>)
   //NON - HoC-reittiensuojaus
   //Copypasteratkaisu, mietitään parempaa toteutusta yhdessä!
   if (window.localStorage.getItem('user')) {
