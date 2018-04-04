@@ -12,6 +12,9 @@ import { connect } from 'react-redux'
 import { authUserAdditionFor, authUserRemoval } from '../reducers/session'
 import { fetchAndSetFirebaseUsers } from '../reducers/users'
 
+import Users from './loggedInUser/Users'
+import { User } from './loggedInUser/Users'
+
 const NotFoundPage = () => {
   return (
     <div>
@@ -21,10 +24,6 @@ const NotFoundPage = () => {
 }
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     const { setAuthUserFor, removeAuthuser, fetchAndSetFirebaseUsers } = this.props
     firebase.auth.onAuthStateChanged(
@@ -37,6 +36,10 @@ class App extends React.Component {
   }
 
   render() {
+    const { users } = this.props
+    const userById = (id) =>
+      users.find(user => user.id === id)
+
     return (
       <Router>
         <div>
@@ -47,12 +50,26 @@ class App extends React.Component {
             <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
             <Route exact path={routes.HOME} component={() => <Home />} />
 
+            <Route exact path="/users" render={() =>
+              <Users users={users} />}
+            />
+
+            <Route exact path="/users/:id" render={({ match }) =>
+              <User user={userById(match.params.id)} />}
+            />
+
             {/* Switch laittaa tämän reitin aina, kun matchia ylläoleviin reitteihin ei löydy */}
             <Route component={() => <NotFoundPage />} />
           </Switch>
         </div>
       </Router >
     );
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    users: state.users
   }
 }
 
@@ -64,4 +81,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

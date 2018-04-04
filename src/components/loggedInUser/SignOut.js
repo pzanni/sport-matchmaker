@@ -4,10 +4,6 @@ import { withRouter } from 'react-router-dom'
 import { Button } from 'material-ui';
 
 class SignOut extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   logOut = (event) => {
     event.preventDefault()
     auth.signOut()

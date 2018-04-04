@@ -14,10 +14,6 @@ const SignInPage = ({ history }) => {
 };
 
 class SignInForm extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   onSubmit = async (event) => {
     event.preventDefault();
     try {

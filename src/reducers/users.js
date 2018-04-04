@@ -38,9 +38,12 @@ export const fetchAndSetFirebaseUsers = () => {
 
 export const addFirebaseUser = (content) => {
   return async (dispatch) => {
-    const { username, email, uid } = content
-    const newUser = { username, email, uid }
+    const { username, email, uid, challengeStatus } = content
+    const newUser = { username, email, uid, challengeStatus }
     const dbUserRef = await db.ref('users').push(newUser)
+    
+    //Mahdollisesti async/await - testejä varten, jos ristiriidat riippuvuuksien kanssa saadaan selvitettyä
+    return dbUserRef
   }
 }
 
