@@ -3,71 +3,97 @@ import { Link } from "react-router-dom";
 import * as routes from "../constants/routes";
 import SignOut from './loggedInUser/SignOut';
 import { connect } from 'react-redux'
-import { AppBar, Toolbar, Typography, Button, Grid, Paper, Menu, MenuItem } from 'material-ui';
-import navigationReducer from '../reducers/navigation';
+import { AppBar, Toolbar, Typography, Button, Grid, Menu, MenuItem } from 'material-ui';
 
 const Navigation = (props) => {
-  const { session } = props;
+  const { session, users } = props;
+  const loggedInUser = session.authUser
+    ? users.find(user => user.uid === session.authUser.uid)
+    : null
 
   return (
     <div>
       {session.authUser
-        ? <AuthNavigation {...props} />
+        ? <AuthNavigation session={session} user={loggedInUser} />
         : <NonAuthNavigation />}
     </div>
   )
 }
 
 
-const AuthNavigation = (props) => {
-  let editLink = <Link to={routes.ACCOUNT} />;
+class AuthNavigation extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      anchorEl: null,
+      authUserUrl: '/'
+    }
+  }
 
-  const handleClick = event => {
-    // open menu
+  handleMenuClick = event => {
+    this.setState({ anchorEl: event.target });
   };
 
-  return (
-    <AppBar position="static">
-      <Toolbar>
-        <Grid container spacing={8}>
-          <Grid item xs={3}>
-            <Typography variant="headline" gutterBottom color="inherit">
-              Sport matchmaker
-            </Typography>
-          </Grid>
+  handleMenuClose = () => {
+    this.setState({ anchorEl: null });
+  };
 
-          <Grid item xs={1}>
-            <Link to={routes.HOME} style={{ textDecoration: 'none' }}>
-              <Button variant="raised">
-                Home
-              </Button>
-            </Link>
-          </Grid>
+  render() {
+    const { anchorEl } = this.state;
+    const authUserUrl = this.props.user
+      ? routes.USERS + '/' + this.props.user.id
+      : 'false'
 
-          <Grid item xs={1}>
-            <Link to={routes.ACCOUNT} style={{ textDecoration: 'none' }}>
-              <Button variant="raised">
-                Account
-              </Button>
-            </Link>
-          </Grid>
+    return (
+      <AppBar position="static">
+        <Toolbar>
+          <Grid container spacing={8}>
+            <Grid item xs={3}>
+              <Typography variant="headline" gutterBottom color="inherit">
+                Sport matchmaker
+              </Typography>
+            </Grid>
 
-          <Grid item xs={2}>
-            <SignOut />
-          </Grid>
+            <Grid item xs={1}>
+              <Link to={routes.HOME} style={{ textDecoration: 'none' }}>
+                <Button variant="raised">
+                  Home
+                </Button>
+              </Link>
+            </Grid>
 
-          <Grid item xs={3}>
+            <Grid item xs={1}>
+              <Link disabled={this.props.user} to={routes.USERS} style={{ textDecoration: 'none' }}>
+                <Button variant="raised">
+                  Users
+                </Button>
+              </Link>
+            </Grid>
+
             <Button
               aria-owns='simple-menu'
               aria-haspopup="true"
-              onClick={handleClick}>
-              User: <h3>{props.session.authUser.displayName}</h3>
+              onClick={this.handleMenuClick}>
+              <span>{this.props.session.authUser.displayName}</span>
             </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={this.handleMenuClose}
+            >
+              <MenuItem onClick={this.handleMenuClose}>
+                <Link to={authUserUrl} style={{ textDecoration: 'none', color: 'black' }}>
+                  Profile
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={this.handleMenuClose}><SignOut /></MenuItem>
+            </Menu>
           </Grid>
-        </Grid>
-      </Toolbar>
-    </AppBar>
-  );
+        </Toolbar>
+      </AppBar>
+    );
+  }
 };
 
 const NonAuthNavigation = () => {
@@ -84,6 +110,7 @@ const NonAuthNavigation = () => {
 const mapStateToProps = (state) => {
   return {
     session: state.session,
+    users: state.users
   }
 }
 

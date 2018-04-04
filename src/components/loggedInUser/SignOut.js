@@ -12,11 +12,9 @@ class SignOut extends React.Component {
 
   render() {
     return (
-      <div>
-        <Button onClick={this.logOut} variant="raised">
+      <span onClick={this.logOut}>
           Sign out
-        </Button>
-      </div>
+      </span>
     )
   }
 }
