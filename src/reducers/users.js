@@ -21,6 +21,17 @@ export const setUsers = (users) => {
   }
 }
 
+export const editChallengeStatus = (path, status) => {
+  return async (dispatch) => {
+    console.log('path', path)
+    console.log('status', status)
+    const updatedUser = await db.ref(`users/${path}`).update({ challengeStatus: status })
+
+    //Mahdollisesti async/await - testejä varten, jos ristiriidat riippuvuuksien kanssa saadaan selvitettyä
+    // return updatedUser
+  }
+}
+
 export const fetchAndSetFirebaseUsers = () => {
   return async (dispatch) => {
     await db.ref('users').on('value', (snapshot) => {
@@ -41,7 +52,7 @@ export const addFirebaseUser = (content) => {
     const { username, email, uid, challengeStatus } = content
     const newUser = { username, email, uid, challengeStatus }
     const dbUserRef = await db.ref('users').push(newUser)
-    
+
     //Mahdollisesti async/await - testejä varten, jos ristiriidat riippuvuuksien kanssa saadaan selvitettyä
     return dbUserRef
   }

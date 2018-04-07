@@ -18,7 +18,7 @@ const Users = ({ users }) => {
 }
 
 const User = (props) => {
-  const { user, session } = props
+  const { user, session, editChallengeStatus } = props
   if (user) {
     return (
       <div>
@@ -31,7 +31,7 @@ const User = (props) => {
             : <b> no</b>}
         </p>
         {session.authUser.uid === user.uid
-          ? <button onClick={() => console.log('moi')}>Change challenge status</button>
+          ? <button onClick={() => editChallengeStatus(user.id, !user.challengeStatus)}>Change challenge status</button>
           : null}
       </div>
     )

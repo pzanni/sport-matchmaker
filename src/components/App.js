@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 
 import { authUserAdditionFor, authUserRemoval } from '../reducers/session'
 import { fetchAndSetFirebaseUsers } from '../reducers/users'
+import { editChallengeStatus } from '../reducers/users'
 
 import Users from './loggedInUser/Users'
 import { User } from './loggedInUser/Users'
@@ -36,7 +37,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { users, session } = this.props
+    const { users, session, editChallengeStatus } = this.props
     const userById = (id) =>
       users.find(user => user.id === id)
 
@@ -55,7 +56,7 @@ class App extends React.Component {
             />
 
             <Route exact path="/users/:id" render={({ match }) =>
-              <User user={userById(match.params.id)} session={session} />}
+              <User user={userById(match.params.id)} session={session} editChallengeStatus={editChallengeStatus} />}
             />
 
             {/* Switch laittaa tämän reitin aina, kun matchia ylläoleviin reitteihin ei löydy */}
@@ -78,7 +79,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setAuthUserFor: (authUser) => dispatch(authUserAdditionFor(authUser)),
     removeAuthuser: () => dispatch(authUserRemoval()),
-    fetchAndSetFirebaseUsers: () => dispatch(fetchAndSetFirebaseUsers())
+    fetchAndSetFirebaseUsers: () => dispatch(fetchAndSetFirebaseUsers()),
+    editChallengeStatus: (path, status) => dispatch(editChallengeStatus(path, status))
   }
 }
 
