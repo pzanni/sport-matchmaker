@@ -6,12 +6,10 @@ const sessionReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     //Sign in / Sign up
     case 'SET_AUTH': {
-      console.log('set_auth kutsuttu, missä authUser:', action.authUser)
       return { ...state, authUser: action.authUser }
     }
     //Log out
     case 'UNSET_AUTH': {
-      console.log('reset_auth kutsuttu', action)
       return { ...state, authUser: null }
     }
     default: return state

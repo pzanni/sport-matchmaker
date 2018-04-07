@@ -36,7 +36,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { users } = this.props
+    const { users, session } = this.props
     const userById = (id) =>
       users.find(user => user.id === id)
 
@@ -55,7 +55,7 @@ class App extends React.Component {
             />
 
             <Route exact path="/users/:id" render={({ match }) =>
-              <User user={userById(match.params.id)} />}
+              <User user={userById(match.params.id)} session={session} />}
             />
 
             {/* Switch laittaa tämän reitin aina, kun matchia ylläoleviin reitteihin ei löydy */}
@@ -69,6 +69,7 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    session: state.session,
     users: state.users
   }
 }

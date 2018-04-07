@@ -18,7 +18,7 @@ const Users = ({ users }) => {
 }
 
 const User = (props) => {
-  const { user } = props
+  const { user, session } = props
   if (user) {
     return (
       <div>
@@ -30,6 +30,9 @@ const User = (props) => {
             ? <b> yes</b>
             : <b> no</b>}
         </p>
+        {session.authUser.uid === user.uid
+          ? <button onClick={() => console.log('moi')}>Change challenge status</button>
+          : null}
       </div>
     )
   } else {
@@ -39,9 +42,6 @@ const User = (props) => {
       </div>
     )
   }
-  // return (
-
-  // )
 }
 
 export default Users
