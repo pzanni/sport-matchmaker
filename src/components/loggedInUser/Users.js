@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import updatePassword from '../../firebase/auth'
 
 const Users = ({ users }) => {
   return (
@@ -32,7 +33,7 @@ const User = (props) => {
         </p>
         {session.authUser.uid === user.uid
           ? <div>
-            <button onClick={() => editChallengeStatus(user.id, !user.challengeStatus)}>Change challenge status</button>
+            <ChallengeStatusChanger path={user.id} status={!user.challengeStatus} editChallengeStatus={editChallengeStatus} />
             <PasswordForm />
           </div>
           : null}
@@ -45,6 +46,13 @@ const User = (props) => {
       </div>
     )
   }
+}
+
+const ChallengeStatusChanger = (props) => {
+  const { path, status, editChallengeStatus } = props
+  return (
+    <button onClick={() => editChallengeStatus(path, status)}>Change challenge status</button>
+  )
 }
 
 class PasswordForm extends React.Component {
