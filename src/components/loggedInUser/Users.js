@@ -31,7 +31,10 @@ const User = (props) => {
             : <b> no</b>}
         </p>
         {session.authUser.uid === user.uid
-          ? <button onClick={() => editChallengeStatus(user.id, !user.challengeStatus)}>Change challenge status</button>
+          ? <div>
+            <button onClick={() => editChallengeStatus(user.id, !user.challengeStatus)}>Change challenge status</button>
+            <PasswordForm />
+          </div>
           : null}
       </div>
     )
@@ -39,6 +42,56 @@ const User = (props) => {
     return (
       <div>
         Loading individual user data...
+      </div>
+    )
+  }
+}
+
+class PasswordForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      password: '',
+      passwordVerify: ''
+    }
+  }
+
+  handleFieldChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  render() {
+    const { password, passwordVerify } = this.state
+    //Firebase vaatii väh. 6 merkkijonon salasanan. Lisätään ehto myös client-siden puolelle
+    const ifNoMatchingPW = password !== passwordVerify || password.length < 6
+    return (
+      <div>
+        <h4>Password settings</h4>
+        <div>
+          <label htmlFor="password">
+            Enter new password
+          </label>
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={this.handleFieldChange}
+          />
+        </div>
+        <label htmlFor="passwordVerify">
+          Confirm new password
+          </label>
+        <input
+          type="password"
+          name="passwordVerify"
+          value={passwordVerify}
+          onChange={this.handleFieldChange}
+        />
+        <button disabled={ifNoMatchingPW} onClick={() => console.log('Salasana muutettu (ei vielä xdedededede)')}>
+          Submit
+        </button>
       </div>
     )
   }

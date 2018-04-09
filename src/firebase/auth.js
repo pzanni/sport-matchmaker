@@ -15,3 +15,8 @@ export const signOut = () => {
   window.localStorage.clear()
   return auth.signOut();
 };
+
+//Käyttäjän salasanan päivitys omalla users/:id - sivulla
+export const updatePassword = (newPassword) => {
+  return auth.currentUser.updatePassword(newPassword)
+}
