@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import updatePassword from '../../firebase/auth'
+import { updatePassword } from '../../firebase/auth'
 
 const Users = ({ users }) => {
   return (
@@ -59,7 +59,7 @@ class PasswordForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      password: '',
+      newPassword: '',
       passwordVerify: ''
     }
   }
@@ -70,26 +70,41 @@ class PasswordForm extends React.Component {
     })
   }
 
+  submitNewPW = async (event) => {
+    event.preventDefault()
+    try {
+      const { newPassword } = this.state
+      console.log('new password to be', newPassword)
+      const updatedData = await updatePassword(newPassword)
+      this.setState({
+        newPassword: '',
+        passwordVerify: ''
+      })
+    } catch (exception) {
+      console.log(exception)
+    }
+  }
+
   render() {
-    const { password, passwordVerify } = this.state
+    const { newPassword, passwordVerify } = this.state
     //Firebase vaatii väh. 6 merkkijonon salasanan. Lisätään ehto myös client-siden puolelle
-    const ifNoMatchingPW = password !== passwordVerify || password.length < 6
+    const ifNoMatchingPW = newPassword !== passwordVerify || newPassword.length < 6
     return (
       <div>
         <h4>Password settings</h4>
         <div>
-          <label htmlFor="password">
-            Enter new password
+          <label htmlFor="newPassword">
+            Enter new Password
           </label>
           <input
             type="password"
-            name="password"
-            value={password}
+            name="newPassword"
+            value={newPassword}
             onChange={this.handleFieldChange}
           />
         </div>
         <label htmlFor="passwordVerify">
-          Confirm new password
+          Confirm new newPassword
           </label>
         <input
           type="password"
@@ -97,7 +112,7 @@ class PasswordForm extends React.Component {
           value={passwordVerify}
           onChange={this.handleFieldChange}
         />
-        <button disabled={ifNoMatchingPW} onClick={() => console.log('Salasana muutettu (ei vielä xdedededede)')}>
+        <button disabled={ifNoMatchingPW} onClick={this.submitNewPW}>
           Submit
         </button>
       </div>
