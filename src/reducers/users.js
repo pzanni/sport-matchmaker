@@ -42,7 +42,7 @@ export const fetchAndSetFirebaseUsers = () => {
           ...childSnapshot.val()
         })
       })
-      dispatch(setUsers(userArray))
+      console.log('dispatchaus', dispatch(setUsers(userArray)))
     })
   }
 }
@@ -54,7 +54,7 @@ export const addFirebaseUser = (content) => {
     const dbUserRef = await db.ref('users').push(newUser)
 
     //Mahdollisesti async/await - testejä varten, jos ristiriidat riippuvuuksien kanssa saadaan selvitettyä
-    return dbUserRef
+    // return dbUserRef
   }
 }
 

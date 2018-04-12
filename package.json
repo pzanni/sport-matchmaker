@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "firebase": "^4.11.0",
-    "jest-cli": "^22.4.3",
     "material-ui": "^1.0.0-beta.38",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -22,6 +21,6 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "jest": "^22.4.3"
+    "redux-mock-store": "^1.5.1"
   }
 }
