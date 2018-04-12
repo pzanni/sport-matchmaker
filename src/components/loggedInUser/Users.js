@@ -3,19 +3,26 @@ import { Link } from 'react-router-dom'
 import { updatePassword } from '../../firebase/auth'
 import PasswordForm from './PasswordForm'
 import ChallengeStatusChanger from './ChallengeStatusChanger'
+import { Paper, Typography } from 'material-ui';
 
 const Users = ({ users }) => {
+
+  const styles = {
+    Paper: { padding: 20, margin: 10 }
+  }
+
   return (
     <div>
       {users.map((user) =>
-        <div key={user.id}>
-          <p>Username: {user.username}</p>
+        <Paper style={styles.Paper} elevation={4} key={user.id}>
+          <Typography variant="headline">
+            {user.username}
+          </Typography >
           More info about&nbsp;
           <Link to={`/users/${user.id}`}>
             {user.username}
           </Link>
-          <hr />
-        </div>)}
+        </Paper>)}
     </div>
   )
 }
