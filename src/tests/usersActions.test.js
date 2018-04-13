@@ -23,23 +23,25 @@ describe('user actions', () => {
   // Käytetään firebasen metodeja / action creatoreja datan
   // puskemisen tietokantaan
   // - KOSKA - käytössä on subscription (on)
-  it('should show new added user from database', async (done) => {
-    const initialState = {}
-    const store = mockStore(initialState)
+  
+  //TESTI KESKENERÄINEN -- Yritän saada apua jostain...
+  // it('should show new added user from database', async (done) => {
+  //   const initialState = {}
+  //   const store = mockStore(initialState)
 
-    const randInt = Math.floor(Math.random() * 1000000) + 1
-    const testUserData = {
-      username: `AntonM${randInt}`,
-      email: `AntonM${randInt}@test.com`,
-      uid: randInt,
-      challengeStatus: false
-    }
+  //   const randInt = Math.floor(Math.random() * 1000000) + 1
+  //   const testUserData = {
+  //     username: `AntonM${randInt}`,
+  //     email: `AntonM${randInt}@test.com`,
+  //     uid: randInt,
+  //     challengeStatus: false
+  //   }
 
-    const beforeAdd = await store.dispatch(fetchAndSetFirebaseUsers())
-    await store.dispatch(addFirebaseUser(testUserData))
-    const afterAdd = await store.dispatch(fetchAndSetFirebaseUsers())
-    console.log('before', beforeAdd)
-    console.log('after', afterAdd)
-    done()
-  })
+  //   const beforeAdd = await store.dispatch(fetchAndSetFirebaseUsers())
+  //   await store.dispatch(addFirebaseUser(testUserData))
+  //   const afterAdd = await store.dispatch(fetchAndSetFirebaseUsers())
+  //   console.log('before', beforeAdd)
+  //   console.log('after', afterAdd)
+  //   done()
+  // })
 })
