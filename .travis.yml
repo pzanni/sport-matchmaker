@@ -6,7 +6,7 @@ cache:
   - node_modules
 script:
   - npm install
-  - npm test
+  - npm run ci
 sudo: required
 addons:
   chrome: stable
