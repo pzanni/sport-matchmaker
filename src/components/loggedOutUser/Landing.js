@@ -3,7 +3,8 @@ import SignInPage from './SignIn';
 
 const LandingPage = props => {
     return (
-        <div>
+        //Puppeteeria varten, muokataan tätä sivua mahdollisesti myöhemmin
+        <div className="landing">
             <h1>Landing Page</h1>
             <SignInPage />
         </div>
