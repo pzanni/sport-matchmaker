@@ -22,4 +22,8 @@ defineFeature(feature, (test) => {
       expect(title).toBeTruthy()
     })
   })
+
+  afterAll(async () => {
+    browser.close()
+  })
 })
