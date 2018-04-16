@@ -2,6 +2,7 @@ import { defineFeature, loadFeature } from 'jest-cucumber'
 import puppeteer from 'puppeteer'
 
 const feature = loadFeature('./src/tests/features/MatchmakerLanding.feature')
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000
 
 defineFeature(feature, (test) => {
   let browser
