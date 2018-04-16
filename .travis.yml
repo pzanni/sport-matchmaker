@@ -7,3 +7,6 @@ cache:
 script:
   - npm install
   - npm test
+sudo: required
+addons:
+  chrome: stable
