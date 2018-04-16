@@ -5,7 +5,6 @@ import { Redirect, Link } from 'react-router-dom'
 //siinä välissä on kuitenkin muuta kamaa
 //joka täytyy käydä läpi
 const Home = (props) => {
-  const { users, session } = props
   //NON - HoC-reittiensuojaus
   //Copypasteratkaisu, mietitään parempaa toteutusta yhdessä!
   if (window.localStorage.getItem('user')) {
