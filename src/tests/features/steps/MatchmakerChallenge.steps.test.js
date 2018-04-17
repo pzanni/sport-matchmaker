@@ -7,7 +7,8 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000
 const FORM_SELECTOR = '.formInput'
 const EMAIL_SELECTOR = '.emailInput'
 const PW_SELECTOR = '.pwInput'
-const SUBMIT_LOGIN_SELECTOR = '.formInput > form:nth-child(1) > button:nth-child(3)'
+const SUBMIT_LOGIN_SELECTOR = '.MuiButtonBase-root-197'
+const USERS_BUTTON = 'div.MuiGrid-typeItem-39:nth-child(2) > a:nth-child(1) > button:nth-child(1)'
 
 defineFeature(feature, (test) => {
   let browser
@@ -28,9 +29,8 @@ defineFeature(feature, (test) => {
       await page.click(SUBMIT_LOGIN_SELECTOR)
       await page.waitFor(3000)
 
-      const textContent = await page.$eval('body', el => el.textContent)
-      console.log('text content', textContent)
-      expect(textContent.includes('Sport Matchmaker')).toBe(true)
+      const button = await page.waitForSelector(USERS_BUTTON)
+      expect(button).toBeTruthy()
     })
 
     // when('I choose all opponents', async () => {
