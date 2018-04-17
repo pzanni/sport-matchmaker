@@ -42,7 +42,7 @@ export const fetchAndSetFirebaseUsers = () => {
           ...childSnapshot.val()
         })
       })
-      console.log('dispatchaus', dispatch(setUsers(userArray)))
+      return dispatch(setUsers(userArray))
     })
   }
 }

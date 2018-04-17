@@ -43,10 +43,11 @@ class SignInForm extends Component {
 
   render() {
     return (
-      <div>
+      <div className="formInput">
         <form onSubmit={this.onSubmit}>
           <Row horizontal='center'>
             <TextField
+              className="emailInput"
               name="email"
               label="Email"
               type="text"
@@ -56,6 +57,7 @@ class SignInForm extends Component {
 
           <Row horizontal='center'>
             <TextField
+              className="pwInput"
               name="password"
               label="Password"
               type="password"
