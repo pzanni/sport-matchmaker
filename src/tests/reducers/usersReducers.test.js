@@ -1,6 +1,6 @@
-import usersReducer from '../reducers/users'
-import { setUsers } from '../reducers/users'
-import { users } from './testData'
+import usersReducer from '../../reducers/users'
+import { setUsers } from '../../reducers/users'
+import { users } from '../testData'
 
 describe('users reducer', () => {
 

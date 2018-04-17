@@ -31,10 +31,10 @@ class SignInForm extends Component {
 
   render() {
     return (
-      <div>
+      <div className="formInput">
         <form onSubmit={this.onSubmit}>
-          Email: <input type="text" name="email" />
-          Password: <input type="password" name="password" />
+          Email: <input className="emailInput" type="text" name="email" />
+          Password: <input className="pwInput" type="password" name="password" />
           <button>Submit</button>
         </form>
         <SignUpLink />
