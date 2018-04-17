@@ -15,7 +15,7 @@ defineFeature(feature, (test) => {
   let page
 
   beforeEach(async () => {
-    browser = await puppeteer.launch({ headless: false, slowMo: 10 })
+    browser = await puppeteer.launch({ headless: true, slowMo: 10 })
     page = await browser.newPage()
   })
 
