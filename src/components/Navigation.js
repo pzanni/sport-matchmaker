@@ -98,12 +98,15 @@ class AuthNavigation extends React.Component {
 
 const NonAuthNavigation = () => {
   return (
-    <div>
-      <ul>
-        <li><Link to={routes.SIGN_IN}>Sign In</Link></li>
-        <li><Link to={routes.SIGN_UP}>Sign Up</Link></li>
-      </ul>
-    </div>
+    <AppBar position="static">
+      <Toolbar>
+        <Grid item xs={3}>
+          <Typography variant="headline" gutterBottom color="inherit">
+            Sport matchmaker
+          </Typography>
+        </Grid>
+      </Toolbar>
+    </AppBar>
   );
 };
 

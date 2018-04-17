@@ -5,6 +5,8 @@ import * as routes from "../../constants/routes";
 import { addFirebaseUser } from '../../reducers/users'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
+import { Typography, TextField, Button, Paper } from 'material-ui';
+import { Column, Row } from 'simple-flexbox'
 
 class SignUpPage extends React.Component {
   constructor(props) {
@@ -48,18 +50,65 @@ class SignUpPage extends React.Component {
   };
 
   render() {
+    const styles = {
+      Headline: { margin: 20 },
+      TextField: { width: 350 },
+      Button: { margin: 10 }
+    }
     const { password1, password2 } = this.state;
     const ifInvalidCondition = password1 !== password2 || password1.length === 0;
     return (
       <div>
-        <h1>Sign up Page</h1>
+        <Paper>
+        <Typography variant="headline">
+          Register
+        </Typography>
         <form onSubmit={this.onSubmit}>
-          Username: <input type="text" name="username" />
-          Email: <input type="text" name="email" />
-          Password: <input type="password" name="password1" onChange={this.handleFieldChange} />
-          Confirm password: <input type="password" name="password2" onChange={this.handleFieldChange} />
-          <button disabled={ifInvalidCondition}>Submit</button>
+          <Row horizontal='center'>
+            <TextField
+              name="username"
+              label="Username"
+              type="text"
+              style={styles.TextField}
+            />
+          </Row>
+
+          <Row horizontal='center'>
+            <TextField
+              name="email"
+              label="Email"
+              type="text"
+              style={styles.TextField}
+            />
+          </Row>
+
+          <Row horizontal='center'>
+            <TextField
+              name="password1"
+              label="Password"
+              type="password"
+              style={styles.TextField}
+              onChange={this.handleFieldChange}
+            />
+          </Row>
+
+          <Row horizontal='center'>
+            <TextField
+              name="password2"
+              label="Confirm password"
+              type="password"
+              style={styles.TextField}
+              onChange={this.handleFieldChange}
+            />
+          </Row>
+
+          <Row horizontal='center'>
+            <Button style={styles.Button} disabled={ifInvalidCondition} color="primary" type="submit">
+              Submit
+            </Button>
+          </Row>
         </form>
+        </Paper>
       </div>
     );
   }
