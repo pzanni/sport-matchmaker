@@ -3,11 +3,23 @@ import { Link } from "react-router-dom";
 import * as routes from "../../constants/routes";
 import { withRouter } from "react-router-dom";
 import { auth } from "../../firebase/controller";
+import { Typography, TextField, Button } from 'material-ui';
+import { Column, Row } from 'simple-flexbox'
+
+const styles = {
+  Headline: { margin: 20 },
+  TextField: { width: 350 },
+  Button: { margin: 10 }
+}
 
 const SignInPage = ({ history }) => {
   return (
     <div>
-      <h1>Sign in</h1>
+      <Row style={styles.Headline} horizontal='center'>
+        <Typography variant="display2">
+          Sign in
+          </Typography>
+      </Row>
       <SignInForm history={history} />
     </div>
   );
@@ -33,9 +45,31 @@ class SignInForm extends Component {
     return (
       <div className="formInput">
         <form onSubmit={this.onSubmit}>
-          Email: <input className="emailInput" type="text" name="email" />
-          Password: <input className="pwInput" type="password" name="password" />
-          <button>Submit</button>
+          <Row horizontal='center'>
+            <TextField
+              className="emailInput"
+              name="email"
+              label="Email"
+              type="text"
+              style={styles.TextField}
+            />
+          </Row>
+
+          <Row horizontal='center'>
+            <TextField
+              className="pwInput"
+              name="password"
+              label="Password"
+              type="password"
+              style={styles.TextField}
+            />
+          </Row>
+
+          <Row horizontal='center'>
+            <Button style={styles.Button} color="primary" type="submit">
+              Submit
+            </Button>
+          </Row>
         </form>
         <SignUpLink />
       </div>
