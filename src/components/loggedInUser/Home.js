@@ -9,7 +9,7 @@ const Home = (props) => {
   //Copypasteratkaisu, mietitään parempaa toteutusta yhdessä!
   if (window.localStorage.getItem('user')) {
     return (
-      <div>
+      <div className="homeRoot">
         <p>Kirjautuneen käyttäjän etusivu</p>
         <p>Tabseista linkki kaikkiin käyttäjiin...</p>
       </div>

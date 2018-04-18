@@ -15,10 +15,10 @@ const Users = ({ users }) => {
     <div>
       {users.map((user) =>
         <Paper style={styles.Paper} elevation={4} key={user.id}>
-          <Typography variant="headline">
+          <Typography className="individualUserName" variant="headline">
             {user.username}
           </Typography >
-          <Link to={`/users/${user.id}`} style={styles.Link}>
+          <Link className="individualUserLink" to={`/users/${user.id}`} style={styles.Link}>
             view profile
           </Link>
         </Paper>)}

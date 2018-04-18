@@ -1,11 +1,10 @@
-Feature: Challenging another user
+Feature: Typical scenarios
 
-  Scenario: Succesful challenge
+  Scenario: Check other player
     Given I log into matchmaker page
-    # When I choose all opponents
-    # And I view a single opponents profile
-    # And If i can challenge them
-    # Then I can send a challenge
+    When I choose all opponents
+    Then I can check individual users profile
 
+# Scenario: Succesful challenge
 # Scenario: Unsuccesful challenge due to existing challenge
 # Scenario: Unsuccesful challenge due to user not accepting challenges
