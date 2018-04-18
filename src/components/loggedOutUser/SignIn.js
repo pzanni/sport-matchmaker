@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import * as routes from "../../constants/routes";
 import { withRouter } from "react-router-dom";
 import { auth } from "../../firebase/controller";
-import { Typography, TextField, Button } from 'material-ui';
+import { Typography, TextField, Button, Paper } from 'material-ui';
 import { Column, Row } from 'simple-flexbox'
 
 const styles = {
+  Column: { marginTop: 50, textAlign: 'center' },
   Headline: { margin: 20 },
   TextField: { width: 350 },
   Button: { margin: 10 }
@@ -15,12 +16,18 @@ const styles = {
 const SignInPage = ({ history }) => {
   return (
     <div>
-      <Row style={styles.Headline} horizontal='center'>
-        <Typography variant="display2">
-          Sign in
-          </Typography>
+      <Row horizontal='center'>
+        <Column flexGrow={0.2} style={styles.Column}>
+          <Paper>
+            <Row style={styles.Headline} horizontal='center'>
+              <Typography variant="display2">
+                Sign in
+              </Typography>
+            </Row>
+            <SignInForm history={history} />
+          </Paper>
+        </Column>
       </Row>
-      <SignInForm history={history} />
     </div>
   );
 };
