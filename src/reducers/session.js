@@ -16,17 +16,15 @@ const sessionReducer = (state = DEFAULT_STATE, action) => {
   }
 }
 
-//action.authUser 'implisiittinen'
 export const authUserAdditionFor = (authUser) => {
   return {
-    //case
+    //action.type
     type: 'SET_AUTH',
-    //action
+    //action.authUser
     authUser
   }
 }
 
-//tässä ei vaadita actionia, vaan se asetetaan explisiittisesti reducerissa
 export const authUserRemoval = () => {
   return {
     type: 'UNSET_AUTH'

@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Paper, Typography } from 'material-ui';
+
 import { updatePassword } from '../../firebase/auth'
 import PasswordForm from './PasswordForm'
-import ChallengeStatusChanger from './ChallengeStatusChanger'
-import { Paper, Typography } from 'material-ui';
+import { ConnectedStatusChanger, ConnectedCreator } from './Challenge'
 
 const styles = {
   Paper: { padding: 20, margin: 10, borderRadius: '2px' },
@@ -38,21 +39,22 @@ const UserInfo = (props) => {
       </Typography >
       <p>email: {user.email}</p>
       {user.challengeStatus
-        ? <button onClick={() => console.log('challenge!!')}>Challenge</button>
+        ? <ConnectedCreator />
         : <p><b>{user.username}</b>does not accept challenges at this moment</p>}
     </Paper>
   )
 }
 
 const User = (props) => {
-  const { user, session, editChallengeStatus } = props
+  const { user, session } = props
   if (user) {
     return (
       <div>
         <UserInfo user={user} />
         {session.authUser.uid === user.uid
           ? <div>
-            <ChallengeStatusChanger path={user.id} status={!user.challengeStatus} editChallengeStatus={editChallengeStatus} />
+            <ConnectedStatusChanger path={user.id} status={!user.challengeStatus} />
+            {/* <ChallengeStatusChanger path={user.id} status={!user.challengeStatus} /> */}
             <PasswordForm />
           </div>
           : null}
