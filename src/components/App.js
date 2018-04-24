@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from 'react-redux'
+
 import * as routes from "../constants/routes";
 import Navigation from "./Navigation";
 import LandingPage from "./loggedOutUser/Landing";
@@ -7,13 +9,10 @@ import SignInPage from "./loggedOutUser/SignIn";
 import SignUpPage from "./loggedOutUser/SignUp";
 import Home from "./loggedInUser/Home";
 import { firebase } from '../firebase/controller'
-import { connect } from 'react-redux'
-
 import { authUserAdditionFor, authUserRemoval } from '../reducers/session'
 import { fetchAndSetFirebaseUsers } from '../reducers/users'
-
 import Users from './loggedInUser/Users'
-import { User } from './loggedInUser/Users'
+import User from './loggedInUser/User'
 
 const NotFoundPage = () => {
   return (
@@ -36,7 +35,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { users, session, editChallengeStatus } = this.props
+    const { users } = this.props
     const userById = (id) =>
       users.find(user => user.id === id)
 
@@ -55,7 +54,7 @@ class App extends React.Component {
             />
 
             <Route exact path="/users/:id" render={({ match }) =>
-              <User user={userById(match.params.id)} session={session} />}
+              <User user={userById(match.params.id)} />}
             />
 
             {/* Switch laittaa tämän reitin aina, kun matchia ylläoleviin reitteihin ei löydy */}
@@ -69,7 +68,6 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    session: state.session,
     users: state.users
   }
 }
