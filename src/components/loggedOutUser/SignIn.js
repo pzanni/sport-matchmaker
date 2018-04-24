@@ -26,11 +26,26 @@ const SignInPage = ({ history }) => {
 };
 
 class SignInForm extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+
+  handleFieldChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
   onSubmit = async (event) => {
     event.preventDefault();
     try {
-      const email = event.target.email.value;
-      const password = event.target.password.value;
+      const { email, password } = this.state
+      // const email = event.target.email.value;
+      // const password = event.target.password.value;
       const loggedInUser = await auth.signInWithEmailAndPassword(email, password);
       //Reittien suojaus
       window.localStorage.setItem('user', loggedInUser)
@@ -51,6 +66,7 @@ class SignInForm extends Component {
               name="email"
               label="Email"
               type="text"
+              onChange={this.handleFieldChange}
               style={styles.TextField}
             />
           </Row>
@@ -61,6 +77,7 @@ class SignInForm extends Component {
               name="password"
               label="Password"
               type="password"
+              onChange={this.handleFieldChange}
               style={styles.TextField}
             />
           </Row>
