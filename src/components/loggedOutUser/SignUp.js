@@ -1,6 +1,6 @@
 import React from "react";
 import { auth } from "../../firebase/controller";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import * as routes from "../../constants/routes";
 import { addFirebaseUser } from '../../reducers/users'
 import { connect } from 'react-redux'
@@ -53,66 +53,80 @@ class SignUpPage extends React.Component {
     const styles = {
       Headline: { margin: 20 },
       TextField: { width: 350 },
-      Button: { margin: 10 }
+      Button: { margin: 10 },
+      MainColumn: { marginTop: 50 }
     }
     const { password1, password2 } = this.state;
     const ifInvalidCondition = password1 !== password2 || password1.length === 0;
     return (
-      <div>
-        <Paper>
-        <Typography variant="headline">
-          Register
-        </Typography>
-        <form onSubmit={this.onSubmit}>
-          <Row horizontal='center'>
-            <TextField
-              name="username"
-              label="Username"
-              type="text"
-              style={styles.TextField}
-            />
-          </Row>
+      <Row horizontal='center'>
+        <Column flexGrow={0.2} style={styles.MainColumn}>
+          <Paper>
+            <Row style={styles.Headline} horizontal='center'>
+              <Typography variant="headline">
+                Create an account
+              </Typography>
+            </Row>
 
-          <Row horizontal='center'>
-            <TextField
-              name="email"
-              label="Email"
-              type="text"
-              style={styles.TextField}
-            />
-          </Row>
-
-          <Row horizontal='center'>
-            <TextField
-              name="password1"
-              label="Password"
-              type="password"
-              style={styles.TextField}
-              onChange={this.handleFieldChange}
-            />
-          </Row>
-
-          <Row horizontal='center'>
-            <TextField
-              name="password2"
-              label="Confirm password"
-              type="password"
-              style={styles.TextField}
-              onChange={this.handleFieldChange}
-            />
-          </Row>
-
-          <Row horizontal='center'>
-            <Button style={styles.Button} disabled={ifInvalidCondition} color="primary" type="submit">
-              Submit
+            <form onSubmit={this.onSubmit}>
+              <Row horizontal='center'>
+                <TextField
+                  name="username"
+                  label="Username"
+                  type="text"
+                  style={styles.TextField}
+                />
+              </Row>
+              <Row horizontal='center'>
+                <TextField
+                  name="email"
+                  label="Email"
+                  type="text"
+                  style={styles.TextField}
+                />
+              </Row>
+              <Row horizontal='center'>
+                <TextField
+                  name="password1"
+                  label="Password"
+                  type="password"
+                  style={styles.TextField}
+                  onChange={this.handleFieldChange}
+                />
+              </Row>
+              <Row horizontal='center'>
+                <TextField
+                  name="password2"
+                  label="Confirm password"
+                  type="password"
+                  style={styles.TextField}
+                  onChange={this.handleFieldChange}
+                />
+              </Row>
+              <Row horizontal='center'>
+                <Button style={styles.Button} disabled={ifInvalidCondition} color="primary" type="submit">
+                  Submit
             </Button>
-          </Row>
-        </form>
-        </Paper>
-      </div>
+              </Row>
+            </form>
+            <Column horizontal="center">
+              <SignUpLink />
+            </Column>
+            
+          </Paper>
+        </Column>
+      </Row>
     );
   }
 }
+
+const SignUpLink = () => {
+  return (
+    <p>
+      Already have an account? <Link to={routes.SIGN_IN}>Sign in</Link>
+    </p>
+  );
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

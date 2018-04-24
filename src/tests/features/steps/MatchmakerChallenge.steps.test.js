@@ -34,7 +34,6 @@ defineFeature(feature, (test) => {
       await page.click(PW_SELECTOR)
       await page.keyboard.type('asdasd')
       await page.click(SUBMIT_LOGIN_SELECTOR)
-
       await page.waitFor(HOME_PAGE_ROOT_DIV_SELECTOR)
       const textContent = await page.$eval(HOME_PAGE_ROOT_DIV_SELECTOR, el => el.outerHTML)
 
