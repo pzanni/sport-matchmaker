@@ -25,10 +25,17 @@ export const editChallengeStatus = (path, status) => {
   return async (dispatch) => {
     console.log('path', path)
     console.log('status', status)
+    // console.log('if this is called, then dispatch worked as predicted from newly connected component!')
     const updatedUser = await db.ref(`users/${path}`).update({ challengeStatus: status })
 
     //Mahdollisesti async/await - testejä varten, jos ristiriidat riippuvuuksien kanssa saadaan selvitettyä
     // return updatedUser
+  }
+}
+
+export const createChallenge = (from, to) => {
+  return async (dispatch) => {
+    console.log(`${from} wants to challenge ${to}`)
   }
 }
 
