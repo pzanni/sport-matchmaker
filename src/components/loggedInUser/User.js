@@ -10,13 +10,13 @@ const styles = {
   Paper: { padding: 20, margin: 10, borderRadius: '2px' }
 }
 
-//Challenge - status siirrettävä pois tästä komponentista
+//Challenge - status siirrettävä pois tästä komponentista (ehkä)
 //Muuten käyttäjä voi haastaa itseään
 const Info = (props) => {
   const { user, session, users } = props
   const challenger = users.find(user => user.uid === session.authUser.uid)
-  console.log('challenger (should be logged in user)', challenger)
-  console.log('opponent (which user we are about to challenge)', user)
+  // console.log('challenger (should be logged in user)', challenger)
+  // console.log('opponent (which user we are about to challenge)', user)
   return (
     <Paper style={styles.Paper} elevation={4}>
       <Typography variant="title">
@@ -24,7 +24,7 @@ const Info = (props) => {
       </Typography >
       <p>email: {user.email}</p>
       {user.challengeStatus
-        ? <ConnectedCreator from={challenger.username} to={user.username} />
+        ? <ConnectedCreator from={challenger} to={user} />
         : <p><b>{user.username}</b>does not accept challenges at this moment</p>}
     </Paper>
   )

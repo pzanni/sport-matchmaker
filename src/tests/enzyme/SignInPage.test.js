@@ -91,26 +91,4 @@ describe('<SignInForm />', () => {
     const Form = wrapper.find('SignInForm').instance()
     expect(Form.state.email).toBe(EXAMPLE_EMAIL)
   })
-
-  //TEST FAILS - onSubmit needs to be mocked. Wrapper component mandatory?
-  // it('should revert to default state after clicking submitting', () => {
-  //   const Form = wrapper.find('SignInForm').instance()
-  //   const inputForm = wrapper.find('form')
-
-  //   const emailInputField = wrapper.find('input').first()
-  //   emailInputField.instance().value = EXAMPLE_EMAIL
-  //   emailInputField.simulate('change')
-
-  //   const passwordInputField = wrapper.find('input').last()
-  //   passwordInputField.instance().value = EXAMPLE_PASSWORD
-  //   passwordInputField.simulate('change')
-
-  //   expect(Form.state.email).toBe(EXAMPLE_EMAIL)
-  //   expect(Form.state.password).toBe(EXAMPLE_PASSWORD)
-
-  //   // TODO - Kuinka mockata tämä - vaaditaan internet-yhteyttä - testi kaatuu tässä
-  //   inputForm.simulate('submit')
-  //   console.log(Form.state)
-
-  // })
 })

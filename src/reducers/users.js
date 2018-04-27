@@ -1,7 +1,6 @@
 import { db } from '../firebase/firebase'
 
-const INITIAL_STATE = []
-const usersReducer = (state = INITIAL_STATE, action) => {
+const usersReducer = (state = [], action) => {
   switch (action.type) {
     case 'SET_USERS': {
       return action.users
@@ -23,19 +22,40 @@ export const setUsers = (users) => {
 
 export const editChallengeStatus = (path, status) => {
   return async (dispatch) => {
-    console.log('path', path)
-    console.log('status', status)
-    // console.log('if this is called, then dispatch worked as predicted from newly connected component!')
     const updatedUser = await db.ref(`users/${path}`).update({ challengeStatus: status })
-
-    //Mahdollisesti async/await - testejä varten, jos ristiriidat riippuvuuksien kanssa saadaan selvitettyä
-    // return updatedUser
+    // Return here not needed as fetchAndSet subscription handles (testing purposes)
   }
 }
 
-export const createChallenge = (from, to) => {
+// export const createChallenge = (from, to) => {
+//   return async (dispatch) => {
+//     const challenger = from.username
+//     const opponent = to.username
+//     const path = from.id
+
+//     console.log(`${challenger} wants to challenge ${opponent}`)
+//     // 1. Create challenge proposal
+//     // 2. Send proposal to opponent
+//     // 2.1 -> maybe to /challengers -> filter those where id is for opponent?
+//     // 3. Opponent should be able to accept challenges from another method
+//     // 4. Create match based on opponent accepting said challenge
+
+//     // ADD THIS TO EACH USER IN CASE OF TIME COMPLEXITY CONSTRAINTS
+//     const pendingChallenge = await db.ref(`users/${path}/challenges`).push({
+//       opponentPath: to.id,
+//       opponent,
+//       accepted: false
+//     })
+
+
+//   }
+// }
+
+export const acceptChallenge = (from, to) => {
   return async (dispatch) => {
-    console.log(`${from} wants to challenge ${to}`)
+    // Function proposal
+    // 1. Accepted -> true. Need to find matching id (path) first though
+    // 2. use SET - method to overwrite method data OR UPDATE depending on whether previous data is needed
   }
 }
 
@@ -59,9 +79,8 @@ export const addFirebaseUser = (content) => {
     const { username, email, uid, challengeStatus } = content
     const newUser = { username, email, uid, challengeStatus }
     const dbUserRef = await db.ref('users').push(newUser)
-
-    //Mahdollisesti async/await - testejä varten, jos ristiriidat riippuvuuksien kanssa saadaan selvitettyä
-    // return dbUserRef
+    // Return not needed here as fetchAndSet has a subscription method so we can check result
+    // from this function there instead
   }
 }
 
