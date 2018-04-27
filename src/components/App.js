@@ -14,6 +14,10 @@ import { fetchAndSetFirebaseUsers } from '../reducers/users'
 import Users from './loggedInUser/Users'
 import User from './loggedInUser/User'
 
+
+//TESTING PURPOSES ONLY
+import { fetchAndSetChallenges } from '../reducers/challenges'
+
 const NotFoundPage = () => {
   return (
     <div>
@@ -24,12 +28,16 @@ const NotFoundPage = () => {
 
 class App extends React.Component {
   componentDidMount() {
-    const { setAuthUserFor, removeAuthuser, fetchAndSetFirebaseUsers } = this.props
+    const { setAuthUserFor, removeAuthuser, fetchAndSetFirebaseUsers, fetchAndSetChallenges } = this.props
     firebase.auth.onAuthStateChanged(
       authUser => {
-        authUser
-          ? setAuthUserFor(authUser) && fetchAndSetFirebaseUsers()
-          : removeAuthuser()
+        if (authUser) {
+          setAuthUserFor(authUser)
+          fetchAndSetFirebaseUsers()
+          fetchAndSetChallenges()
+        } else {
+          removeAuthuser()
+        }
       }
     )
   }
@@ -76,7 +84,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setAuthUserFor: (authUser) => dispatch(authUserAdditionFor(authUser)),
     removeAuthuser: () => dispatch(authUserRemoval()),
-    fetchAndSetFirebaseUsers: () => dispatch(fetchAndSetFirebaseUsers())
+    fetchAndSetFirebaseUsers: () => dispatch(fetchAndSetFirebaseUsers()),
+    fetchAndSetChallenges: () => dispatch(fetchAndSetChallenges())
   }
 }
 

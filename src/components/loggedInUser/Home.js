@@ -1,5 +1,6 @@
 import React from "react";
 import { Redirect, Link } from 'react-router-dom'
+import { ConnectedChallengeList } from './Challenge'
 
 //Videomateriaalista löytyy ratkaisu HoC - ongelmaan
 //siinä välissä on kuitenkin muuta kamaa
@@ -11,7 +12,8 @@ const Home = (props) => {
     return (
       <div className="homeRoot">
         <p>Kirjautuneen käyttäjän etusivu</p>
-        <p>Tabseista linkki kaikkiin käyttäjiin...</p>
+        <p>Lista kaikista haasteista...</p>
+        <ConnectedChallengeList />
       </div>
     )
   } else {
@@ -19,4 +21,4 @@ const Home = (props) => {
   }
 }
 
-export default Home;
+export default Home

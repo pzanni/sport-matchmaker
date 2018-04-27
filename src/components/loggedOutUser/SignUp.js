@@ -12,8 +12,8 @@ class SignUpPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      password1: "",
-      password2: ""
+      password1: '',
+      password2: ''
     };
   }
 
@@ -112,7 +112,7 @@ class SignUpPage extends React.Component {
             <Column horizontal="center">
               <SignUpLink />
             </Column>
-            
+
           </Paper>
         </Column>
       </Row>
