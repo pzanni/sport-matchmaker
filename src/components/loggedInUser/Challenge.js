@@ -23,18 +23,23 @@ const Creator = (props) => {
   )
 }
 
-//TODO - itselle heitetyt haasteet tulee olla mahdollista hyväksyä tästä listasta
 const ChallengeList = (props) => {
-  const { challenges } = props
+  const { challenges, session, filter } = props
+  const challengesToShow =
+    filter === 'ALL'
+      ? challenges
+      : filter === 'SENT'
+        ? challenges.filter((challenge) => challenge.from.uid === session.authUser.uid)
+        : challenges.filter((challenge) => challenge.to.uid === session.authUser.uid)
   //Tarkistusmetodi eri kuin userin vastaavassa <User/> komponentissa. [] (lähtöarvo listalle) on truthy
-  const hasChallenges = challenges.length > 0
+  const hasChallenges = challengesToShow.length > 0
   if (hasChallenges) {
     return (
       <div>
-        {challenges.map((challenge) =>
+        {challengesToShow.map((challenge) =>
           <div key={challenge.path}>
             <hr />
-            Status: {challenge.acceptedStatus ? <p>accepted</p> : <p>not accepted</p>}<br />
+            Status: {challenge.acceptedStatus ? null : <AcceptChallenge />}<br />
             Challenger: {challenge.from.username}<br />
             Opponent: {challenge.to.username}<hr />
           </div>
@@ -59,9 +64,14 @@ const AcceptChallenge = (props) => {
   )
 }
 
+//Dispatch VisibilityFilterissä
+//Tilanteen haku esimerkiksi täältä
+//Kurssimatskun versio skaalaa eri toteutuksille
 const mapStateToProps = (state) => {
   return {
-    challenges: state.challenges
+    challenges: state.challenges,
+    session: state.session,
+    filter: state.filter
   }
 }
 

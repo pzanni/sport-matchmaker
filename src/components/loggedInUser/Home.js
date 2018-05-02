@@ -1,6 +1,7 @@
 import React from "react";
 import { Redirect, Link } from 'react-router-dom'
 import { ConnectedChallengeList } from './Challenge'
+import VisibilityFilter from './VisibilityFilter'
 
 //Videomateriaalista löytyy ratkaisu HoC - ongelmaan
 //siinä välissä on kuitenkin muuta kamaa
@@ -13,6 +14,7 @@ const Home = (props) => {
     <div className="homeRoot">
       <p>Kirjautuneen käyttäjän etusivu</p>
       <p>Alla on lista kaikista olemassaolevista haasteista</p>
+      <VisibilityFilter />
       <ConnectedChallengeList />
     </div>
   )
