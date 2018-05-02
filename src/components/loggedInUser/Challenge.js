@@ -1,8 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { BarLoader } from 'react-spinners'
 
 import { editChallengeStatus } from '../../reducers/users'
 import { addFirebaseChallenge } from '../../reducers/challenges'
+
+const styles = {
+  Loader: { marginLeft: '14px', marginTop: '-5px' }
+}
 
 const StatusChanger = (props) => {
   const { path, status, editChallengeStatus } = props
@@ -18,9 +23,10 @@ const Creator = (props) => {
   )
 }
 
-//Tarkistusmetodi eri kuin userin vastaavassa <User/> komponentissa. [] (lähtöarvo listalle) on truthy
+//TODO - itselle heitetyt haasteet tulee olla mahdollista hyväksyä tästä listasta
 const ChallengeList = (props) => {
   const { challenges } = props
+  //Tarkistusmetodi eri kuin userin vastaavassa <User/> komponentissa. [] (lähtöarvo listalle) on truthy
   const hasChallenges = challenges.length > 0
   if (hasChallenges) {
     return (
@@ -28,7 +34,7 @@ const ChallengeList = (props) => {
         {challenges.map((challenge) =>
           <div key={challenge.path}>
             <hr />
-            Status: {challenge.acceptedStatus}<br />
+            Status: {challenge.acceptedStatus ? <p>accepted</p> : <p>not accepted</p>}<br />
             Challenger: {challenge.from.username}<br />
             Opponent: {challenge.to.username}<hr />
           </div>
@@ -37,13 +43,20 @@ const ChallengeList = (props) => {
     )
   } else {
     return (
-      <p>Loading challenges ...</p>
+      <div>
+        <p>Loading challenges </p>
+        <div style={styles.Loader}>
+          <BarLoader />
+        </div>
+      </div>
     )
   }
 }
 
 const AcceptChallenge = (props) => {
-  return (<div>Button to accept challenge goes here . . .</div>)
+  return (
+    <button onClick={() => console.log('moi')}>Accept!!</button>
+  )
 }
 
 const mapStateToProps = (state) => {

@@ -8,13 +8,6 @@ const DEFAULT_STATE = ''
 const EXAMPLE_EMAIL = 'anton@anni.goodteam'
 const EXAMPLE_PASSWORD = 'bestapptofindpartners'
 
-const getComponent = (props) => {
-  <MemoryRouter>
-    <SignInPage />
-  </MemoryRouter>
-}
-
-
 describe('<SignInPage />', () => {
   let wrapper
   beforeAll(() => {
