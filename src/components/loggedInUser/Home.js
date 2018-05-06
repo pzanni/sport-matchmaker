@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { ConnectedChallengeList } from './Challenge'
 
 //Videomateriaalista löytyy ratkaisu HoC - ongelmaan

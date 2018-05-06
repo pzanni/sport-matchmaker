@@ -1,5 +1,7 @@
 import React from 'react'
 import { updatePassword } from '../../firebase/auth'
+import { Typography, TextField, Button } from 'material-ui';
+import {  Row } from 'simple-flexbox'
 
 class PasswordForm extends React.Component {
   constructor(props) {
@@ -32,35 +34,43 @@ class PasswordForm extends React.Component {
   }
 
   render() {
+    const styles = {
+      Form: { marginTop: 20 },
+      Button: { marginTop: 20 }
+    }
     const { newPassword, passwordVerify } = this.state
     //Firebase vaatii väh. 6 merkkijonon salasanan. Lisätään ehto myös client-siden puolelle
     const ifNoMatchingPW = newPassword !== passwordVerify || newPassword.length < 6
     return (
-      <div>
-        <h4>Password settings</h4>
-        <div>
-          <label htmlFor="newPassword">
-            Enter new Password
-          </label>
-          <input
-            type="password"
+      <div style={ styles.Form }>
+        <Typography variant="subheading">
+          Password settings
+        </Typography>
+        <Row>
+          <TextField
+            className="pwInput"
             name="newPassword"
-            value={newPassword}
+            label="New password"
+            type="password"
             onChange={this.handleFieldChange}
           />
-        </div>
-        <label htmlFor="passwordVerify">
-          Confirm new Password
-          </label>
-        <input
-          type="password"
-          name="passwordVerify"
-          value={passwordVerify}
-          onChange={this.handleFieldChange}
-        />
-        <button disabled={ifNoMatchingPW} onClick={this.submitNewPW}>
-          Submit
-        </button>
+        </Row>
+
+        <Row>
+          <TextField
+            className="pwInput"
+            name="passwordVerify"
+            label="Confirm new password"
+            type="password"
+            onChange={this.handleFieldChange}
+          />
+        </Row>
+
+        <Row>
+          <Button style={styles.Button} variant="raised" disabled={ifNoMatchingPW} onClick={this.submitNewPW}>
+            Submit
+            </Button>
+        </Row>
       </div>
     )
   }

@@ -1,13 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Paper, Typography } from 'material-ui';
-
+import { Paper, Typography, Divider } from 'material-ui';
 import { updatePassword } from '../../firebase/auth'
 import PasswordForm from './PasswordForm'
 import { ConnectedStatusChanger, ConnectedCreator } from './Challenge'
+import { Column, Row } from 'simple-flexbox'
 
 const styles = {
-  Paper: { padding: 20, margin: 10, borderRadius: '2px' }
+  Column: { marginTop: 40 },
+  Paper: { borderRadius: '2px' },
+  InnerColumn: { margin: '30px' }
 }
 
 //Challenge - status siirrettävä pois tästä komponentista (ehkä)
@@ -18,15 +20,15 @@ const Info = (props) => {
   // console.log('challenger (should be logged in user)', challenger)
   // console.log('opponent (which user we are about to challenge)', user)
   return (
-    <Paper style={styles.Paper} elevation={4}>
+    <div>
       <Typography variant="title">
-        User settings for {user.username}
+        {user.username}
       </Typography >
       <p>email: {user.email}</p>
       {user.challengeStatus
         ? <ConnectedCreator from={challenger} to={user} />
-        : <p><b>{user.username}</b>does not accept challenges at this moment</p>}
-    </Paper>
+        : <p><b>{user.username}</b> does not accept challenges at this moment</p>}
+    </div>
   )
 }
 
@@ -35,16 +37,23 @@ const User = (props) => {
   const { user, session, users } = props
   if (user) {
     return (
-      <div>
-        {/* Ehkä Info - komponentti myös 'connect' ?? Mitään järkeä siirrellä kamaa propseissa.. */}
-        <Info user={user} session={session} users={users} />
-        {session.authUser.uid === user.uid
-          ? <div>
-            <ConnectedStatusChanger path={user.id} status={!user.challengeStatus} />
-            <PasswordForm />
-          </div>
-          : null}
-      </div>
+      <Row horizontal='center'>
+        <Column flexGrow={0.5} style={styles.Column}>
+          <Paper>
+            <Column style={styles.InnerColumn}>
+              <Info user={user} session={session} users={users} />
+              <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
+              {session.authUser.uid === user.uid
+                ? <Column horizontal='start' >
+
+                  <ConnectedStatusChanger path={user.id} status={!user.challengeStatus} />
+                  <PasswordForm />
+                </Column>
+                : null}
+            </Column>
+          </Paper>
+        </Column>
+      </Row>
     )
   } else {
     return (
