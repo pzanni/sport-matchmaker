@@ -7,9 +7,10 @@ import { ConnectedStatusChanger, ConnectedCreator } from './Challenge'
 import { Column, Row } from 'simple-flexbox'
 
 const styles = {
-  Column: { marginTop: 40 },
+  MainColumn: { marginTop: 40 },
   Paper: { borderRadius: '2px' },
-  InnerColumn: { margin: '30px' }
+  InnerColumn: { margin: '40px' },
+  InnerInnerColumn: { marginLeft: '100px', marginRight: '100px' }
 }
 
 //Challenge - status siirrettävä pois tästä komponentista (ehkä)
@@ -20,15 +21,23 @@ const Info = (props) => {
   // console.log('challenger (should be logged in user)', challenger)
   // console.log('opponent (which user we are about to challenge)', user)
   return (
-    <div>
-      <Typography variant="title">
-        {user.username}
-      </Typography >
-      <p>email: {user.email}</p>
-      {user.challengeStatus
-        ? <ConnectedCreator from={challenger} to={user} />
-        : <p><b>{user.username}</b> does not accept challenges at this moment</p>}
-    </div>
+    <Column style={styles.InnerInnerColumn}>
+      <Row horizontal="center">
+        <Typography style={{ marginBottom: '30px' }} variant="display1">
+          {user.username}
+        </Typography >
+      </Row>
+      <Row horizontal="spaced">
+        <Column>
+          <p>Email: {user.email}</p>
+        </Column>
+        <Column vertical="center">
+          {user.challengeStatus
+            ? <ConnectedCreator from={challenger} to={user} />
+            : <p><b>{user.username}</b> does not accept challenges at this moment</p>}
+        </Column>
+      </Row>
+    </Column>
   )
 }
 
@@ -37,24 +46,38 @@ const User = (props) => {
   const { user, session, users } = props
   if (user) {
     return (
-      <Row horizontal='center'>
-        <Column flexGrow={0.5} style={styles.Column}>
+      <Row horizontal='center' vertical='center'>
+        <Column flexGrow={0.5} style={styles.MainColumn}>
           <Paper>
             <Column style={styles.InnerColumn}>
               <Info user={user} session={session} users={users} />
-              <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
               {session.authUser.uid === user.uid
-                ? <Column horizontal='start' >
-
-                  <ConnectedStatusChanger path={user.id} status={!user.challengeStatus} />
-                  <PasswordForm />
-                </Column>
+                ?
+                <div>
+                  <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
+                  <Column style={styles.InnerInnerColumn}>
+                    <Row horizontal="center">
+                      <Typography variant="title">
+                        Account settings
+                    </Typography>
+                    </Row>
+                    <Row horizontal="spaced">
+                      <Column style={styles.Column}>
+                        <PasswordForm />
+                      </Column>
+                      <Column style={styles.Column} vertical="center">
+                        <ConnectedStatusChanger path={user.id} status={!user.challengeStatus} />
+                      </Column>
+                    </Row>
+                  </Column>
+                </div>
                 : null}
             </Column>
           </Paper>
         </Column>
       </Row>
     )
+
   } else {
     return (
       <div>

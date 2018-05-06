@@ -43,9 +43,6 @@ class PasswordForm extends React.Component {
     const ifNoMatchingPW = newPassword !== passwordVerify || newPassword.length < 6
     return (
       <div style={ styles.Form }>
-        <Typography variant="subheading">
-          Password settings
-        </Typography>
         <Row>
           <TextField
             className="pwInput"
