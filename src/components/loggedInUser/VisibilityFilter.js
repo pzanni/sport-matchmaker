@@ -10,7 +10,7 @@ class VisibilityFilter extends React.Component {
       <div>
         <b>Ey paisan! You can filter challenges here </b>
         all <input type="radio" name="filter" onChange={() => filterChange('ALL')} />
-        sent <input type="radio" name="filter" onChange={() => filterChange('SENT')} />
+        pending <input type="radio" name="filter" onChange={() => filterChange('SENT')} />
         received <input type="radio" name="filter" onChange={() => filterChange('RECEIVED')} />
       </div>
     )

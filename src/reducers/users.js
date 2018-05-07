@@ -27,38 +27,6 @@ export const editChallengeStatus = (path, status) => {
   }
 }
 
-// export const createChallenge = (from, to) => {
-//   return async (dispatch) => {
-//     const challenger = from.username
-//     const opponent = to.username
-//     const path = from.id
-
-//     console.log(`${challenger} wants to challenge ${opponent}`)
-//     // 1. Create challenge proposal
-//     // 2. Send proposal to opponent
-//     // 2.1 -> maybe to /challengers -> filter those where id is for opponent?
-//     // 3. Opponent should be able to accept challenges from another method
-//     // 4. Create match based on opponent accepting said challenge
-
-//     // ADD THIS TO EACH USER IN CASE OF TIME COMPLEXITY CONSTRAINTS
-//     const pendingChallenge = await db.ref(`users/${path}/challenges`).push({
-//       opponentPath: to.id,
-//       opponent,
-//       accepted: false
-//     })
-
-
-//   }
-// }
-
-export const acceptChallenge = (from, to) => {
-  return async (dispatch) => {
-    // Function proposal
-    // 1. Accepted -> true. Need to find matching id (path) first though
-    // 2. use SET - method to overwrite method data OR UPDATE depending on whether previous data is needed
-  }
-}
-
 export const fetchAndSetFirebaseUsers = () => {
   return async (dispatch) => {
     await db.ref('users').on('value', (snapshot) => {

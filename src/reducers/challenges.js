@@ -42,4 +42,19 @@ export const addFirebaseChallenge = (from, to) => {
   }
 }
 
+//Siirretty userseista challegeihin. 
+//TODO - update s.e lisätään ottelukenttä tuloksille tms.
+//Tulokset voisivat antaa pisteitä (myöhempi toteutus, tehdään ottelut ensin)
+export const acceptChallenge = (path) => {
+  return async (dispatch) => {
+    console.log('haaste hyväksytty - path:', path)
+    await db.ref(`challenges/${path}`).update({ 
+      acceptedStatus: true
+    })
+    // Function proposal
+    // 1. Accepted -> true.
+    // 2. Create new match from given parameters
+  }
+}
+
 export default challengesReducer
