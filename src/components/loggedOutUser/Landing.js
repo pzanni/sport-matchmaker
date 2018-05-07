@@ -1,7 +1,5 @@
 import React from 'react';
 import SignInPage from './SignIn';
-import { Column, Row } from 'simple-flexbox';
-import { Paper } from 'material-ui';
 
 const LandingPage = props => {
     return (

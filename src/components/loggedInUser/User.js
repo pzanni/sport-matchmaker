@@ -1,13 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Paper, Typography } from 'material-ui';
-
+import { Paper, Typography, Divider } from 'material-ui';
 import { updatePassword } from '../../firebase/auth'
 import PasswordForm from './PasswordForm'
 import { ConnectedStatusChanger, ConnectedCreator } from './Challenge'
+import { Column, Row } from 'simple-flexbox'
 
 const styles = {
-  Paper: { padding: 20, margin: 10, borderRadius: '2px' }
+  MainColumn: { marginTop: 40 },
+  Paper: { borderRadius: '2px' },
+  InnerColumn: { margin: '40px' },
+  InnerInnerColumn: { marginLeft: '100px', marginRight: '100px' }
 }
 
 //Challenge - status siirrettävä pois tästä komponentista (ehkä)
@@ -18,15 +21,23 @@ const Info = (props) => {
   // console.log('challenger (should be logged in user)', challenger)
   // console.log('opponent (which user we are about to challenge)', user)
   return (
-    <Paper style={styles.Paper} elevation={4}>
-      <Typography variant="title">
-        User settings for {user.username}
-      </Typography >
-      <p>email: {user.email}</p>
-      {user.challengeStatus
-        ? <ConnectedCreator from={challenger} to={user} />
-        : <p><b>{user.username}</b>does not accept challenges at this moment</p>}
-    </Paper>
+    <Column style={styles.InnerInnerColumn}>
+      <Row horizontal="center">
+        <Typography style={{ marginBottom: '30px' }} variant="display1">
+          {user.username}
+        </Typography >
+      </Row>
+      <Row horizontal="spaced">
+        <Column>
+          <p>Email: {user.email}</p>
+        </Column>
+        <Column vertical="center">
+          {user.challengeStatus
+            ? <ConnectedCreator from={challenger} to={user} />
+            : <p><b>{user.username}</b> does not accept challenges at this moment</p>}
+        </Column>
+      </Row>
+    </Column>
   )
 }
 
@@ -35,17 +46,38 @@ const User = (props) => {
   const { user, session, users } = props
   if (user) {
     return (
-      <div>
-        {/* Ehkä Info - komponentti myös 'connect' ?? Mitään järkeä siirrellä kamaa propseissa.. */}
-        <Info user={user} session={session} users={users} />
-        {session.authUser.uid === user.uid
-          ? <div>
-            <ConnectedStatusChanger path={user.id} status={!user.challengeStatus} />
-            <PasswordForm />
-          </div>
-          : null}
-      </div>
+      <Row horizontal='center' vertical='center'>
+        <Column flexGrow={0.5} style={styles.MainColumn}>
+          <Paper>
+            <Column style={styles.InnerColumn}>
+              <Info user={user} session={session} users={users} />
+              {session.authUser.uid === user.uid
+                ?
+                <div>
+                  <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
+                  <Column style={styles.InnerInnerColumn}>
+                    <Row horizontal="center">
+                      <Typography variant="title">
+                        Account settings
+                    </Typography>
+                    </Row>
+                    <Row horizontal="spaced">
+                      <Column style={styles.Column}>
+                        <PasswordForm />
+                      </Column>
+                      <Column style={styles.Column} vertical="center">
+                        <ConnectedStatusChanger path={user.id} status={!user.challengeStatus} />
+                      </Column>
+                    </Row>
+                  </Column>
+                </div>
+                : null}
+            </Column>
+          </Paper>
+        </Column>
+      </Row>
     )
+
   } else {
     return (
       <div>

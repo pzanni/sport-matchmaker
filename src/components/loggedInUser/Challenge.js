@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { BarLoader } from 'react-spinners'
-
+import { Button } from 'material-ui'
 import { editChallengeStatus } from '../../reducers/users'
 import { addFirebaseChallenge } from '../../reducers/challenges'
 
@@ -12,14 +12,18 @@ const styles = {
 const StatusChanger = (props) => {
   const { path, status, editChallengeStatus } = props
   return (
-    <button onClick={() => editChallengeStatus(path, status)}>Change challenge status</button>
+    <Button variant="raised" onClick={() => editChallengeStatus(path, status)}>
+      Change challenge status
+    </Button>
   )
 }
 
 const Creator = (props) => {
   const { from, to, addFirebaseChallenge } = props
   return (
-    <button onClick={() => addFirebaseChallenge(from, to)}>Challenge!</button>
+    <Button variant="raised" color="primary" onClick={() => addFirebaseChallenge(from, to)}>
+      Challenge
+    </Button>
   )
 }
 
