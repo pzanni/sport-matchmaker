@@ -1,10 +1,17 @@
 import React from 'react';
 import SignInPage from './SignIn';
+import BackGround from '../../img/claytennis.jpeg'
 
-const LandingPage = props => {
+const styles = {
+    backGround: {
+        backgroundImage: `url(${BackGround})`,
+        height: '100vh',
+    }
+}
+
+const LandingPage = (props) => {
     return (
-        //Puppeteeria varten, muokataan tätä sivua mahdollisesti myöhemmin
-        <div>
+        <div style={styles.backGround}>
             <SignInPage />
         </div>
     )

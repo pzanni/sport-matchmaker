@@ -123,7 +123,7 @@ class SignUpPage extends React.Component {
 const SignUpLink = () => {
   return (
     <p>
-      Already have an account? <Link to={routes.SIGN_IN}>Sign in</Link>
+      Already have an account? <Link to={routes.LANDING}>Sign in</Link>
     </p>
   );
 };
