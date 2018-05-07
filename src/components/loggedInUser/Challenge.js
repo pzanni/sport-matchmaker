@@ -1,8 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button } from 'material-ui';
+import { BarLoader } from 'react-spinners'
+import { Button } from 'material-ui'
 import { editChallengeStatus } from '../../reducers/users'
 import { addFirebaseChallenge } from '../../reducers/challenges'
+
+const styles = {
+  Loader: { marginLeft: '14px', marginTop: '-5px' }
+}
 
 const StatusChanger = (props) => {
   const { path, status, editChallengeStatus } = props
@@ -22,17 +27,23 @@ const Creator = (props) => {
   )
 }
 
-//Tarkistusmetodi eri kuin userin vastaavassa <User/> komponentissa. [] (lähtöarvo listalle) on truthy
 const ChallengeList = (props) => {
-  const { challenges } = props
-  const hasChallenges = challenges.length > 0
+  const { challenges, session, filter } = props
+  const challengesToShow =
+    filter === 'ALL'
+      ? challenges
+      : filter === 'SENT'
+        ? challenges.filter((challenge) => challenge.from.uid === session.authUser.uid)
+        : challenges.filter((challenge) => challenge.to.uid === session.authUser.uid)
+  //Tarkistusmetodi eri kuin userin vastaavassa <User/> komponentissa. [] (lähtöarvo listalle) on truthy
+  const hasChallenges = challengesToShow.length > 0
   if (hasChallenges) {
     return (
       <div>
-        {challenges.map((challenge) =>
+        {challengesToShow.map((challenge) =>
           <div key={challenge.path}>
             <hr />
-            Status: {challenge.acceptedStatus}<br />
+            Status: {challenge.acceptedStatus ? null : <AcceptChallenge />}<br />
             Challenger: {challenge.from.username}<br />
             Opponent: {challenge.to.username}<hr />
           </div>
@@ -41,18 +52,30 @@ const ChallengeList = (props) => {
     )
   } else {
     return (
-      <p>Loading challenges ...</p>
+      <div>
+        <p>Loading challenges </p>
+        <div style={styles.Loader}>
+          <BarLoader />
+        </div>
+      </div>
     )
   }
 }
 
 const AcceptChallenge = (props) => {
-  return (<div>Button to accept challenge goes here . . .</div>)
+  return (
+    <button onClick={() => console.log('moi')}>Accept!!</button>
+  )
 }
 
+//Dispatch VisibilityFilterissä
+//Tilanteen haku esimerkiksi täältä
+//Kurssimatskun versio skaalaa eri toteutuksille
 const mapStateToProps = (state) => {
   return {
-    challenges: state.challenges
+    challenges: state.challenges,
+    session: state.session,
+    filter: state.filter
   }
 }
 
