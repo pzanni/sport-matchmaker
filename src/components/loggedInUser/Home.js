@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect, Link } from 'react-router-dom'
-import { ConnectedChallengeList } from './Challenge'
+import { ConnectedChallengeList, ConnectedAcceptedChallengesList } from './Challenge'
 import VisibilityFilter from './VisibilityFilter'
 
 //Videomateriaalista löytyy ratkaisu HoC - ongelmaan
@@ -13,9 +13,11 @@ const Home = (props) => {
   return (
     <div className="homeRoot">
       <p>Kirjautuneen käyttäjän etusivu</p>
-      <p>Alla on lista kaikista olemassaolevista haasteista</p>
+      <p>Alla on lista kaikista käyttäjän olemassaolevista haasteista</p>
       <VisibilityFilter />
       <ConnectedChallengeList />
+      <p>Alla on lista kaikista käyttäjän hyväksytyistä haasteista</p>
+      <ConnectedAcceptedChallengesList />
     </div>
   )
   // } else {

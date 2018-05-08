@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import * as routes from "../constants/routes";
 import Navigation from "./Navigation";
+import Footer from './Footer'
 import LandingPage from "./loggedOutUser/Landing";
 import SignInPage from "./loggedOutUser/SignIn";
 import SignUpPage from "./loggedOutUser/SignUp";
@@ -48,28 +49,26 @@ class App extends React.Component {
       users.find(user => user.id === id)
 
     return (
-      <Router>
-        <div>
-          <Navigation />
-          <Switch>
-            <Route exact path={routes.LANDING} component={() => <LandingPage />} />
-            <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
-            <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
-            <Route exact path={routes.HOME} component={() => <Home />} />
+      <div>
+        <Router>
+          <div>
+            <Navigation />
+            <Switch>
+              <Route exact path={routes.LANDING} component={() => <LandingPage />} />
+              <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
+              <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
+              <Route exact path={routes.HOME} component={() => <Home />} />
+              <Route exact path={routes.USERS} render={() => <Users users={users} />} />
+              {/* Jos allaoleva importti USERSwID ei toimi niin käytetään rauhassa vanhempaa versiota */}
+              <Route exact path={routes.USERSwID} render={({ match }) => <User user={userById(match.params.id)} />} />
+              {/* Switch laittaa tämän reitin aina, kun matchia ylläoleviin reitteihin ei löydy */}
+              <Route component={() => <NotFoundPage />} />
+            </Switch>
+          </div>
+        </Router>
+        <Footer />
+      </div>
 
-            <Route exact path="/users" render={() =>
-              <Users users={users} />}
-            />
-
-            <Route exact path="/users/:id" render={({ match }) =>
-              <User user={userById(match.params.id)} />}
-            />
-
-            {/* Switch laittaa tämän reitin aina, kun matchia ylläoleviin reitteihin ei löydy */}
-            <Route component={() => <NotFoundPage />} />
-          </Switch>
-        </div>
-      </Router >
     );
   }
 }

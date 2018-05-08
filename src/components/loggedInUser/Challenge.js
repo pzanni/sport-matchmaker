@@ -57,7 +57,24 @@ const ChallengedBy = (props) => {
   )
 }
 
+const AcceptedChallengesList = (props) => {
+  const { challenges } = props
+  const acceptedChallenges = challenges.filter((challenge) => challenge.acceptedStatus === true)
+  return (
+    <div>{acceptedChallenges.map((challenge) =>
+      <div key={challenge.path}>
+        <hr />
+        Player #1 {challenge.from.username}
+        <br />
+        Player #2 {challenge.to.username}
+        <hr />
+      </div>)}
+    </div>)
+}
+
 //TODO FIX - Yksi ehtotapaus lisää (ei haasteita -> silti barloader)
+//Todella tehoton toteutus (kasa filttereitä -> challenget voisi indeksöidä tietokannassa käyttäjäkohtaisesti)
+//jos siihen tulee tarvetta...
 const ChallengeList = (props) => {
   const { challenges, session, filter } = props
   const pendingChallenges = challenges.filter((challenge) => challenge.acceptedStatus === false)
@@ -118,8 +135,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
+const ConnectedAcceptedChallengesList = connect(mapStateToProps)(AcceptedChallengesList)
 const ConnectedAccepter = connect(null, mapDispatchToProps)(Accepter)
 const ConnectedChallengeList = connect(mapStateToProps)(ChallengeList)
 const ConnectedStatusChanger = connect(null, mapDispatchToProps)(StatusChanger)
 const ConnectedCreator = connect(null, mapDispatchToProps)(Creator)
-export { ConnectedStatusChanger, ConnectedCreator, ConnectedChallengeList, ConnectedAccepter }
+export { ConnectedStatusChanger, ConnectedCreator, ConnectedChallengeList, ConnectedAccepter, ConnectedAcceptedChallengesList }
