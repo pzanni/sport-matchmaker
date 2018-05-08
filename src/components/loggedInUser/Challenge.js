@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { BarLoader } from 'react-spinners'
 import { Button } from 'material-ui'
 import { editChallengeStatus } from '../../reducers/users'
-import { addFirebaseChallenge, acceptChallenge } from '../../reducers/challenges'
+import { addFirebaseChallenge, acceptChallenge, declineChallenge } from '../../reducers/challenges'
 
 const styles = {
   Loader: { marginLeft: '14px', marginTop: '-5px' }
@@ -36,6 +36,27 @@ const Accepter = (props) => {
   )
 }
 
+const Decliner = (props) => {
+  const { declineChallenge, path } = props
+  return (
+    <Button variant="raised" color="secondary" size="small" onClick={() => declineChallenge(path)}>
+      Decline
+  </Button>
+  )
+}
+
+//TÄMÄN CONNECT - VERSIO RENDERÖIDÄÄN !!!
+//TÄMÄN CONNECT - VERSIO RENDERÖIDÄÄN !!!
+//TÄMÄN CONNECT - VERSIO RENDERÖIDÄÄN !!!
+const ResultCreator = (props) => {
+  return (
+    <div>
+      <Button variant="raised" color="primary" size="small" onClick={() => console.log('TODO - result popup')}>
+        Result
+    </Button>
+    </div>)
+}
+
 //Näytetään, jos haastaa jonkun
 const Challenging = (props) => {
   const { opponent } = props
@@ -52,11 +73,14 @@ const ChallengedBy = (props) => {
   return (
     <div>
       <ConnectedAccepter path={path} />
+      <ConnectedDecliner path={path} />
       Challenged by {challenger}
     </div>
   )
 }
 
+//TODO - Add result button
+//Add result confirming situation
 const AcceptedChallengesList = (props) => {
   const { challenges } = props
   const acceptedChallenges = challenges.filter((challenge) => challenge.acceptedStatus === true)
@@ -67,6 +91,7 @@ const AcceptedChallengesList = (props) => {
         Player #1 {challenge.from.username}
         <br />
         Player #2 {challenge.to.username}
+        <ResultCreator />
         <hr />
       </div>)}
     </div>)
@@ -131,13 +156,23 @@ const mapDispatchToProps = (dispatch) => {
   return {
     editChallengeStatus: (path, status) => dispatch(editChallengeStatus(path, status)),
     addFirebaseChallenge: (from, to) => dispatch(addFirebaseChallenge(from, to)),
-    acceptChallenge: (path) => dispatch(acceptChallenge(path))
+    acceptChallenge: (path) => dispatch(acceptChallenge(path)),
+    declineChallenge: (path) => dispatch(declineChallenge(path))
   }
 }
 
+const ConnectedDecliner = connect(null, mapDispatchToProps)(Decliner)
 const ConnectedAcceptedChallengesList = connect(mapStateToProps)(AcceptedChallengesList)
 const ConnectedAccepter = connect(null, mapDispatchToProps)(Accepter)
 const ConnectedChallengeList = connect(mapStateToProps)(ChallengeList)
 const ConnectedStatusChanger = connect(null, mapDispatchToProps)(StatusChanger)
 const ConnectedCreator = connect(null, mapDispatchToProps)(Creator)
-export { ConnectedStatusChanger, ConnectedCreator, ConnectedChallengeList, ConnectedAccepter, ConnectedAcceptedChallengesList }
+
+export {
+  ConnectedStatusChanger,
+  ConnectedCreator,
+  ConnectedChallengeList,
+  ConnectedAccepter,
+  ConnectedAcceptedChallengesList,
+  ConnectedDecliner
+}

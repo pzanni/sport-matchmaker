@@ -8,10 +8,18 @@ class VisibilityFilter extends React.Component {
     const { filterChange } = this.props
     return (
       <div>
-        <b>Ey paisan! You can filter challenges here </b>
-        all <input type="radio" name="filter" onChange={() => filterChange('ALL')} />
-        pending <input type="radio" name="filter" onChange={() => filterChange('SENT')} />
-        received <input type="radio" name="filter" onChange={() => filterChange('RECEIVED')} />
+        <b>Challenges filter</b>
+        <ul>
+          <li>
+            all <input type="radio" name="filter" onChange={() => filterChange('ALL')} />
+          </li>
+          <li>
+            pending <input type="radio" name="filter" onChange={() => filterChange('SENT')} />
+          </li>
+          <li>
+            received <input type="radio" name="filter" onChange={() => filterChange('RECEIVED')} />
+          </li>
+        </ul>
       </div>
     )
   }

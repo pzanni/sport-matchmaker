@@ -55,6 +55,13 @@ export const acceptChallenge = (path) => {
   }
 }
 
+export const declineChallenge = (path) => {
+  return async (dispatch) => {
+    console.log('haaste hylätty - path:', path)
+    await db.ref(`challenges/${path}`).remove()
+  }
+}
+
 //NAME CHANGE PROBABLY GOOD?
 export const completeChallenge = (path) => {
   return async (dispatch) => {
