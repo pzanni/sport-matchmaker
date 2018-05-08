@@ -5,12 +5,14 @@ import { withRouter } from "react-router-dom";
 import { auth } from "../../firebase/controller";
 import { Typography, TextField, Button, Paper } from 'material-ui';
 import { Column, Row } from 'simple-flexbox'
+import Message from '../Message'
 
 const styles = {
   Column: { marginTop: 50, textAlign: 'center' },
   Headline: { margin: 20 },
   TextField: { width: 350 },
-  Button: { margin: 10 }
+  Button: { margin: 10 },
+  FormErrorSpace: { marginTop: 10 }
 }
 
 const SignInPage = ({ history }) => {
@@ -37,7 +39,8 @@ class SignInForm extends Component {
     super(props)
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      error: ''
     }
   }
 
@@ -58,15 +61,25 @@ class SignInForm extends Component {
       window.localStorage.setItem('user', loggedInUser)
       //Uudelleenohjataan nyt sisäänkirjautunut käyttäjä etusivulle
       this.props.history.push(routes.HOME);
+
+
     } catch (exception) {
+      this.setState({ error: exception.message })
+      setTimeout(() => {
+        this.setState({ error: '' })
+      }, 6250)
+
+      //Probably unnecessary now but you never know...
       console.log(exception);
     }
   };
 
   render() {
+    const { error } = this.state
     return (
       <div className="formInput">
-        <form onSubmit={this.onSubmit}>
+        <Message content={error} />
+        <form style={styles.FormErrorSpace} onSubmit={this.onSubmit}>
           <Row horizontal='center'>
             <TextField
               className="emailInput"
@@ -96,7 +109,7 @@ class SignInForm extends Component {
           </Row>
         </form>
         <SignUpLink />
-      </div>
+      </div >
     );
   }
 }

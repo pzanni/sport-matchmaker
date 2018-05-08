@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { BarLoader } from 'react-spinners'
+import { ScaleLoader } from 'react-spinners'
 import { Button } from 'material-ui'
 import { editChallengeStatus } from '../../reducers/users'
 import { addFirebaseChallenge, acceptChallenge, declineChallenge } from '../../reducers/challenges'
 
 const styles = {
-  Loader: { marginLeft: '14px', marginTop: '-5px' }
+  Loader: { marginLeft: '140px', marginTop: '-37px' }
 }
 
 const StatusChanger = (props) => {
@@ -82,15 +82,15 @@ const ChallengedBy = (props) => {
 //TODO - Add result button
 //Add result confirming situation
 const AcceptedChallengesList = (props) => {
-  const { challenges } = props
+  const { challenges, session } = props
   const acceptedChallenges = challenges.filter((challenge) => challenge.acceptedStatus === true)
+  const challengesToShow = acceptedChallenges.filter((challenge) => challenge.from.uid === session.authUser.uid || challenge.to.uid === session.authUser.uid)
+
   return (
-    <div>{acceptedChallenges.map((challenge) =>
+    <div>{challengesToShow.map((challenge) =>
       <div key={challenge.path}>
         <hr />
-        Player #1 {challenge.from.username}
-        <br />
-        Player #2 {challenge.to.username}
+        Match versus <b>{challenge.from.username}</b>
         <ResultCreator />
         <hr />
       </div>)}
@@ -105,8 +105,8 @@ const ChallengeList = (props) => {
   const pendingChallenges = challenges.filter((challenge) => challenge.acceptedStatus === false)
 
   const all = pendingChallenges.filter((challenge) => challenge.from.uid === session.authUser.uid || challenge.to.uid === session.authUser.uid)
-  const sent = pendingChallenges.filter((challenge) => challenge.from.uid === session.authUser.uid)
-  const received = pendingChallenges.filter((challenge) => challenge.to.uid === session.authUser.uid)
+  const sent = all.filter((challenge) => challenge.from.uid === session.authUser.uid)
+  const received = all.filter((challenge) => challenge.to.uid === session.authUser.uid)
 
   const challengesToShow =
     filter === 'ALL'
@@ -137,7 +137,7 @@ const ChallengeList = (props) => {
       <div>
         <p>Loading challenges </p>
         <div style={styles.Loader}>
-          <BarLoader />
+          <ScaleLoader height={20} />
         </div>
       </div>
     )
