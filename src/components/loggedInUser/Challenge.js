@@ -4,6 +4,7 @@ import { ScaleLoader } from 'react-spinners'
 import { Button } from 'material-ui'
 import { editChallengeStatus } from '../../reducers/users'
 import { addFirebaseChallenge, acceptChallenge, declineChallenge } from '../../reducers/challenges'
+import MatchResultDialog from './MatchResultDialog'
 
 const styles = {
   Loader: { marginLeft: '140px', marginTop: '-37px' }
@@ -45,18 +46,6 @@ const Decliner = (props) => {
   )
 }
 
-//TÄMÄN CONNECT - VERSIO RENDERÖIDÄÄN !!!
-//TÄMÄN CONNECT - VERSIO RENDERÖIDÄÄN !!!
-//TÄMÄN CONNECT - VERSIO RENDERÖIDÄÄN !!!
-const ResultCreator = (props) => {
-  return (
-    <div>
-      <Button variant="raised" color="primary" size="small" onClick={() => console.log('TODO - result popup')}>
-        Result
-    </Button>
-    </div>)
-}
-
 //Näytetään, jos haastaa jonkun
 const Challenging = (props) => {
   const { opponent } = props
@@ -91,7 +80,7 @@ const AcceptedChallengesList = (props) => {
       <div key={challenge.path}>
         <hr />
         Match versus <b>{challenge.from.username}</b>
-        <ResultCreator />
+        <MatchResultDialog challenge={challenge} />
         <hr />
       </div>)}
     </div>)

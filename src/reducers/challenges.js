@@ -62,10 +62,24 @@ export const declineChallenge = (path) => {
   }
 }
 
-//NAME CHANGE PROBABLY GOOD?
+//Jostain syystä 2 parametrin kanssa (path, result) result on undefined
+//Kierretään ongelma laittamalla objekti yhtenä parametrinä (path, result)
+//Ja puretaan se tässä metodissa
+export const setChallengeResult = (options) => {
+  return async (dispatch) => {
+    // console.log('options from within setChallengeResult', options)
+    const { path, match } = options
+    await db.ref(`challenges/${path}`).update({ match, finalized: false })
+    // console.log('path', path)
+    // console.log('result', result)
+  }
+}
+
+// Ottelun toinen osapuoli hyväksyy ottelun tuloksen
+// Pisteet / pushataan kamaa matches - puuhun tilastoja varten?
 export const completeChallenge = (path) => {
   return async (dispatch) => {
-
+    await db.ref(`challenges/${path}`).update({ finalized: true })
   }
   //Function proposal
   // 1. update challenges (from path) so that match - object is included

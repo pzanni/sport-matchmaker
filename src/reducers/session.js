@@ -1,5 +1,6 @@
 const DEFAULT_STATE = {
-  authUser: null
+  authUser: null,
+  token: null
 }
 
 const sessionReducer = (state = DEFAULT_STATE, action) => {
@@ -12,7 +13,18 @@ const sessionReducer = (state = DEFAULT_STATE, action) => {
     case 'UNSET_AUTH': {
       return { ...state, authUser: null }
     }
+    //Add token on Sign in (?)
+    case 'SET_TOKEN': {
+      return { ...state, token: action.token }
+    }
     default: return state
+  }
+}
+
+export const setToken = (token) => {
+  return {
+    type: 'SET_TOKEN',
+    token
   }
 }
 

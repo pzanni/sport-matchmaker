@@ -1,4 +1,4 @@
-import * as firebase from "firebase";
+import * as firebase from "firebase"
 
 const productionConfig = {
   apiKey: "AIzaSyBepNgm9Htu4LqJJaqX8DbHrUqJ02BUQYw",
@@ -7,7 +7,7 @@ const productionConfig = {
   projectId: "matchmaker-dev-be06b",
   storageBucket: "matchmaker-dev-be06b.appspot.com",
   messagingSenderId: "293311458536"
-};
+}
 
 const developmentConfig = {
   apiKey: "AIzaSyDAvR8jpSOgKhiTxOAMnxC89h4mdYA6ho4",
@@ -23,10 +23,15 @@ let config = process.env.NODE_ENV === 'production'
   : developmentConfig
 
 if (!firebase.apps.length) {
-  firebase.initializeApp(config);
+  firebase.initializeApp(config)
 }
 
-const auth = firebase.auth();
-const db = firebase.database();
+const auth = firebase.auth()
+const db = firebase.database()
+const messaging = firebase.messaging()
 
-export { auth, db };
+messaging.onMessage((payload) => {
+  console.log('onMessage: ', payload)
+})
+
+export { auth, db, messaging }
