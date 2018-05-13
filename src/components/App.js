@@ -12,12 +12,15 @@ import Home from "./loggedInUser/Home";
 import { firebase } from '../firebase/controller'
 import { authUserAdditionFor, authUserRemoval } from '../reducers/session'
 import { fetchAndSetFirebaseUsers } from '../reducers/users'
+import { fetchAndSetChallenges } from '../reducers/challenges'
 import Users from './loggedInUser/Users'
 import User from './loggedInUser/User'
 
-
 //TESTING PURPOSES ONLY
-import { fetchAndSetChallenges } from '../reducers/challenges'
+import { messaging } from '../firebase/firebase'
+import { updateFirebaseToken } from '../reducers/session'
+
+//END TESTING STUFF
 
 const NotFoundPage = () => {
   return (
@@ -29,13 +32,13 @@ const NotFoundPage = () => {
 
 class App extends React.Component {
   componentDidMount() {
-    const { setAuthUserFor, removeAuthuser, fetchAndSetFirebaseUsers, fetchAndSetChallenges } = this.props
+    const { setAuthUserFor, removeAuthuser, subscribeToUsers, subscribeToChallenges } = this.props
     firebase.auth.onAuthStateChanged(
       authUser => {
         if (authUser) {
           setAuthUserFor(authUser)
-          fetchAndSetFirebaseUsers()
-          fetchAndSetChallenges()
+          subscribeToUsers()
+          subscribeToChallenges()
         } else {
           removeAuthuser()
         }
@@ -43,10 +46,26 @@ class App extends React.Component {
     )
   }
 
+  //Error with logout (authUser will be set to  null from componentDidMount)
+  //Fix this by conditions
+  componentDidUpdate() {
+    const { session, updateFirebaseToken } = this.props
+    //Run this only if user logged in (eg. authUser !== null)
+    if (session.authUser) {
+      const token = session.token
+      const uid = session.authUser.uid
+      // console.log('session data after componentDidUpdate', session)
+      // console.log('token from componentDidMount', token)
+      // console.log('uid from componentDidMount', uid)
+      updateFirebaseToken(token, uid)
+    }
+  }
+
   render() {
-    const { users } = this.props
+    const { users, session } = this.props
     const userById = (id) =>
       users.find(user => user.id === id)
+
 
     return (
       <div>
@@ -75,7 +94,8 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users
+    users: state.users,
+    session: state.session
   }
 }
 
@@ -83,8 +103,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setAuthUserFor: (authUser) => dispatch(authUserAdditionFor(authUser)),
     removeAuthuser: () => dispatch(authUserRemoval()),
-    fetchAndSetFirebaseUsers: () => dispatch(fetchAndSetFirebaseUsers()),
-    fetchAndSetChallenges: () => dispatch(fetchAndSetChallenges())
+    subscribeToUsers: () => dispatch(fetchAndSetFirebaseUsers()),
+    subscribeToChallenges: () => dispatch(fetchAndSetChallenges()),
+    updateFirebaseToken: (token, uid) => dispatch(updateFirebaseToken(token, uid))
   }
 }
 

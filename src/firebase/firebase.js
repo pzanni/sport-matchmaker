@@ -30,8 +30,4 @@ const auth = firebase.auth()
 const db = firebase.database()
 const messaging = firebase.messaging()
 
-messaging.onMessage((payload) => {
-  console.log('onMessage: ', payload)
-})
-
 export { auth, db, messaging }

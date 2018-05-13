@@ -1,68 +1,16 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import * as routes from "../../constants/routes";
+import { connect } from 'react-redux'
 import { withRouter } from "react-router-dom";
-import { auth } from "../../firebase/controller";
+import { Link } from "react-router-dom";
 import { Typography, TextField, Button, Paper } from 'material-ui';
 import { Column, Row } from 'simple-flexbox'
-import Message from '../Message'
-import { messaging } from '../../firebase/firebase'
 import request from 'request'
 
-const notifyFunc = () => {
-  var key = process.env.REACT_APP_SECRET_SERVER_KEY
-  console.log('avain (key) (env)', key)
-  const antoninToken = 'epu7iDiu9wM:APA91bEN4CkutSzepnPKU4Q06ryHiP-RrUqS2SSjES6LpEhmds9LNWBfekxP8akc_WDJICeNBDPCxjKcE_Kn-cWvM_EqhNl4kGsPljM1wjE4eVffjJYI-M1ZKKBsPoqqTw8jMJ1V-qtj'
-
-  var notification = {
-    'title': 'Match found!',
-    'body': 'Go check out whats up !!!',
-    'icon': 'https://image.flaticon.com/icons/svg/140/140602.svg',
-    'click_action': 'http://localhost:3000'
-
-  }
-
-  setTimeout(() => {
-    request({
-      url: 'https://fcm.googleapis.com/fcm/send',
-      method: 'POST',
-      headers: {
-        'Authorization': 'key=' + key,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        'notification': notification,
-        'to': antoninToken
-      })
-    }, (error, response, body) => {
-      if (error) {
-        console.log("Error in post request!", error);
-      } else {
-        console.log("No error, body", body);
-      }
-    })
-  }, 5000)
-
-  // request({
-  //   url: 'https://fcm.googleapis.com/fcm/send',
-  //   method: 'POST',
-  //   headers: {
-  //     'Authorization': 'key=' + key,
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify({
-  //     'notification': notification,
-  //     'to': antoninToken
-  //   })
-  // }, (error, response, body) => {
-  //   if (error) {
-  //     console.log("Error in post request!", error);
-  //   } else {
-  //     console.log("No error, body", body);
-  //   }
-  // })
-
-}
+import * as routes from "../../constants/routes";
+import { auth } from "../../firebase/controller";
+import Message from '../Message'
+import { messaging } from '../../firebase/firebase'
+import { setToken } from '../../reducers/session'
 
 const styles = {
   Column: { marginTop: 50, textAlign: 'center' },
@@ -83,7 +31,7 @@ const SignInPage = ({ history }) => {
                 Sign in
               </Typography>
             </Row>
-            <SignInForm history={history} />
+            <ConnectedSignInForm history={history} />
           </Paper>
         </Column>
       </Row>
@@ -111,13 +59,13 @@ class SignInForm extends Component {
     event.preventDefault();
     try {
       const { email, password } = this.state
-      const loggedInUser = await auth.signInWithEmailAndPassword(email, password)
+      const { setToken } = this.props
 
-      //FCM testausta
+      const loggedInUser = await auth.signInWithEmailAndPassword(email, password)
       await messaging.requestPermission()
       const token = await messaging.getToken()
-      console.log('Permission granted!')
-      console.log('Token', token)
+      // console.log('token from onSubmit', token)
+      setToken(token)
 
       window.localStorage.setItem('user', loggedInUser) // Onko välttämätön? Check refreshtilanne
       this.props.history.push(routes.HOME);
@@ -166,9 +114,6 @@ class SignInForm extends Component {
             </Button>
           </Row>
         </form>
-        <Button style={styles.Button} color="primary" onClick={notifyFunc}>
-          Notifytest
-        </Button>
         <SignUpLink />
       </div >
     );
@@ -183,6 +128,12 @@ const SignUpLink = () => {
   );
 };
 
-export default withRouter(SignInPage);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setToken: (token) => dispatch(setToken(token))
+  }
+}
 
-export { SignInForm, SignUpLink };
+const ConnectedSignInForm = connect(null, mapDispatchToProps)(SignInForm)
+export default withRouter(SignInPage);
+export { ConnectedSignInForm, SignUpLink };

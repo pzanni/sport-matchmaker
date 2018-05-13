@@ -1,3 +1,5 @@
+import { db } from '../firebase/firebase'
+
 const DEFAULT_STATE = {
   authUser: null,
   token: null
@@ -13,7 +15,7 @@ const sessionReducer = (state = DEFAULT_STATE, action) => {
     case 'UNSET_AUTH': {
       return { ...state, authUser: null }
     }
-    //Add token on Sign in (?)
+    //SET TOKEN ON LOGIN
     case 'SET_TOKEN': {
       return { ...state, token: action.token }
     }
@@ -21,10 +23,18 @@ const sessionReducer = (state = DEFAULT_STATE, action) => {
   }
 }
 
+// Ei ole mahdollisesti välttämätön
+// componentDidUpdatessa voi heittää messaging.getToken() ??
 export const setToken = (token) => {
   return {
     type: 'SET_TOKEN',
     token
+  }
+}
+
+export const updateFirebaseToken = (token, uid) => {
+  return async (dispatch) => {
+    await db.ref(`fcmtokens/${uid}`).set({ token })
   }
 }
 

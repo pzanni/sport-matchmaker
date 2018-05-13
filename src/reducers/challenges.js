@@ -1,4 +1,5 @@
 import { db } from '../firebase/firebase'
+import { sendNotification } from '../firebase/messaging'
 
 const challengesReducer = (state = [], action) => {
   switch (action.type) {
@@ -42,16 +43,18 @@ export const addFirebaseChallenge = (from, to) => {
   }
 }
 
-export const acceptChallenge = (path) => {
+//Add 2nd param to notify challenger on accept
+export const acceptChallenge = (path, challengerUid) => {
+  console.log('challenger uid from within acceptChallenge', challengerUid)
   return async (dispatch) => {
-    console.log('haaste hyväksytty - path:', path)
-    await db.ref(`challenges/${path}`).update({
-      acceptedStatus: true
+    await db.ref(`challenges/${path}`).update({ acceptedStatus: true })
+    //Send notification to the challenger of challenge acception
+    //This part should really be in cloud functions but nothing is free :(
+    //If a low cost method is found then launching the code below should
+    //happen on condition above (from within cloud functions...)
+    await db.ref(`fcmtokens/${challengerUid}`).once('value', (snapshot) => {
+      sendNotification(snapshot.val().token)
     })
-    // Function proposal
-    // 1. Accepted -> true.
-    // 2. AcceptedChallengeList - component checks for them (accepted challenges) 
-    //  and match creation / challenge completion continues there
   }
 }
 

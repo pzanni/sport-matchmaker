@@ -29,9 +29,9 @@ const Creator = (props) => {
 }
 
 const Accepter = (props) => {
-  const { acceptChallenge, path } = props
+  const { acceptChallenge, path, uid } = props
   return (
-    <Button variant="raised" color="primary" size="small" onClick={() => acceptChallenge(path)}>
+    <Button variant="raised" color="primary" size="small" onClick={() => acceptChallenge(path, uid)}>
       Accept
     </Button>
   )
@@ -58,10 +58,10 @@ const Challenging = (props) => {
 
 //Näytetään, jos joku haastaa
 const ChallengedBy = (props) => {
-  const { path, challenger } = props
+  const { path, challenger, uid } = props
   return (
     <div>
-      <ConnectedAccepter path={path} />
+      <ConnectedAccepter path={path} uid={uid} />
       <ConnectedDecliner path={path} />
       Challenged by {challenger}
     </div>
@@ -114,7 +114,7 @@ const ChallengeList = (props) => {
           <div key={challenge.path}>
             <hr />
             {challenge.to.uid === session.authUser.uid
-              ? <ChallengedBy challenger={challenge.from.username} path={challenge.path} />
+              ? <ChallengedBy challenger={challenge.from.username} path={challenge.path} uid={challenge.from.uid} />
               : <Challenging opponent={challenge.to.username} />}
             <hr />
           </div>
@@ -145,7 +145,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     editChallengeStatus: (path, status) => dispatch(editChallengeStatus(path, status)),
     addFirebaseChallenge: (from, to) => dispatch(addFirebaseChallenge(from, to)),
-    acceptChallenge: (path) => dispatch(acceptChallenge(path)),
+    acceptChallenge: (path, challengerUid) => dispatch(acceptChallenge(path, challengerUid)),
     declineChallenge: (path) => dispatch(declineChallenge(path))
   }
 }

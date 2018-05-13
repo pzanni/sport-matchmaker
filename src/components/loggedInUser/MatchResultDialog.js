@@ -44,7 +44,7 @@ class MatchResultDialog extends React.Component {
     const { challenge } = this.props
     // const { open } = this.state
     // console.log('dialog open state?', open)
-    console.log('Challenge from within MatchResultDialog', challenge)
+    // console.log('Challenge from within MatchResultDialog', challenge)
     return (
       <div>
         <Button variant="raised" onClick={this.handleClick}>Result</Button>
