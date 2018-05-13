@@ -4,6 +4,7 @@ import * as routes from "../constants/routes";
 import SignOut from './loggedInUser/SignOut';
 import { connect } from 'react-redux'
 import { AppBar, Toolbar, Typography, Button, Grid, Menu, MenuItem } from 'material-ui';
+import { Row } from 'simple-flexbox'
 
 const Navigation = (props) => {
   const { session, users } = props;
@@ -47,32 +48,25 @@ class AuthNavigation extends React.Component {
     return (
       <AppBar position="static">
         <Toolbar>
-          <Grid container spacing={8}>
-            <Grid item xs={3}>
-              <Typography variant="headline" gutterBottom color="inherit">
-                Sport matchmaker
-              </Typography>
-            </Grid>
-
-            <Grid item xs={1}>
-              <Link to={routes.HOME} style={{ textDecoration: 'none' }}>
-                <Button variant="raised">
-                  Home
-                </Button>
-              </Link>
-            </Grid>
-
-            <Grid item xs={1}>
-              <Link disabled={this.props.user} to={routes.USERS} style={{ textDecoration: 'none' }}>
-                <Button variant="raised">
-                  Users
-                </Button>
-              </Link>
-            </Grid>
+          <Row vertical="center">
+            <Typography variant="headline" gutterBottom color="inherit">
+              Sport matchmaker
+          </Typography>
+            <Link to={routes.HOME} style={{ textDecoration: 'none' }}>
+              <Button style={{ color: 'white' }}>
+                Home
+            </Button>
+            </Link>
+            <Link to={routes.USERS} style={{ textDecoration: 'none' }}>
+              <Button style={{ color: 'white' }}>
+                Users
+            </Button>
+            </Link>
 
             <Button
               aria-owns='simple-menu'
               aria-haspopup="true"
+              color="inherit"
               onClick={this.handleMenuClick}>
               <span>{this.props.session.authUser.displayName}</span>
             </Button>
@@ -89,7 +83,7 @@ class AuthNavigation extends React.Component {
               </MenuItem>
               <MenuItem onClick={this.handleMenuClose}><SignOut /></MenuItem>
             </Menu>
-          </Grid>
+          </Row>
         </Toolbar>
       </AppBar>
     );

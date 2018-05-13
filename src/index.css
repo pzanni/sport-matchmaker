@@ -1,7 +1,19 @@
 body {
+  min-height: 100%;
+  position: relative;
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
   height: 100%;
   background-color: whitesmoke;
+  padding-bottom: 20;
 }
+
+.footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #efefef;
+}
+
