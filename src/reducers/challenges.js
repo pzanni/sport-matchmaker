@@ -45,7 +45,7 @@ export const addFirebaseChallenge = (from, to) => {
 
 //Add 2nd param to notify challenger on accept
 export const acceptChallenge = (path, challengerUid) => {
-  console.log('challenger uid from within acceptChallenge', challengerUid)
+  // console.log('challenger uid from within acceptChallenge', challengerUid)
   return async (dispatch) => {
     await db.ref(`challenges/${path}`).update({ acceptedStatus: true })
     //Send notification to the challenger of challenge acception
@@ -70,11 +70,8 @@ export const declineChallenge = (path) => {
 //Ja puretaan se tässä metodissa
 export const setChallengeResult = (options) => {
   return async (dispatch) => {
-    // console.log('options from within setChallengeResult', options)
     const { path, match } = options
     await db.ref(`challenges/${path}`).update({ match, finalized: false })
-    // console.log('path', path)
-    // console.log('result', result)
   }
 }
 
