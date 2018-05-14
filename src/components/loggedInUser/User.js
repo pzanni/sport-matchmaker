@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Paper, Typography, Divider } from 'material-ui';
-import { updatePassword } from '../../firebase/auth'
 import PasswordForm from './PasswordForm'
 import { ConnectedStatusChanger, ConnectedCreator } from './Challenge'
 import { Column, Row } from 'simple-flexbox'

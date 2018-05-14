@@ -76,7 +76,7 @@ class MatchResultDialog extends React.Component {
         <Dialog
           open={this.state.open}
           onClose={this.handleClick}>
-          <DialogTitle>{"Match result"}</DialogTitle>
+          <DialogTitle>{`Match result - opponent: ${challenge.from.username}`}</DialogTitle>
           <DialogContent>
             <DialogContentText>Match result for 1 set game</DialogContentText>
             <ScoreBoard setAmount={1} />

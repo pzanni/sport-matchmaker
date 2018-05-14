@@ -4,7 +4,6 @@ import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Typography, TextField, Button, Paper } from 'material-ui';
 import { Column, Row } from 'simple-flexbox'
-import request from 'request'
 
 import * as routes from "../../constants/routes";
 import { auth } from "../../firebase/controller";

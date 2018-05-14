@@ -1,4 +1,3 @@
-import { messaging, db } from './firebase'
 import request from 'request'
 
 const notifyFunc = (token) => {
@@ -40,8 +39,8 @@ export const sendNotification = (challengerToken) => {
 // Idea - each token has session.authUser.uid assigned on login
 // if user does not have a token then one should be dispatched / created ?
 
-messaging.onMessage((payload) => {
-  // Add Message component to App?
-  // -> Change state to inform user of a match for a few seconds
-  console.log('onMessage: ', payload.notification)
-})
+// messaging.onMessage((payload) => {
+//   // Add Message component to App?
+//   // -> Change state to inform user of a match for a few seconds
+//   console.log('onMessage: ', payload.notification)
+// })

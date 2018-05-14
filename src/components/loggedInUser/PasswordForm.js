@@ -1,7 +1,7 @@
 import React from 'react'
 import { updatePassword } from '../../firebase/auth'
 import { TextField, Button } from 'material-ui';
-import {  Row } from 'simple-flexbox'
+import { Row } from 'simple-flexbox'
 
 class PasswordForm extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class PasswordForm extends React.Component {
     try {
       const { newPassword } = this.state
       console.log('new password to be', newPassword)
-      const updatedData = await updatePassword(newPassword)
+      await updatePassword(newPassword)
       this.setState({
         newPassword: '',
         passwordVerify: ''
@@ -42,7 +42,7 @@ class PasswordForm extends React.Component {
     //Firebase vaatii väh. 6 merkkijonon salasanan. Lisätään ehto myös client-siden puolelle
     const ifNoMatchingPW = newPassword !== passwordVerify || newPassword.length < 6
     return (
-      <div style={ styles.Form }>
+      <div style={styles.Form}>
         <Row>
           <TextField
             className="pwInput"

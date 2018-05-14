@@ -22,7 +22,7 @@ export const setUsers = (users) => {
 
 export const editChallengeStatus = (path, status) => {
   return async () => {
-    const updatedUser = await db.ref(`users/${path}`).update({ challengeStatus: status })
+    await db.ref(`users/${path}`).update({ challengeStatus: status })
     // Return here not needed as fetchAndSet subscription handles (testing purposes)
   }
 }
@@ -46,7 +46,7 @@ export const addFirebaseUser = (content) => {
   return async () => {
     const { username, email, uid, challengeStatus } = content
     const newUser = { username, email, uid, challengeStatus }
-    const dbUserRef = await db.ref('users').push(newUser)
+    await db.ref('users').push(newUser)
     // Return not needed here as fetchAndSet has a subscription method so we can check result
     // from this function there instead
   }

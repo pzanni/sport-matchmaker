@@ -17,7 +17,7 @@ import Users from './loggedInUser/Users'
 import User from './loggedInUser/User'
 
 //TESTING PURPOSES ONLY
-import { messaging } from '../firebase/firebase'
+// import { messaging } from '../firebase/firebase'
 import { updateFirebaseToken } from '../reducers/session'
 
 //END TESTING STUFF
@@ -62,7 +62,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { users, session } = this.props
+    const { users } = this.props
     const userById = (id) =>
       users.find(user => user.id === id)
 
