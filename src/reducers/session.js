@@ -33,7 +33,7 @@ export const setToken = (token) => {
 }
 
 export const updateFirebaseToken = (token, uid) => {
-  return async (dispatch) => {
+  return async () => {
     await db.ref(`fcmtokens/${uid}`).set({ token })
   }
 }

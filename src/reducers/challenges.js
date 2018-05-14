@@ -37,7 +37,7 @@ export const fetchAndSetChallenges = () => {
 }
 
 export const addFirebaseChallenge = (from, to) => {
-  return async (dispatch) => {
+  return async () => {
     const newChallenge = { from, to, acceptedStatus: false }
     await db.ref('challenges').push(newChallenge)
   }
@@ -46,7 +46,7 @@ export const addFirebaseChallenge = (from, to) => {
 //Add 2nd param to notify challenger on accept
 export const acceptChallenge = (path, challengerUid) => {
   // console.log('challenger uid from within acceptChallenge', challengerUid)
-  return async (dispatch) => {
+  return async () => {
     await db.ref(`challenges/${path}`).update({ acceptedStatus: true })
     //Send notification to the challenger of challenge acception
     //This part should really be in cloud functions but nothing is free :(
@@ -59,7 +59,7 @@ export const acceptChallenge = (path, challengerUid) => {
 }
 
 export const declineChallenge = (path) => {
-  return async (dispatch) => {
+  return async () => {
     console.log('haaste hylätty - path:', path)
     await db.ref(`challenges/${path}`).remove()
   }
@@ -69,7 +69,7 @@ export const declineChallenge = (path) => {
 //Kierretään ongelma laittamalla objekti yhtenä parametrinä (path, result)
 //Ja puretaan se tässä metodissa
 export const setChallengeResult = (options) => {
-  return async (dispatch) => {
+  return async () => {
     const { path, match } = options
     await db.ref(`challenges/${path}`).update({ match, finalized: false })
   }
@@ -78,7 +78,7 @@ export const setChallengeResult = (options) => {
 // Ottelun toinen osapuoli hyväksyy ottelun tuloksen
 // Pisteet / pushataan kamaa matches - puuhun tilastoja varten?
 export const completeChallenge = (path) => {
-  return async (dispatch) => {
+  return async () => {
     await db.ref(`challenges/${path}`).update({ finalized: true })
   }
   //Function proposal

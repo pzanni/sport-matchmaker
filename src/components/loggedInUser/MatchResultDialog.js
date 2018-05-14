@@ -10,9 +10,34 @@ import Dialog, {
   DialogTitle,
 } from 'material-ui/Dialog'
 
+const styles = {
+  inputField: { width: '5%' }
+}
+
+const ScoreBoard = (props) => {
+  const { setAmount } = props
+  const board = []
+  for (let i = 0; i < setAmount * 2; i++) {
+    let inputFieldP1
+    if (i === setAmount - 1) {
+      //div caused an unnecessary linebreak -> span works
+      inputFieldP1 = <span><input style={styles.inputField} maxLength="1" value={i} /> <br /></span>
+    } else {
+      inputFieldP1 = <input style={styles.inputField} maxLength="1" value={i} />
+    }
+    board.push(inputFieldP1)
+  }
+  return (
+    <div>
+      {board}
+    </div>
+  )
+}
+
 class MatchResultDialog extends React.Component {
   state = {
-    open: false,
+    open: false
+
   }
 
   handleClick = () => {
@@ -30,7 +55,7 @@ class MatchResultDialog extends React.Component {
       }
     }
     setChallengeResult(options)
-    // Send proposed match data to firebase 
+    // Send proposed match data to firebase
     // Opponent will have the opportunity to check / confirm result afterwards
     // Call handleClick function afterwards - could add a spinner etc while data is being sent?
     // 1. Press 'Submit'
@@ -42,7 +67,7 @@ class MatchResultDialog extends React.Component {
 
   render() {
     const { challenge } = this.props
-    // const { open } = this.state
+    // const {open} = this.state
     // console.log('dialog open state?', open)
     // console.log('Challenge from within MatchResultDialog', challenge)
     return (
@@ -53,12 +78,12 @@ class MatchResultDialog extends React.Component {
           onClose={this.handleClick}>
           <DialogTitle>{"Match result"}</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              Challenger: {challenge.from.username}
-            </DialogContentText>
-            <DialogContentText>
-              Opponent: {challenge.to.username}
-            </DialogContentText>
+            <DialogContentText>Match result for 1 set game</DialogContentText>
+            <ScoreBoard setAmount={1} />
+            <DialogContentText>Match result for 3 set game</DialogContentText>
+            <ScoreBoard setAmount={3} />
+            <DialogContentText>Match result for 5 set game</DialogContentText>
+            <ScoreBoard setAmount={5} />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClick}>
