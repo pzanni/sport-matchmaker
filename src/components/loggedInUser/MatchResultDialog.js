@@ -16,19 +16,20 @@ const styles = {
 }
 
 const ScoreBoard = (props) => {
-  const { setAmount } = props
+  const { setAmount, changeScoreBoard } = props
   const board = []
-  for (let i = 0; i < setAmount * 2; i++) {
+  for (let index = 0; index < setAmount * 2; index++) {
     let inputFieldP1
-    if (i === setAmount - 1) {
+    if (index === setAmount - 1) {
       //div caused an unnecessary linebreak -> span works
       inputFieldP1 =
-        <span key={i}>
-          <input style={styles.inputField} maxLength="1" defaultValue={i} /> <br />
+        <span key={index}>
+          <input style={styles.inputField} maxLength="1" name={index} onChange={changeScoreBoard} defaultValue={0} />
+          <br />
         </span>
     } else {
       inputFieldP1 =
-        <input key={i} style={styles.inputField} maxLength="1" defaultValue={i} />
+        <input key={index} style={styles.inputField} maxLength="1" name={index} onChange={changeScoreBoard} defaultValue={0} />
     }
     board.push(inputFieldP1)
   }
@@ -53,10 +54,10 @@ const SetSelector = (props) => {
 }
 
 const MatchResult = (props) => {
-  const { setAmount, changeSetAmount } = props
+  const { setAmount, changeSetAmount, changeScoreBoard } = props
   return (
     <div>
-      <ScoreBoard setAmount={setAmount} />
+      <ScoreBoard setAmount={setAmount} changeScoreBoard={changeScoreBoard} />
       <SetSelector changeSetAmount={changeSetAmount} />
     </div>
   )
@@ -66,8 +67,7 @@ class MatchResultDialog extends React.Component {
   state = {
     open: false,
     sets: 3, //Default value
-    result: [6, 4, 4, 6, 6, 4, 6, 6, 3, 7] // For testing purposes only
-    // result: Array(10).fill(0) // Use this in the final version
+    result: Array(10).fill(0) // Use this in the final version
   }
 
   handleClick = () => {
@@ -76,6 +76,15 @@ class MatchResultDialog extends React.Component {
 
   changeSetAmount = (event) => {
     this.setState({ sets: event.target.value })
+  }
+
+  changeScoreBoard = (event) => {
+    const { result } = this.state
+    let newResult = [...result] // Could also use result.slice()
+    console.log('event.target.name', event.target.name)
+    console.log('event.target.value', event.target.value)
+    newResult[event.target.name] = Number(event.target.value)
+    this.setState({ result: newResult })
   }
 
   submitResult = () => {
@@ -90,23 +99,14 @@ class MatchResultDialog extends React.Component {
       match: { p1Result, p2Result }
     }
 
-    //Commented out, use this when input fields have been connected to the result array
     setChallengeResult(options)
-
-    // Send proposed match data to firebase
-    // Opponent will have the opportunity to check / confirm result afterwards
-    // Call handleClick function afterwards - could add a spinner etc while data is being sent?
-    // 1. Press 'Submit'
-    // 2. Spinner on
-    // 3. Await passes (call setState back to false below it)
-    // 4. Profit ???
     this.handleClick()
   }
 
   render() {
-    const { sets } = this.state
+    const { sets, result } = this.state
     const { challenge } = this.props
-
+    console.log('Current result array', result)
     return (
       <div>
         <Button variant="raised" onClick={this.handleClick}>Result</Button>
@@ -116,7 +116,7 @@ class MatchResultDialog extends React.Component {
           <DialogTitle>{`Match result versus ${challenge.from.username}`}</DialogTitle>
           <DialogContent>
             <DialogContentText>Match result for {sets} set game</DialogContentText>
-            <MatchResult setAmount={sets} changeSetAmount={this.changeSetAmount} />
+            <MatchResult setAmount={sets} changeSetAmount={this.changeSetAmount} changeScoreBoard={this.changeScoreBoard} />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClick}>
