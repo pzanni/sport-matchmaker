@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { ScaleLoader } from 'react-spinners'
-import { Button } from 'material-ui'
+import { Button, Table, TableHead, TableCell, TableRow, TableBody } from 'material-ui'
 import { editChallengeStatus } from '../../reducers/users'
 import { addFirebaseChallenge, acceptChallenge, declineChallenge } from '../../reducers/challenges'
 import MatchResultDialog from './MatchResultDialog'
+import { Row } from 'simple-flexbox'
 
 const styles = {
   Loader: { marginLeft: '140px', marginTop: '-37px' }
@@ -31,7 +32,7 @@ const Creator = (props) => {
 const Accepter = (props) => {
   const { acceptChallenge, path, uid } = props
   return (
-    <Button variant="raised" color="primary" size="small" onClick={() => acceptChallenge(path, uid)}>
+    <Button style={{marginRight: '5px'}} variant="raised" color="primary" size="small" onClick={() => acceptChallenge(path, uid)}>
       Accept
     </Button>
   )
@@ -40,7 +41,7 @@ const Accepter = (props) => {
 const Decliner = (props) => {
   const { declineChallenge, path } = props
   return (
-    <Button variant="raised" color="secondary" size="small" onClick={() => declineChallenge(path)}>
+    <Button style={{marginLeft: '5px'}} variant="raised" color="secondary" size="small" onClick={() => declineChallenge(path)}>
       Decline
   </Button>
   )
@@ -61,9 +62,10 @@ const ChallengedBy = (props) => {
   const { path, challenger, uid } = props
   return (
     <div>
-      <ConnectedAccepter path={path} uid={uid} />
-      <ConnectedDecliner path={path} />
-      Challenged by {challenger}
+      <Row>
+        <ConnectedAccepter path={path} uid={uid} />
+        <ConnectedDecliner path={path} />
+      </Row>
     </div>
   )
 }
@@ -76,14 +78,31 @@ const AcceptedChallengesList = (props) => {
   const challengesToShow = acceptedChallenges.filter((challenge) => challenge.from.uid === session.authUser.uid || challenge.to.uid === session.authUser.uid)
 
   return (
-    <div>{challengesToShow.map((challenge) =>
-      <div key={challenge.path}>
-        <hr />
-        Match versus <b>{challenge.from.username}</b>
-        <MatchResultDialog challenge={challenge} />
-        <hr />
-      </div>)}
-    </div>)
+    // <div>{challengesToShow.map((challenge) =>
+    //   <div key={challenge.path}>
+    //     <hr />
+    //     Match versus <b>{challenge.from.username}</b>
+    //     <MatchResultDialog challenge={challenge} />
+    //     <hr />
+    //   </div>)}
+    // </div>
+    <Table>
+      <TableBody>
+        {challengesToShow.map(challenge => {
+          return (
+            <TableRow key={challenge.path}>
+              <TableCell component="th" scope="row">
+                {challenge.from.username}
+              </TableCell>
+              <TableCell>
+                <MatchResultDialog challenge={challenge} />
+              </TableCell>
+            </TableRow>
+          );
+        })}
+      </TableBody>
+    </Table>
+  )
 }
 
 //TODO FIX - Yksi ehtotapaus lisää (ei haasteita -> silti barloader)
@@ -109,17 +128,34 @@ const ChallengeList = (props) => {
   const hasChallenges = challengesToShow.length > 0
   if (hasChallenges) {
     return (
-      <div>
-        {challengesToShow.map((challenge) =>
-          <div key={challenge.path}>
-            <hr />
-            {challenge.to.uid === session.authUser.uid
-              ? <ChallengedBy challenger={challenge.from.username} path={challenge.path} uid={challenge.from.uid} />
-              : <Challenging opponent={challenge.to.username} />}
-            <hr />
-          </div>
-        )}
-      </div>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Challenger</TableCell>
+            <TableCell>Challenged</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {challengesToShow.map(challenge => {
+            return (
+              <TableRow key={challenge.path}>
+                <TableCell component="th" scope="row">
+                  {challenge.from.username}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {challenge.to.username}
+                </TableCell>
+                <TableCell>
+                  {challenge.to.uid === session.authUser.uid
+                    ? <ChallengedBy challenger={challenge.from.username} path={challenge.path} uid={challenge.from.uid} />
+                    : <Challenging opponent={challenge.to.username} />}
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
     )
   } else {
     return (

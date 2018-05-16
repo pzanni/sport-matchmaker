@@ -109,7 +109,7 @@ class MatchResultDialog extends React.Component {
     console.log('Current result array', result)
     return (
       <div>
-        <Button variant="raised" onClick={this.handleClick}>Result</Button>
+        <Button variant="raised" size="small" onClick={this.handleClick}>Submit result</Button>
         <Dialog
           open={this.state.open}
           onClose={this.handleClick}>
