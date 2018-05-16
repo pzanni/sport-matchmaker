@@ -154,7 +154,7 @@ const ChallengeList = (props) => {
       </Table>
     )
     // Challenges exist, just not for you AHAHAHAH AXAXAXXA :((
-  } else if (pendingChallenges.length > 0) {
+  } else if (pendingChallenges.length >= 0) {
     return (
       <div>
         No challenges to show
