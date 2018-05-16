@@ -32,7 +32,7 @@ const Creator = (props) => {
 const Accepter = (props) => {
   const { acceptChallenge, path, uid } = props
   return (
-    <Button style={{marginRight: '5px'}} variant="raised" color="primary" size="small" onClick={() => acceptChallenge(path, uid)}>
+    <Button style={{ marginRight: '5px' }} variant="raised" color="primary" size="small" onClick={() => acceptChallenge(path, uid)}>
       Accept
     </Button>
   )
@@ -41,7 +41,7 @@ const Accepter = (props) => {
 const Decliner = (props) => {
   const { declineChallenge, path } = props
   return (
-    <Button style={{marginLeft: '5px'}} variant="raised" color="secondary" size="small" onClick={() => declineChallenge(path)}>
+    <Button style={{ marginLeft: '5px' }} variant="raised" color="secondary" size="small" onClick={() => declineChallenge(path)}>
       Decline
   </Button>
   )
@@ -51,9 +51,7 @@ const Decliner = (props) => {
 const Challenging = (props) => {
   const { opponent } = props
   return (
-    <div>
-      Waiting for {opponent} to respond to your challenge
-    </div>
+    <div>Waiting for response</div>
   )
 }
 
@@ -77,32 +75,30 @@ const AcceptedChallengesList = (props) => {
   const acceptedChallenges = challenges.filter((challenge) => challenge.acceptedStatus === true)
   const challengesToShow = acceptedChallenges.filter((challenge) => challenge.from.uid === session.authUser.uid || challenge.to.uid === session.authUser.uid)
 
-  return (
-    // <div>{challengesToShow.map((challenge) =>
-    //   <div key={challenge.path}>
-    //     <hr />
-    //     Match versus <b>{challenge.from.username}</b>
-    //     <MatchResultDialog challenge={challenge} />
-    //     <hr />
-    //   </div>)}
-    // </div>
-    <Table>
-      <TableBody>
-        {challengesToShow.map(challenge => {
-          return (
-            <TableRow key={challenge.path}>
-              <TableCell component="th" scope="row">
-                {challenge.from.username}
-              </TableCell>
-              <TableCell>
-                <MatchResultDialog challenge={challenge} />
-              </TableCell>
-            </TableRow>
-          );
-        })}
-      </TableBody>
-    </Table>
-  )
+  if (challengesToShow.length > 0) {
+    return (
+      <Table>
+        <TableBody>
+          {challengesToShow.map(challenge => {
+            return (
+              <TableRow key={challenge.path}>
+                <TableCell component="th" scope="row">
+                  {challenge.from.username}
+                </TableCell>
+                <TableCell>
+                  <MatchResultDialog challenge={challenge} />
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    )
+  } else {
+    return (
+      <div>You have no accepted challenges</div>
+    )
+  }
 }
 
 //TODO FIX - Yksi ehtotapaus lisää (ei haasteita -> silti barloader)
@@ -152,10 +148,17 @@ const ChallengeList = (props) => {
                     : <Challenging opponent={challenge.to.username} />}
                 </TableCell>
               </TableRow>
-            );
+            )
           })}
         </TableBody>
       </Table>
+    )
+    // Challenges exist, just not for you AHAHAHAH AXAXAXXA :((
+  } else if (pendingChallenges.length > 0) {
+    return (
+      <div>
+        No challenges to show
+      </div>
     )
   } else {
     return (
