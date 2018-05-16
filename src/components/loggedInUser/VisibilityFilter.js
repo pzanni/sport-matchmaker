@@ -7,16 +7,22 @@ import { Row } from 'simple-flexbox'
 //Tällä hetkellä haasteille, voidaan yleistää muuhunkin
 class VisibilityFilter extends React.Component {
   render() {
-    const { filterChange } = this.props
+    const { filter, filterChange } = this.props
     return (
       <Row vertical="center">
-        All<Radio name="filter" onChange={() => filterChange('ALL')} />
+        All<Radio name="filter" checked={filter === 'ALL'} onChange={() => filterChange('ALL')} />
 
-        Sent<Radio name="filter" onChange={() => filterChange('SENT')} />
+        Sent<Radio name="filter" checked={filter === 'SENT'} onChange={() => filterChange('SENT')} />
 
-        Received<Radio name="filter" onChange={() => filterChange('RECEIVED')} />
+        Received<Radio name="filter" checked={filter === 'RECEIVED'} onChange={() => filterChange('RECEIVED')} />
       </Row>
     )
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    filter: state.filter
   }
 }
 
@@ -26,4 +32,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(VisibilityFilter)
+export default connect(mapStateToProps, mapDispatchToProps)(VisibilityFilter)

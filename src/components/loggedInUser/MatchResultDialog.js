@@ -71,7 +71,11 @@ class MatchResultDialog extends React.Component {
   }
 
   handleClick = () => {
-    this.setState({ open: !this.state.open })
+    const resetResult = Array(10).fill(0) //Input fields change to 0. Make it same for state
+    this.setState({
+      open: !this.state.open,
+      result: resetResult
+    })
   }
 
   changeSetAmount = (event) => {
