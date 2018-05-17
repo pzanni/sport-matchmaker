@@ -1,9 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Paper, Typography, Divider } from 'material-ui';
+import { Column, Row } from 'simple-flexbox'
+
 import PasswordForm from './PasswordForm'
 import { ConnectedStatusChanger, ConnectedCreator } from './Challenge'
-import { Column, Row } from 'simple-flexbox'
+import { ConnectedDisciplineSelector } from './DisciplineSelector'
 
 const styles = {
   MainColumn: { marginTop: 40 },
@@ -29,6 +31,9 @@ const Info = (props) => {
       <Row horizontal="spaced">
         <Column>
           <p>Email: {user.email}</p>
+        </Column>
+        <Column>
+          <ConnectedDisciplineSelector userPath={user.id} disciplines={user.disciplines} />
         </Column>
         <Column vertical="center">
           {user.challengeStatus

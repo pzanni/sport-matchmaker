@@ -32,7 +32,7 @@ class SignUpPage extends React.Component {
       console.log('luotu käyttäjä', updatedUser)
 
       //Yhdistellään reduxia ja firebasea
-      const newUserData = { username, email, uid: createdUser.uid, challengeStatus: false }
+      const newUserData = { username, email, uid: createdUser.uid }
       addFirebaseUser(newUserData)
 
       window.localStorage.setItem('user', createdUser)

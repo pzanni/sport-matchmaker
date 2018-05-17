@@ -49,7 +49,6 @@ const Decliner = (props) => {
 
 //Näytetään, jos haastaa jonkun
 const Challenging = (props) => {
-  const { opponent } = props
   return (
     <div>Waiting for response</div>
   )
@@ -57,7 +56,7 @@ const Challenging = (props) => {
 
 //Näytetään, jos joku haastaa
 const ChallengedBy = (props) => {
-  const { path, challenger, uid } = props
+  const { path, uid } = props
   return (
     <div>
       <Row>
@@ -145,7 +144,7 @@ const ChallengeList = (props) => {
                 <TableCell>
                   {challenge.to.uid === session.authUser.uid
                     ? <ChallengedBy challenger={challenge.from.username} path={challenge.path} uid={challenge.from.uid} />
-                    : <Challenging opponent={challenge.to.username} />}
+                    : <Challenging />}
                 </TableCell>
               </TableRow>
             )

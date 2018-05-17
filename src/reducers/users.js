@@ -20,6 +20,14 @@ export const setUsers = (users) => {
   }
 }
 
+//Difference to editChallengeStatus is that discipline can be more than just 1 option
+//So a different way to apply toggling was done here
+export const toggleDisciplineStatus = (path, discipline) => {
+  return async () => {
+    await db.ref(`users/${path}/disciplines`).update(discipline)
+  }
+}
+
 export const editChallengeStatus = (path, status) => {
   return async () => {
     await db.ref(`users/${path}`).update({ challengeStatus: status })
@@ -44,8 +52,10 @@ export const fetchAndSetFirebaseUsers = () => {
 
 export const addFirebaseUser = (content) => {
   return async () => {
-    const { username, email, uid, challengeStatus } = content
-    const newUser = { username, email, uid, challengeStatus }
+    const { username, email, uid } = content
+    const challengeStatus = false
+    const disciplines = {} // Test to get rid of controlled/uncontrolled switch warning - SEEMS TO DO THE JOB
+    const newUser = { username, email, uid, challengeStatus, disciplines }
     await db.ref('users').push(newUser)
     // Return not needed here as fetchAndSet has a subscription method so we can check result
     // from this function there instead

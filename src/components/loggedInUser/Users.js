@@ -9,9 +9,10 @@ const styles = {
 
 const Users = (props) => {
   const { users } = props
-  console.log('users length', users.length)
   const availableUsers = users.filter((user) => user.challengeStatus)
-  console.log('challengeable users length', availableUsers.length)
+  // Works ok
+  // console.log('users length', users.length)
+  // console.log('challengeable users length', availableUsers.length)
   return (
     <div>
       {availableUsers.map((user) =>
