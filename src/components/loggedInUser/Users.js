@@ -9,9 +9,12 @@ const styles = {
 
 const Users = (props) => {
   const { users } = props
+  console.log('users length', users.length)
+  const availableUsers = users.filter((user) => user.challengeStatus)
+  console.log('challengeable users length', availableUsers.length)
   return (
     <div>
-      {users.map((user) =>
+      {availableUsers.map((user) =>
         // id = path, uid = user id 
         <Paper style={styles.Paper} elevation={4} key={user.id}>
           <Typography className="individualUserName" variant="headline">

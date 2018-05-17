@@ -16,7 +16,7 @@ const styles = {
 }
 
 const ScoreBoard = (props) => {
-  const { setAmount, changeScoreBoard } = props
+  const { setAmount, changeScoreBoard, handleFocus } = props
   const board = []
   for (let index = 0; index < setAmount * 2; index++) {
     let inputFieldP1
@@ -24,12 +24,12 @@ const ScoreBoard = (props) => {
       //div caused an unnecessary linebreak -> span works
       inputFieldP1 =
         <span key={index}>
-          <input style={styles.inputField} maxLength="1" name={index} onChange={changeScoreBoard} defaultValue={0} />
+          <input style={styles.inputField} maxLength="1" name={index} onChange={changeScoreBoard} defaultValue={0} onFocus={handleFocus} />
           <br />
         </span>
     } else {
       inputFieldP1 =
-        <input key={index} style={styles.inputField} maxLength="1" name={index} onChange={changeScoreBoard} defaultValue={0} />
+        <input key={index} style={styles.inputField} maxLength="1" name={index} onChange={changeScoreBoard} defaultValue={0} onFocus={handleFocus} />
     }
     board.push(inputFieldP1)
   }
@@ -54,10 +54,10 @@ const SetSelector = (props) => {
 }
 
 const MatchResult = (props) => {
-  const { setAmount, changeSetAmount, changeScoreBoard } = props
+  const { setAmount, changeSetAmount, changeScoreBoard, handleFocus } = props
   return (
     <div>
-      <ScoreBoard setAmount={setAmount} changeScoreBoard={changeScoreBoard} />
+      <ScoreBoard setAmount={setAmount} changeScoreBoard={changeScoreBoard} handleFocus={handleFocus} />
       <SetSelector changeSetAmount={changeSetAmount} />
     </div>
   )
@@ -85,8 +85,8 @@ class MatchResultDialog extends React.Component {
   changeScoreBoard = (event) => {
     const { result } = this.state
     let newResult = [...result] // Could also use result.slice()
-    console.log('event.target.name', event.target.name)
-    console.log('event.target.value', event.target.value)
+    // console.log('event.target.name', event.target.name)
+    // console.log('event.target.value', event.target.value)
     newResult[event.target.name] = Number(event.target.value)
     this.setState({ result: newResult })
   }
@@ -96,8 +96,8 @@ class MatchResultDialog extends React.Component {
     const { sets, result } = this.state
     const p1Result = result.slice(0, sets)
     const p2Result = result.slice(sets, sets * 2)
-    console.log('P1 result', p1Result)
-    console.log('P2 result', p2Result)
+    // console.log('P1 result', p1Result)
+    // console.log('P2 result', p2Result)
     const options = {
       path: challenge.path,
       match: { p1Result, p2Result }
@@ -107,6 +107,10 @@ class MatchResultDialog extends React.Component {
     this.handleClick()
   }
 
+  handleFocus = (event) => {
+    event.target.select()
+  }
+
   render() {
     const { sets, result } = this.state
     const { challenge } = this.props
@@ -114,13 +118,11 @@ class MatchResultDialog extends React.Component {
     return (
       <div>
         <Button variant="raised" size="small" onClick={this.handleClick}>Submit result</Button>
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClick}>
+        <Dialog open={this.state.open} onClose={this.handleClick}>
           <DialogTitle>{`Match result versus ${challenge.from.username}`}</DialogTitle>
           <DialogContent>
             <DialogContentText>Match result for {sets} set game</DialogContentText>
-            <MatchResult setAmount={sets} changeSetAmount={this.changeSetAmount} changeScoreBoard={this.changeScoreBoard} />
+            <MatchResult setAmount={sets} changeSetAmount={this.changeSetAmount} changeScoreBoard={this.changeScoreBoard} handleFocus={this.handleFocus} />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClick}>
