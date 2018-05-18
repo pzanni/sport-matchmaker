@@ -136,7 +136,7 @@ class MatchResultDialog extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-      </div >
+      </div>
     )
   }
 }

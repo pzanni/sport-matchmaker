@@ -20,7 +20,7 @@ export const setUsers = (users) => {
   }
 }
 
-//Difference to editChallengeStatus is that discipline can be more than just 1 option
+//Difference to toggleChallengeStatus is that discipline can be more than just 1 option
 //So a different way to apply toggling was done here
 export const toggleDisciplineStatus = (path, toggledDiscipline) => {
   return async () => {
@@ -28,7 +28,7 @@ export const toggleDisciplineStatus = (path, toggledDiscipline) => {
   }
 }
 
-export const editChallengeStatus = (path, status) => {
+export const toggleChallengeStatus = (path, status) => {
   return async () => {
     await db.ref(`users/${path}`).update({ challengeStatus: status })
     // Return here not needed as fetchAndSet subscription handles (testing purposes)

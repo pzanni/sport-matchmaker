@@ -5,7 +5,7 @@ import { Button, Table, TableHead, TableCell, TableRow, TableBody } from 'materi
 import { Row } from 'simple-flexbox'
 import { Select, MenuItem, FormControl, FormHelperText } from 'material-ui'
 
-import { editChallengeStatus } from '../../reducers/users'
+import { toggleChallengeStatus } from '../../reducers/users'
 import { addFirebaseChallenge, acceptChallenge, declineChallenge } from '../../reducers/challenges'
 import MatchResultDialog from './MatchResultDialog'
 
@@ -14,10 +14,10 @@ const styles = {
 }
 
 const StatusChanger = (props) => {
-  const { path, status, editChallengeStatus } = props
+  const { path, status, toggleChallengeStatus } = props
   return (
-    <Button variant="raised" onClick={() => editChallengeStatus(path, status)}>
-      Change challenge status
+    <Button variant="raised" onClick={() => toggleChallengeStatus(path, status)}>
+      Toggle challenge status
     </Button>
   )
 }
@@ -40,11 +40,12 @@ class Creator extends React.Component {
   render() {
     const { from, to, addFirebaseChallenge, disciplines } = this.props
     const { chosenDiscipline } = this.state
-    console.log('Chosen discipline -', chosenDiscipline)
+
+    // console.log('Chosen discipline -', chosenDiscipline)
     // console.log('its value is ', disciplines[chosenDiscipline])
     // console.log('Disciplines from Challenge creator component', disciplines)
-
     // console.log('Amount of disciplines', Object.keys(disciplines).length)
+
     const selectableDisciplines = []
     for (const [key, value] of Object.entries(disciplines)) {
       //value is boolean
@@ -227,7 +228,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    editChallengeStatus: (path, status) => dispatch(editChallengeStatus(path, status)),
+    toggleChallengeStatus: (path, status) => dispatch(toggleChallengeStatus(path, status)),
     addFirebaseChallenge: (from, to, chosenDiscipline) => dispatch(addFirebaseChallenge(from, to, chosenDiscipline)),
     acceptChallenge: (path, challengerUid) => dispatch(acceptChallenge(path, challengerUid)),
     declineChallenge: (path) => dispatch(declineChallenge(path))
