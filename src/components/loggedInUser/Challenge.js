@@ -40,7 +40,7 @@ class Creator extends React.Component {
   render() {
     const { from, to, addFirebaseChallenge, disciplines } = this.props
     const { chosenDiscipline } = this.state
-    // console.log('Chosen discipline -', chosenDiscipline)
+    console.log('Chosen discipline -', chosenDiscipline)
     // console.log('its value is ', disciplines[chosenDiscipline])
     // console.log('Disciplines from Challenge creator component', disciplines)
 
@@ -66,7 +66,7 @@ class Creator extends React.Component {
             {selectableDisciplines}
           </Select>
           <FormHelperText>Select a discipline</FormHelperText>
-          <Button disabled={ifNoValidDiscipline} variant="raised" color="primary" onClick={() => addFirebaseChallenge(from, to)}>
+          <Button disabled={ifNoValidDiscipline} variant="raised" color="primary" onClick={() => addFirebaseChallenge(from, to, chosenDiscipline)}>
             Challenge
           </Button>
         </FormControl>
@@ -173,7 +173,7 @@ const ChallengeList = (props) => {
         <TableHead>
           <TableRow>
             <TableCell>Challenger</TableCell>
-            <TableCell>Challenged</TableCell>
+            <TableCell>Discipline</TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>
@@ -185,7 +185,7 @@ const ChallengeList = (props) => {
                   {challenge.from.username}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {challenge.to.username}
+                  {challenge.discipline}
                 </TableCell>
                 <TableCell>
                   {challenge.to.uid === session.authUser.uid
@@ -228,7 +228,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     editChallengeStatus: (path, status) => dispatch(editChallengeStatus(path, status)),
-    addFirebaseChallenge: (from, to) => dispatch(addFirebaseChallenge(from, to)),
+    addFirebaseChallenge: (from, to, chosenDiscipline) => dispatch(addFirebaseChallenge(from, to, chosenDiscipline)),
     acceptChallenge: (path, challengerUid) => dispatch(acceptChallenge(path, challengerUid)),
     declineChallenge: (path) => dispatch(declineChallenge(path))
   }

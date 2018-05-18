@@ -122,7 +122,7 @@ class MatchResultDialog extends React.Component {
       <div>
         <Button variant="raised" size="small" onClick={this.handleClick}>Submit result</Button>
         <Dialog open={this.state.open} onClose={this.handleClick}>
-          <DialogTitle>{`Match result versus ${challenge.from.username}`}</DialogTitle>
+          <DialogTitle>{`Submit your match result versus ${challenge.from.username} in ${challenge.discipline}`}</DialogTitle>
           <DialogContent>
             <DialogContentText>Match result for {sets} set game</DialogContentText>
             <MatchResult setAmount={sets} changeSetAmount={this.changeSetAmount} changeScoreBoard={this.changeScoreBoard} handleFocus={this.handleFocus} />

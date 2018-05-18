@@ -36,9 +36,10 @@ export const fetchAndSetChallenges = () => {
   }
 }
 
-export const addFirebaseChallenge = (from, to) => {
+export const addFirebaseChallenge = (from, to, chosenDiscipline) => {
+  console.log('chosen discipline', chosenDiscipline)
   return async () => {
-    const newChallenge = { from, to, acceptedStatus: false }
+    const newChallenge = { from, to, acceptedStatus: false, discipline: chosenDiscipline }
     await db.ref('challenges').push(newChallenge)
   }
 }
