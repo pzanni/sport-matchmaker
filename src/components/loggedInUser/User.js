@@ -37,7 +37,7 @@ const Info = (props) => {
         </Column>
         <Column vertical="center">
           {user.challengeStatus
-            ? <ConnectedCreator from={challenger} to={user} />
+            ? <ConnectedCreator from={challenger} to={user} disciplines={user.disciplines} />
             : <p><b>{user.username}</b> does not accept challenges at this moment</p>}
         </Column>
       </Row>

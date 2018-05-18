@@ -22,9 +22,9 @@ export const setUsers = (users) => {
 
 //Difference to editChallengeStatus is that discipline can be more than just 1 option
 //So a different way to apply toggling was done here
-export const toggleDisciplineStatus = (path, discipline) => {
+export const toggleDisciplineStatus = (path, toggledDiscipline) => {
   return async () => {
-    await db.ref(`users/${path}/disciplines`).update(discipline)
+    await db.ref(`users/${path}/disciplines`).update(toggledDiscipline)
   }
 }
 

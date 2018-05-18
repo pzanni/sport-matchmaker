@@ -41,6 +41,9 @@ const ScoreBoard = (props) => {
   )
 }
 
+//Select muutettava Material-ui muotoon
+//Inputfieldit (minun mielestäni) saa pysyä - Material-ui:n inputfieldit eivät
+//Mielestäni ole ulkonäöltään oikeita tässä käyttötapauksessa
 const SetSelector = (props) => {
   const { changeSetAmount } = props
   return (

@@ -2,10 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { ScaleLoader } from 'react-spinners'
 import { Button, Table, TableHead, TableCell, TableRow, TableBody } from 'material-ui'
+import { Row } from 'simple-flexbox'
+import { Select, MenuItem, FormControl, FormHelperText } from 'material-ui'
+
 import { editChallengeStatus } from '../../reducers/users'
 import { addFirebaseChallenge, acceptChallenge, declineChallenge } from '../../reducers/challenges'
 import MatchResultDialog from './MatchResultDialog'
-import { Row } from 'simple-flexbox'
 
 const styles = {
   Loader: { marginLeft: '140px', marginTop: '-37px' }
@@ -20,13 +22,57 @@ const StatusChanger = (props) => {
   )
 }
 
-const Creator = (props) => {
-  const { from, to, addFirebaseChallenge } = props
-  return (
-    <Button variant="raised" color="primary" onClick={() => addFirebaseChallenge(from, to)}>
-      Challenge
-    </Button>
-  )
+//Set button disabled when no discipline has been selected
+//Menuitems by looping through truthy disciplines
+//as per https://stackoverflow.com/questions/34913675/how-to-iterate-keys-values-in-javascript?answertab=votes#tab-top
+class Creator extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      chosenDiscipline: ''
+    }
+  }
+
+  handleChange = (event) => {
+    this.setState({ chosenDiscipline: event.target.value })
+  }
+
+  render() {
+    const { from, to, addFirebaseChallenge, disciplines } = this.props
+    const { chosenDiscipline } = this.state
+    // console.log('Chosen discipline -', chosenDiscipline)
+    // console.log('its value is ', disciplines[chosenDiscipline])
+    // console.log('Disciplines from Challenge creator component', disciplines)
+
+    // console.log('Amount of disciplines', Object.keys(disciplines).length)
+    const selectableDisciplines = []
+    for (const [key, value] of Object.entries(disciplines)) {
+      //value is boolean
+      if (value) {
+        selectableDisciplines.push(<MenuItem key={key} value={key}>{key}</MenuItem>);
+        // console.log(key, 'can be played');
+      }
+    }
+
+    const ifNoValidDiscipline =
+      chosenDiscipline === ''
+      || !disciplines[chosenDiscipline] // State remains unchanged (is a potential problem?) but atleast the button get disabled
+
+    return (
+      <form>
+        <FormControl>
+          <Select value={chosenDiscipline} onChange={this.handleChange}>
+            <MenuItem value=''><em>none</em></MenuItem>
+            {selectableDisciplines}
+          </Select>
+          <FormHelperText>Select a discipline</FormHelperText>
+          <Button disabled={ifNoValidDiscipline} variant="raised" color="primary" onClick={() => addFirebaseChallenge(from, to)}>
+            Challenge
+          </Button>
+        </FormControl>
+      </form>
+    )
+  }
 }
 
 const Accepter = (props) => {

@@ -60,7 +60,6 @@ export const acceptChallenge = (path, challengerUid) => {
 
 export const declineChallenge = (path) => {
   return async () => {
-    console.log('haaste hylätty - path:', path)
     await db.ref(`challenges/${path}`).remove()
   }
 }
