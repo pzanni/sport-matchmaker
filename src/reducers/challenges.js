@@ -38,9 +38,9 @@ export const fetchAndSetChallenges = () => {
 
 //This could also be indexed and have a separate /messages path instead
 //Could also use a time library for when the message was sent
-export const sendFirebaseMessage = (path, sender, content) => {
+export const sendFirebaseMessage = (path, sender, content, timeStamp) => {
   return async () => {
-    const newMessage = { sender, content }
+    const newMessage = { sender, content, timeStamp }
     await db.ref(`challenges/${path}/messages`).push(newMessage)
   }
 }
@@ -62,9 +62,14 @@ export const acceptChallenge = (path, challengerUid) => {
     //This part should really be in cloud functions but nothing is free :(
     //If a low cost method is found then launching the code below should
     //happen on condition above (from within cloud functions...)
-    await db.ref(`fcmtokens/${challengerUid}`).once('value', (snapshot) => {
-      sendNotification(snapshot.val().token)
-    })
+    try {
+      await db.ref(`fcmtokens/${challengerUid}`).once('value', (snapshot) => {
+        sendNotification(snapshot.val().token)
+      })
+    } catch (exception) {
+      console.log(exception)
+      console.log('Not evenone has accepted notification permission')
+    }
   }
 }
 
