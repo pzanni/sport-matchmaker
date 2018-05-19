@@ -36,6 +36,15 @@ export const fetchAndSetChallenges = () => {
   }
 }
 
+//This could also be indexed and have a separate /messages path instead
+//Could also use a time library for when the message was sent
+export const sendFirebaseMessage = (path, sender, content) => {
+  return async () => {
+    const newMessage = { sender, content }
+    await db.ref(`challenges/${path}/messages`).push(newMessage)
+  }
+}
+
 export const addFirebaseChallenge = (from, to, chosenDiscipline) => {
   console.log('chosen discipline', chosenDiscipline)
   return async () => {

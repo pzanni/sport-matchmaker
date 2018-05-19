@@ -111,16 +111,22 @@ class MatchResultDialog extends React.Component {
   }
 
   handleFocus = (event) => {
-    event.target.select()
+    event.preventDefault()
+    try {
+      event.target.select()
+    } catch (exception) {
+      console.log(exception)
+    }
   }
 
   render() {
-    const { sets, result } = this.state
+    const { sets } = this.state
     const { challenge } = this.props
-    console.log('Current result array', result)
+
+    //Adjust scoreboard to discipline (current one for racket sports)
     return (
       <div>
-        <Button variant="raised" size="small" onClick={this.handleClick}>Submit result</Button>
+        <Button variant="raised" size="small" onClick={this.handleClick}>Result</Button>
         <Dialog open={this.state.open} onClose={this.handleClick}>
           <DialogTitle>{`Submit your match result versus ${challenge.from.username} in ${challenge.discipline}`}</DialogTitle>
           <DialogContent>
@@ -146,4 +152,6 @@ const mapDispatchToProps = (dispatch) => {
     setChallengeResult: (path) => dispatch(setChallengeResult(path))
   }
 }
-export default connect(null, mapDispatchToProps)(MatchResultDialog)
+
+const ConnectedMatchResultDialog = connect(null, mapDispatchToProps)(MatchResultDialog)
+export { ConnectedMatchResultDialog }

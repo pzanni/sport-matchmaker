@@ -54,7 +54,14 @@ export const addFirebaseUser = (content) => {
   return async () => {
     const { username, email, uid } = content
     const challengeStatus = false
-    const disciplines = {} // Test to get rid of controlled/uncontrolled switch warning - SEEMS TO DO THE JOB
+
+    // Test to get rid of controlled/uncontrolled warning
+    // empty object worked intially, now it doesnt (or my testing was bad)
+    // either way - attempt to go around this by adding a discipline that was 
+    // going to be included in this project from the very beginning
+    // toggling with their update methods should do the rest
+    const disciplines = { badminton: false }
+    
     const newUser = { username, email, uid, challengeStatus, disciplines }
     await db.ref('users').push(newUser)
     // Return not needed here as fetchAndSet has a subscription method so we can check result

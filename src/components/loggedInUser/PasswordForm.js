@@ -18,6 +18,7 @@ class PasswordForm extends React.Component {
     })
   }
 
+  //TODO - Add message component (maybe make it parent component and use redux here?)
   submitNewPW = async (event) => {
     event.preventDefault()
     try {

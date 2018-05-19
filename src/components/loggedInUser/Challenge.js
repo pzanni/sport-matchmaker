@@ -7,7 +7,8 @@ import { Select, MenuItem, FormControl, FormHelperText } from 'material-ui'
 
 import { toggleChallengeStatus } from '../../reducers/users'
 import { addFirebaseChallenge, acceptChallenge, declineChallenge } from '../../reducers/challenges'
-import MatchResultDialog from './MatchResultDialog'
+import { ConnectedMatchResultDialog } from './MatchResultDialog'
+import { ConnectedChatDialog } from './ChatDialog'
 
 const styles = {
   Loader: { marginLeft: '140px', marginTop: '-37px' }
@@ -40,6 +41,7 @@ class Creator extends React.Component {
   render() {
     const { from, to, addFirebaseChallenge, disciplines } = this.props
     const { chosenDiscipline } = this.state
+    console.log('Disciplines', disciplines)
 
     // console.log('Chosen discipline -', chosenDiscipline)
     // console.log('its value is ', disciplines[chosenDiscipline])
@@ -114,8 +116,9 @@ const ChallengedBy = (props) => {
   )
 }
 
-//TODO - Add result button
-//Add result confirming situation
+//TODO - Add result confirming situation
+//TODO - Add messaging possibility
+//TODO - ADD LOADER
 const AcceptedChallengesList = (props) => {
   const { challenges, session } = props
   const acceptedChallenges = challenges.filter((challenge) => challenge.acceptedStatus === true)
@@ -124,15 +127,25 @@ const AcceptedChallengesList = (props) => {
   if (challengesToShow.length > 0) {
     return (
       <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Opponent</TableCell>
+            <TableCell>Options</TableCell>
+          </TableRow>
+        </TableHead>
         <TableBody>
           {challengesToShow.map(challenge => {
             return (
               <TableRow key={challenge.path}>
                 <TableCell component="th" scope="row">
-                  {challenge.from.username}
+                  {/* Tää on BUGI - muutettava oikeaksi */}
+                  TODO - Vastus tänne
                 </TableCell>
                 <TableCell>
-                  <MatchResultDialog challenge={challenge} />
+                  <Row>
+                    <ConnectedMatchResultDialog challenge={challenge} />
+                    <ConnectedChatDialog challenge={challenge} />
+                  </Row>
                 </TableCell>
               </TableRow>
             );
@@ -147,7 +160,6 @@ const AcceptedChallengesList = (props) => {
   }
 }
 
-//TODO FIX - Yksi ehtotapaus lisää (ei haasteita -> silti barloader)
 //Todella tehoton toteutus (kasa filttereitä -> challenget voisi indeksöidä tietokannassa käyttäjäkohtaisesti)
 //jos siihen tulee tarvetta...
 const ChallengeList = (props) => {

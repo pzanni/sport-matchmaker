@@ -17,7 +17,7 @@ const Users = (props) => {
     <div>
       {availableUsers.map((user) =>
         // id = path, uid = user id 
-        <Paper className="users-list" style={styles.Paper} elevation={4} key={user.id}>
+        <Paper className="list" style={styles.Paper} elevation={4} key={user.id}>
           <Typography className="individualUserName" variant="headline">
             {user.username}
           </Typography >
