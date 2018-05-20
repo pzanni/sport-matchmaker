@@ -49,13 +49,20 @@ class Creator extends React.Component {
     // console.log('Amount of disciplines', Object.keys(disciplines).length)
 
     const selectableDisciplines = []
-    for (const [key, value] of Object.entries(disciplines)) {
-      //value is boolean
-      if (value) {
-        selectableDisciplines.push(<MenuItem key={key} value={key}>{key}</MenuItem>);
-        // console.log(key, 'can be played');
+    for (let key in disciplines) {
+      if (disciplines[key]) {
+        selectableDisciplines.push(<MenuItem key={key} value={key}>{key}</MenuItem>)
       }
+      console.log(`Value of key ${key}`, disciplines[key])
     }
+    
+    // for (const [key, value] of Object.entries(disciplines)) {
+    //   //value is boolean
+    //   if (value) {
+    //     selectableDisciplines.push(<MenuItem key={key} value={key}>{key}</MenuItem>);
+    //     // console.log(key, 'can be played');
+    //   }
+    // }
 
     const ifNoValidDiscipline =
       chosenDiscipline === ''
