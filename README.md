@@ -6,7 +6,7 @@ A webpage to connect sports minded people together!
 #### Authors
 Anni (pzanni) and Anton (AventusM)
 #### Links
-- Google Sheets: [Hours used on this project](https://docs.google.com/spreadsheets/d/1I5ekYUIwwIMCS3j7zQsP_keDep6tV_8D772lOwKTHKE)
+- Google Sheets: [Hours used on this project](https://drive.google.com/open?id=1LZmlzg2QqSENazTrgdGg5XZM0yy1LWvg4HlEbn7MnvE)
 #### Frameworks and technologies used
 Front-end: React / Redux
 Back-end: Firebase
