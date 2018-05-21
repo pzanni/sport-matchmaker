@@ -1,5 +1,5 @@
 import React from "react";
-import { ConnectedChallengeList, ConnectedAcceptedChallengesList } from './Challenge'
+import { ConnectedList } from './Challenge'
 import VisibilityFilter from './VisibilityFilter'
 import { Column, Row } from 'simple-flexbox'
 import { Paper, Typography } from 'material-ui';
@@ -20,8 +20,8 @@ const MyChallenges = () => {
           <Typography variant="display1">
             My challenges
           </Typography>
-          <VisibilityFilter />
-          <ConnectedChallengeList />
+          {/* <VisibilityFilter firstOption={'All'} secondOption={'Sent'} thirdOption={'Received'} /> */}
+          <ConnectedList condition={false} />
         </Paper>
       </Column>
 
@@ -30,7 +30,8 @@ const MyChallenges = () => {
           <Typography variant="display1">
             Accepted challenges
           </Typography>
-          <ConnectedAcceptedChallengesList />
+          {/* <VisibilityFilter firstOption={'All'} secondOption={'Accepted'} thirdOption={'Completed'} /> */}
+          <ConnectedList condition={true} />
         </Paper>
       </Column>
     </Row>
