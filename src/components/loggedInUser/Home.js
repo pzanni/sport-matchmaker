@@ -20,7 +20,6 @@ const MyChallenges = () => {
           <Typography variant="display1">
             My challenges
           </Typography>
-          <p>Below is the list of your existing challenges</p>
           <VisibilityFilter />
           <ConnectedChallengeList />
         </Paper>
@@ -31,7 +30,6 @@ const MyChallenges = () => {
           <Typography variant="display1">
             Accepted challenges
           </Typography>
-          <p>Below is the list of your accepted challenges</p>
           <ConnectedAcceptedChallengesList />
         </Paper>
       </Column>

@@ -23,9 +23,6 @@ const StatusChanger = (props) => {
   )
 }
 
-//Set button disabled when no discipline has been selected
-//Menuitems by looping through truthy disciplines
-//as per https://stackoverflow.com/questions/34913675/how-to-iterate-keys-values-in-javascript?answertab=votes#tab-top
 class Creator extends React.Component {
   constructor(props) {
     super(props)
@@ -41,28 +38,13 @@ class Creator extends React.Component {
   render() {
     const { from, to, addFirebaseChallenge, disciplines } = this.props
     const { chosenDiscipline } = this.state
-    console.log('Disciplines', disciplines)
-
-    // console.log('Chosen discipline -', chosenDiscipline)
-    // console.log('its value is ', disciplines[chosenDiscipline])
-    // console.log('Disciplines from Challenge creator component', disciplines)
-    // console.log('Amount of disciplines', Object.keys(disciplines).length)
 
     const selectableDisciplines = []
     for (let key in disciplines) {
       if (disciplines[key]) {
         selectableDisciplines.push(<MenuItem key={key} value={key}>{key}</MenuItem>)
       }
-      console.log(`Value of key ${key}`, disciplines[key])
     }
-    
-    // for (const [key, value] of Object.entries(disciplines)) {
-    //   //value is boolean
-    //   if (value) {
-    //     selectableDisciplines.push(<MenuItem key={key} value={key}>{key}</MenuItem>);
-    //     // console.log(key, 'can be played');
-    //   }
-    // }
 
     const ifNoValidDiscipline =
       chosenDiscipline === ''
@@ -85,6 +67,7 @@ class Creator extends React.Component {
   }
 }
 
+//Accepting a challenge sends a notification (if permission was granted) to the challenge creator
 const Accepter = (props) => {
   const { acceptChallenge, path, uid } = props
   return (
@@ -123,12 +106,13 @@ const ChallengedBy = (props) => {
   )
 }
 
-//TODO - Add result confirming situation
-//TODO - Add messaging possibility
 //TODO - ADD LOADER
+//TODO - Create 1 component and use differing elements from non-accepted/accepted as props
 const AcceptedChallengesList = (props) => {
   const { challenges, session } = props
   const acceptedChallenges = challenges.filter((challenge) => challenge.acceptedStatus === true)
+
+  //These shall be filtered in a similar way to the way of not accepted challenges
   const challengesToShow = acceptedChallenges.filter((challenge) => challenge.from.uid === session.authUser.uid || challenge.to.uid === session.authUser.uid)
 
   if (challengesToShow.length > 0) {
@@ -145,8 +129,10 @@ const AcceptedChallengesList = (props) => {
             return (
               <TableRow key={challenge.path}>
                 <TableCell component="th" scope="row">
-                  {/* Tää on BUGI - muutettava oikeaksi */}
-                  TODO - Vastus tänne
+                  {/* Breaking DRY here... a component could be created to cover both accepted and not accepted challenges */}
+                  {challenge.from.uid === session.authUser.uid
+                    ? challenge.to.username
+                    : challenge.from.username}
                 </TableCell>
                 <TableCell>
                   <Row>
@@ -168,7 +154,6 @@ const AcceptedChallengesList = (props) => {
 }
 
 //Todella tehoton toteutus (kasa filttereitä -> challenget voisi indeksöidä tietokannassa käyttäjäkohtaisesti)
-//jos siihen tulee tarvetta...
 const ChallengeList = (props) => {
   const { challenges, session, filter } = props
   const pendingChallenges = challenges.filter((challenge) => challenge.acceptedStatus === false)
@@ -185,16 +170,18 @@ const ChallengeList = (props) => {
         : received
 
   //Tarkistusmetodi eri kuin userin vastaavassa <User/> komponentissa. [] (lähtöarvo listalle) on truthy
-  //HUOM - ConnectedAccepter SAMASSA MODUULISSA KUIN Accepter
   const hasChallenges = challengesToShow.length > 0
+  const noChallenges = challengesToShow.length === 0
+  const pendingChallengesExist = pendingChallenges.length > 0
+
   if (hasChallenges) {
     return (
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Challenger</TableCell>
+            <TableCell>Opponent</TableCell>
             <TableCell>Discipline</TableCell>
-            <TableCell></TableCell>
+            <TableCell>Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -202,14 +189,17 @@ const ChallengeList = (props) => {
             return (
               <TableRow key={challenge.path}>
                 <TableCell component="th" scope="row">
-                  {challenge.from.username}
+                  {/* Challenge creator same as logged in user ? -> opponent is challenge receiver and vice versa */}
+                  {challenge.from.uid === session.authUser.uid
+                    ? challenge.to.username
+                    : challenge.from.username}
                 </TableCell>
                 <TableCell component="th" scope="row">
                   {challenge.discipline}
                 </TableCell>
                 <TableCell>
                   {challenge.to.uid === session.authUser.uid
-                    ? <ChallengedBy challenger={challenge.from.username} path={challenge.path} uid={challenge.from.uid} />
+                    ? <ChallengedBy path={challenge.path} uid={challenge.from.uid} />
                     : <Challenging />}
                 </TableCell>
               </TableRow>
@@ -218,12 +208,9 @@ const ChallengeList = (props) => {
         </TableBody>
       </Table>
     )
-    // Challenges exist, just not for you AHAHAHAH AXAXAXXA :((
-  } else if (pendingChallenges.length >= 0) {
+  } else if (noChallenges && pendingChallengesExist) {
     return (
-      <div>
-        No challenges to show
-      </div>
+      <div>No challenges to show</div>
     )
   } else {
     return (

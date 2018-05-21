@@ -62,14 +62,18 @@ export const acceptChallenge = (path, challengerUid) => {
     //This part should really be in cloud functions but nothing is free :(
     //If a low cost method is found then launching the code below should
     //happen on condition above (from within cloud functions...)
-    try {
-      await db.ref(`fcmtokens/${challengerUid}`).once('value', (snapshot) => {
-        sendNotification(snapshot.val().token)
-      })
-    } catch (exception) {
-      console.log(exception)
-      console.log('Not evenone has accepted notification permission')
-    }
+    // try {
+    //   await db.ref(`fcmtokens/${challengerUid}`).once('value', (snapshot) => {
+    //     sendNotification(snapshot.val().token)
+    //   })
+    // } catch (exception) {
+    //   console.log(exception)
+    //   console.log('Not evenone has accepted notification permission')
+    // }
+
+    // NOTIFICATIONS CURRENTLY COMMENTED OUT
+    // NOTIFICATIONS CURRENTLY COMMENTED OUT
+    // NOTIFICATIONS CURRENTLY COMMENTED OUT
   }
 }
 
