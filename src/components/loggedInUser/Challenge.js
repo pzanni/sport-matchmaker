@@ -108,11 +108,29 @@ const ChallengedBy = (props) => {
 
 //TODO - ADD FILTERING FOR BOTH TYPES
 const List = (props) => {
-  const { challenges, session, filter, condition } = props
+  // challenges, session from redux state. propFilter and condition from <MyChallenges/> component
+  const { challenges, session, propFilter, condition } = props
   const challengesType = challenges.filter((challenge) => challenge.acceptedStatus === condition)
-  const challengesToShow = challengesType.filter((challenge) => challenge.from.uid === session.authUser.uid || challenge.to.uid === session.authUser.uid)
-  //Filtered lists (challengesToShow will be something similar here)
-  console.log('Filter value', filter)
+  const all = challengesType.filter((challenge) => challenge.from.uid === session.authUser.uid || challenge.to.uid === session.authUser.uid)
+
+  let challengesToShow = all // DEFAULT OPTION
+  switch (propFilter) {
+    case 'SENT':
+      challengesToShow = all.filter((challenge) => challenge.from.uid === session.authUser.uid)
+      break
+    case 'RECEIVED':
+      challengesToShow = all.filter((challenge) => challenge.to.uid === session.authUser.uid)
+      break
+    case 'ACCEPTED':
+      challengesToShow = all.filter((challenge) => challenge.completed === false)
+      break
+    case 'COMPLETED':
+      challengesToShow = all.filter((challenge) => challenge.completed)
+      break
+    default:
+      break
+  }
+
   //Conditions (meni järki näihin...)
   const hasOwnChallenges = challengesToShow.length > 0
 
@@ -169,10 +187,13 @@ const List = (props) => {
   } else {
     // This has to get fixed at some point
     // This has to get fixed at some point
-    return <p>Loading / Nothing to show</p>
+    return (
+      <div>
+        Loading / Nothing to show
+      </div>
+    )
     // This has to get fixed at some point
     // This has to get fixed at some point
-
   }
 
 }

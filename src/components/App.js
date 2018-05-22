@@ -54,9 +54,6 @@ class App extends React.Component {
     if (session.authUser) {
       const token = session.token
       const uid = session.authUser.uid
-      // console.log('session data after componentDidUpdate', session)
-      // console.log('token from componentDidMount', token)
-      // console.log('uid from componentDidMount', uid)
       updateFirebaseToken(token, uid)
     }
   }
@@ -78,7 +75,6 @@ class App extends React.Component {
               <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
               <Route exact path={routes.HOME} component={() => <Home />} />
               <Route exact path={routes.USERS} render={() => <Users users={users} />} />
-              {/* Jos allaoleva importti USERSwID ei toimi niin käytetään rauhassa vanhempaa versiota */}
               <Route exact path={routes.USERSwID} render={({ match }) => <User user={userById(match.params.id)} />} />
               {/* Switch laittaa tämän reitin aina, kun matchia ylläoleviin reitteihin ei löydy */}
               <Route component={() => <NotFoundPage />} />

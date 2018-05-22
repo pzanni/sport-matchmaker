@@ -46,7 +46,7 @@ export const sendFirebaseMessage = (path, sender, content, timeStamp) => {
 }
 
 export const addFirebaseChallenge = (from, to, chosenDiscipline) => {
-  console.log('chosen discipline', chosenDiscipline)
+  // console.log('chosen discipline', chosenDiscipline)
   return async () => {
     const newChallenge = { from, to, acceptedStatus: false, discipline: chosenDiscipline }
     await db.ref('challenges').push(newChallenge)
@@ -57,7 +57,7 @@ export const addFirebaseChallenge = (from, to, chosenDiscipline) => {
 export const acceptChallenge = (path, challengerUid) => {
   // console.log('challenger uid from within acceptChallenge', challengerUid)
   return async () => {
-    await db.ref(`challenges/${path}`).update({ acceptedStatus: true })
+    await db.ref(`challenges/${path}`).update({ acceptedStatus: true, completed: false })
     //Send notification to the challenger of challenge acception
     //This part should really be in cloud functions but nothing is free :(
     //If a low cost method is found then launching the code below should
@@ -89,7 +89,7 @@ export const declineChallenge = (path) => {
 export const setChallengeResult = (options) => {
   return async () => {
     const { path, match } = options
-    await db.ref(`challenges/${path}`).update({ match, finalized: false })
+    await db.ref(`challenges/${path}`).update({ match })
   }
 }
 
@@ -97,7 +97,7 @@ export const setChallengeResult = (options) => {
 // Pisteet / pushataan kamaa matches - puuhun tilastoja varten?
 export const completeChallenge = (path) => {
   return async () => {
-    await db.ref(`challenges/${path}`).update({ finalized: true })
+    await db.ref(`challenges/${path}`).update({ completed: true })
   }
   //Function proposal
   // 1. update challenges (from path) so that match - object is included

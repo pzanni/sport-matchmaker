@@ -1,39 +1,27 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { filterChange } from '../../reducers/filters'
-import { Radio } from 'material-ui';
+import { Radio } from 'material-ui'
 import { Row } from 'simple-flexbox'
+
 const styles = {
   showTitle: { paddingRight: '20px', fontWeight: 500 }
 }
 
-//Tällä hetkellä haasteille, voidaan yleistää muuhunkin
-class VisibilityFilter extends React.Component {
-  render() {
-    const { filter, filterChange } = this.props
-    return (
-      <div>
-        <Row vertical="center">
-          <span style={styles.showTitle}>Show</span>
-          All<Radio name="filter" checked={filter === 'ALL'} onChange={() => filterChange('ALL')} />
-          Sent<Radio name="filter" checked={filter === 'SENT'} onChange={() => filterChange('SENT')} />
-          Received<Radio name="filter" checked={filter === 'RECEIVED'} onChange={() => filterChange('RECEIVED')} />
-        </Row>
-      </div>
-    )
-  }
+const ChallengeVisibilityFilter = (props) => {
+  const { filter, dispatchableFunction, firstOption, secondOption, thirdOption } = props
+  const firstUpperCase = firstOption.toUpperCase()
+  const secondUpperCase = secondOption.toUpperCase()
+  const thirdUpperCase = thirdOption.toUpperCase()
+
+  return (
+    <div>
+      <Row vertical="center">
+        <span style={styles.showTitle}>Show</span>
+        {firstOption}<Radio name="filter" checked={filter === firstUpperCase} onChange={() => dispatchableFunction(firstUpperCase)} />
+        {secondOption}<Radio name="filter" checked={filter === secondUpperCase} onChange={() => dispatchableFunction(secondUpperCase)} />
+        {thirdOption}<Radio name="filter" checked={filter === thirdUpperCase} onChange={() => dispatchableFunction(thirdUpperCase)} />
+      </Row>
+    </div>
+  )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    filter: state.filter
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    filterChange: (filter) => dispatch(filterChange(filter))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(VisibilityFilter)
+export default ChallengeVisibilityFilter
