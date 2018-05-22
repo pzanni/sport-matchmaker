@@ -9,6 +9,7 @@ import { toggleChallengeStatus } from '../../reducers/users'
 import { addFirebaseChallenge, acceptChallenge, declineChallenge } from '../../reducers/challenges'
 import { ConnectedMatchResultDialog } from './MatchResultDialog'
 import { ConnectedChatDialog } from './ChatDialog'
+import { ALL, SENT, RECEIVED, ACCEPTED, COMPLETED } from '../../constants/filterStates'
 
 const styles = {
   Loader: { marginLeft: '140px', marginTop: '-37px' }
@@ -113,24 +114,29 @@ const List = (props) => {
   const challengesType = challenges.filter((challenge) => challenge.acceptedStatus === condition)
   const all = challengesType.filter((challenge) => challenge.from.uid === session.authUser.uid || challenge.to.uid === session.authUser.uid)
 
-  let challengesToShow = all // DEFAULT OPTION
+  let challengesToShow
   switch (propFilter) {
-    case 'SENT':
+    case ALL:
+      challengesToShow = all
+      break
+    case SENT:
       challengesToShow = all.filter((challenge) => challenge.from.uid === session.authUser.uid)
       break
-    case 'RECEIVED':
+    case RECEIVED:
       challengesToShow = all.filter((challenge) => challenge.to.uid === session.authUser.uid)
       break
-    case 'ACCEPTED':
-      challengesToShow = all.filter((challenge) => challenge.completed === false)
+    case ACCEPTED:
+      challengesToShow = all.filter((challenge) => !challenge.completed)
       break
-    case 'COMPLETED':
+    case COMPLETED:
       challengesToShow = all.filter((challenge) => challenge.completed)
       break
     default:
       break
   }
 
+
+  // console.log(`${propFilter} for ${condition}`, challengesToShow)
   //Conditions (meni järki näihin...)
   const hasOwnChallenges = challengesToShow.length > 0
 
@@ -201,8 +207,7 @@ const List = (props) => {
 const mapStateToProps = (state) => {
   return {
     challenges: state.challenges,
-    session: state.session,
-    filter: state.filter
+    session: state.session
   }
 }
 

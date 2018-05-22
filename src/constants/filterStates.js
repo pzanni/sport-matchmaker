@@ -1,0 +1,5 @@
+export const ALL = 'ALL'
+export const SENT = 'SENT'
+export const RECEIVED = 'RECEIVED'
+export const ACCEPTED = 'ACCEPTED'
+export const COMPLETED = 'COMPLETED'

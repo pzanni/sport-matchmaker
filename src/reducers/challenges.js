@@ -1,9 +1,11 @@
 import { db } from '../firebase/firebase'
 import { sendNotification } from '../firebase/messaging'
 
+import { SET_CHALLENGES } from '../constants/types'
+
 const challengesReducer = (state = [], action) => {
   switch (action.type) {
-    case 'SET_CHALLENGES': {
+    case SET_CHALLENGES: {
       return action.challenges
     }
     default:
@@ -15,7 +17,7 @@ export const setChallenges = (challenges) => {
   return {
     //Action
     //.type
-    type: 'SET_CHALLENGES',
+    type: SET_CHALLENGES,
     //.challenges
     challenges
   }
@@ -37,7 +39,6 @@ export const fetchAndSetChallenges = () => {
 }
 
 //This could also be indexed and have a separate /messages path instead
-//Could also use a time library for when the message was sent
 export const sendFirebaseMessage = (path, sender, content, timeStamp) => {
   return async () => {
     const newMessage = { sender, content, timeStamp }
@@ -46,7 +47,6 @@ export const sendFirebaseMessage = (path, sender, content, timeStamp) => {
 }
 
 export const addFirebaseChallenge = (from, to, chosenDiscipline) => {
-  // console.log('chosen discipline', chosenDiscipline)
   return async () => {
     const newChallenge = { from, to, acceptedStatus: false, discipline: chosenDiscipline }
     await db.ref('challenges').push(newChallenge)
@@ -55,7 +55,6 @@ export const addFirebaseChallenge = (from, to, chosenDiscipline) => {
 
 //Add 2nd param to notify challenger on accept
 export const acceptChallenge = (path, challengerUid) => {
-  // console.log('challenger uid from within acceptChallenge', challengerUid)
   return async () => {
     await db.ref(`challenges/${path}`).update({ acceptedStatus: true, completed: false })
     //Send notification to the challenger of challenge acception

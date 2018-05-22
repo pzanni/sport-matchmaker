@@ -1,0 +1,7 @@
+export const SET_CHALLENGES = 'SET_CHALLENGES'
+export const SET_PENDING_FILTER = 'SET_PENDING_FILTER'
+export const SET_ACCEPTED_FILTER = 'SET_ACCEPTED_FILTER'
+export const SET_AUTH = 'SET_AUTH'
+export const UNSET_AUTH = 'UNSET_AUTH'
+export const SET_TOKEN = 'SET_TOKEN'
+export const SET_USERS = 'SET_USERS'

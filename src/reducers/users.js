@@ -1,8 +1,10 @@
 import { db } from '../firebase/firebase'
 
+import { SET_USERS } from '../constants/types'
+
 const usersReducer = (state = [], action) => {
   switch (action.type) {
-    case 'SET_USERS': {
+    case SET_USERS: {
       return action.users
     }
     default:
@@ -14,7 +16,7 @@ const usersReducer = (state = [], action) => {
 export const setUsers = (users) => {
   return {
     //Case
-    type: 'SET_USERS',
+    type: SET_USERS,
     //Action
     users
   }
@@ -61,7 +63,7 @@ export const addFirebaseUser = (content) => {
     // going to be included in this project from the very beginning
     // toggling with their update methods should do the rest
     const disciplines = { badminton: false }
-    
+
     const newUser = { username, email, uid, challengeStatus, disciplines }
     await db.ref('users').push(newUser)
     // Return not needed here as fetchAndSet has a subscription method so we can check result

@@ -1,5 +1,7 @@
 import { db } from '../firebase/firebase'
 
+import { SET_AUTH, UNSET_AUTH, SET_TOKEN } from '../constants/types'
+
 const DEFAULT_STATE = {
   authUser: null,
   token: null
@@ -8,15 +10,15 @@ const DEFAULT_STATE = {
 const sessionReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     //Sign in / Sign up
-    case 'SET_AUTH': {
+    case SET_AUTH: {
       return { ...state, authUser: action.authUser }
     }
     //Log out
-    case 'UNSET_AUTH': {
+    case UNSET_AUTH: {
       return { ...state, authUser: null }
     }
     //SET TOKEN ON LOGIN
-    case 'SET_TOKEN': {
+    case SET_TOKEN: {
       return { ...state, token: action.token }
     }
     default: return state
@@ -27,7 +29,7 @@ const sessionReducer = (state = DEFAULT_STATE, action) => {
 // componentDidUpdatessa voi heittää messaging.getToken() ??
 export const setToken = (token) => {
   return {
-    type: 'SET_TOKEN',
+    type: SET_TOKEN,
     token
   }
 }
@@ -41,7 +43,7 @@ export const updateFirebaseToken = (token, uid) => {
 export const authUserAdditionFor = (authUser) => {
   return {
     //action.type
-    type: 'SET_AUTH',
+    type: SET_AUTH,
     //action.authUser
     authUser
   }
@@ -49,7 +51,7 @@ export const authUserAdditionFor = (authUser) => {
 
 export const authUserRemoval = () => {
   return {
-    type: 'UNSET_AUTH'
+    type: UNSET_AUTH
   }
 }
 
