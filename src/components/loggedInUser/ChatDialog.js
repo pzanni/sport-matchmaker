@@ -1,14 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { sendFirebaseMessage } from '../../reducers/challenges'
-
+import moment from 'moment'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
-
 import List, {
   ListItem
 } from 'material-ui/List'
-
 import Dialog, {
   DialogActions,
   DialogContent,
@@ -16,7 +13,15 @@ import Dialog, {
   DialogTitle,
 } from 'material-ui/Dialog'
 
-import moment from 'moment'
+import { sendFirebaseMessage } from '../../reducers/challenges'
+
+const styles = {
+  MessageWrapper: { borderStyle: 'solid', borderWidth: '2px', wordBreak: 'break-all', marginBottom: '10px' },
+  MessageHierarchy: { display: 'flex', flexDirection: 'column' },
+  MessageInfo: { fontWeight: '100', fontSize: '12px', marginLeft: '5px' },
+  EmptyMessageWrapper: { display: 'flex', justifyContent: 'center' }
+}
+
 
 class ChatDialog extends React.Component {
   constructor(props) {
@@ -39,6 +44,7 @@ class ChatDialog extends React.Component {
 
   sendMessage = () => {
     try {
+      //challenge from parent component. Rest from redux
       const { challenge, sendFirebaseMessage, users, session } = this.props
       const { content } = this.state
 
@@ -56,15 +62,19 @@ class ChatDialog extends React.Component {
   }
 
   render() {
-    //messages and path from parent component, users and session from state
+    //challenge from parent component. Rest from redux
     const { challenge, session, users } = this.props
     const { content } = this.state
     const sender = users.find((user) => user.uid === session.authUser.uid)
     const ifNoContent = content.length === 0 //Disable button if this is true
 
+    const opponent = challenge.from.uid === session.authUser.uid
+      ? challenge.to.username
+      : challenge.from.username
+
     let messageList = []
     //First item can be absolutely anything - could just make a nice img div etc
-    messageList.push(<ListItem key={0} className="list">Say something !!</ListItem>)
+    // messageList.push(<ListItem key={0} className="list">Say something !!</ListItem>)
     if (challenge.messages) {
       for (let key in challenge.messages) {
         const content = challenge.messages[key].content
@@ -75,18 +85,26 @@ class ChatDialog extends React.Component {
         const result = moment(now).diff(then)
         const humanizedResult = moment.duration(result).humanize()
 
-        messageList.push(<ListItem key={key} className="list" button>{content} by {sender} (posted {humanizedResult} ago)</ListItem>)
+        messageList.push(
+          <ListItem key={key} style={styles.MessageWrapper} className="list" button>
+            <div style={styles.MessageHierarchy}>
+              <div>{content}</div>
+              <div style={styles.MessageInfo}>{sender} __ posted {humanizedResult} ago</div>
+            </div>
+          </ListItem>)
       }
+    } else {
+      messageList.push(
+        <ListItem key={0} style={styles.EmptyMessageWrapper} button>
+          Say hi :)
+        </ListItem>)
     }
 
-    //Dialog title could have something like ' Messaging with "Opponent name" '
-    //TODO - FIGURE OUT HOW TO GET OPPONENT, THIS WAS MISSED SOMEHOW
-    //TODO - ADD WORK BREAK TO MESSAGE
     return (
       <form>
         <Button color="secondary" variant="raised" size="small" onClick={this.handleClick}>Chat</Button>
         <Dialog open={this.state.open} onClose={this.handleClick}>
-          <DialogTitle>Chat</DialogTitle>
+          <DialogTitle>Chat w/ {opponent}</DialogTitle>
           <DialogContent>
             <List>
               {messageList}
@@ -103,7 +121,7 @@ class ChatDialog extends React.Component {
               Cancel
               </Button>
             <Button disabled={ifNoContent} onClick={this.sendMessage} variant="raised" color="primary">
-              Say!
+              Send
             </Button>
           </DialogActions>
         </Dialog>
