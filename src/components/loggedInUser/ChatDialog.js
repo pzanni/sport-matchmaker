@@ -18,8 +18,9 @@ import { sendFirebaseMessage } from '../../reducers/challenges'
 const styles = {
   MessageWrapper: { borderStyle: 'solid', borderWidth: '2px', wordBreak: 'break-all', marginBottom: '10px' },
   MessageHierarchy: { display: 'flex', flexDirection: 'column' },
-  MessageInfo: { fontWeight: '100', fontSize: '12px', marginLeft: '5px' },
-  EmptyMessageWrapper: { display: 'flex', justifyContent: 'center' }
+  MessageInfo: { fontWeight: '100', fontSize: '12px', marginLeft: '5px', marginTop: '5px' },
+  EmptyMessageWrapper: { display: 'flex', justifyContent: 'center' },
+  ChatBox: { display: 'flex', justifyContent: 'center' }
 }
 
 
@@ -109,14 +110,15 @@ class ChatDialog extends React.Component {
             <List>
               {messageList}
             </List>
-          </DialogContent>
-          <DialogActions>
             <TextField
               label="Type your message"
               type="text"
               value={content}
               onChange={this.handleMessageChange}
+              style={styles.ChatBox}
             />
+          </DialogContent>
+          <DialogActions>
             <Button onClick={this.handleClick}>
               Cancel
               </Button>
