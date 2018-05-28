@@ -16,7 +16,7 @@ const styles = {
   resultBorder: { display: 'flex', flexDirection: 'column' },
   setFieldMargin: { marginLeft: '5px' },
   centeredMatchResultInfo: { display: 'flex', flexDirection: 'column', alignItems: 'center' },
-  innerMatchResultInfo: { display: 'flex', flexDirection: 'row-reverse' },
+  innerMatchResultInfo: { display: 'flex', flexDirection: 'row-reverse', marginTop: '10px', marginBottom: '-10px' },
   setSelector: { marginRight: '15px' },
   setPlayerDiv: { marginLeft: '10px', fontSize: '12px' }
 }

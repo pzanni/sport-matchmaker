@@ -9,6 +9,7 @@ import { toggleChallengeStatus } from '../../reducers/users'
 import { addFirebaseChallenge, acceptChallenge, declineChallenge } from '../../reducers/challenges'
 import { ConnectedMatchResultDialog } from './MatchResultDialog'
 import { ConnectedChatDialog } from './ChatDialog'
+import { ConnectedResultReviewDialog } from './ResultReviewDialog'
 import { ALL, SENT, RECEIVED, ACCEPTED, COMPLETED } from '../../constants/filterStates'
 
 const styles = {
@@ -162,6 +163,7 @@ const List = (props) => {
               <TableRow key={challenge.path}>
                 <TableCell component="th" scope="row">
                   {challenge.from.uid === session.authUser.uid
+                    //Render opponent name depending on logged in user name
                     ? challenge.to.username
                     : challenge.from.username}
                 </TableCell>
@@ -170,15 +172,20 @@ const List = (props) => {
                 </TableCell>
                 <TableCell>
                   {condition
-                    //True (Accepted challenge)
-                    ?
+
+                    ? //True (Accepted challenge)
                     <Row>
-                      <ConnectedMatchResultDialog challenge={challenge} />
+                      {challenge.match
+                        ? challenge.match.submitterUid === session.authUser.uid //Match has already been submitted
+                          ? 'Waiting for opponent to review result' //Match submitter is authuser - wait for opponent to accept/decline result
+                          : <ConnectedResultReviewDialog match={challenge.match} path={challenge.path} /> //Opponent has submitted a result, user can now review it before said result gets accepted / redone
+                        //Match has not been yet submitted
+                        : <ConnectedMatchResultDialog challenge={challenge} />}
                       <ConnectedChatDialog challenge={challenge} />
                     </Row>
-                    //False (Pending challenge)
-                    :
-                    challenge.to.uid === session.authUser.uid
+
+                    : //False (Pending challenge)
+                    challenge.to.uid === session.authUser.uid //False (Pending challenge)
                       ? <ChallengedBy path={challenge.path} uid={challenge.from.uid} />
                       : <Challenging />
                   }

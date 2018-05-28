@@ -92,17 +92,19 @@ export const setChallengeResult = (options) => {
   }
 }
 
+//Remove match proposal (set up by opponent)
+export const declineChallengeResult = (path) => {
+  return async () => {
+    await db.ref(`challenges/${path}/match`).remove()
+  }
+}
+
 // Ottelun toinen osapuoli hyväksyy ottelun tuloksen
-// Pisteet / pushataan kamaa matches - puuhun tilastoja varten?
+// TODO (future) Pisteet / pushataan kamaa matches - puuhun tilastoja varten?
 export const completeChallenge = (path) => {
   return async () => {
     await db.ref(`challenges/${path}`).update({ completed: true })
   }
-  //Function proposal
-  // 1. update challenges (from path) so that match - object is included
-  // 2. (not absolutely necessary) require both parties to accept result (?)
-  // 3. If there are pending results -> do not allow behaviour in bad faith (not accepting result)
-  // and do not allow said user to challenge others / accept challenges from others while confirmation is pending
 }
 
 export default challengesReducer
