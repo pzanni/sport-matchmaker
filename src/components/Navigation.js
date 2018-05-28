@@ -49,7 +49,7 @@ class AuthNavigation extends React.Component {
       <AppBar position="static">
         <Toolbar>
           <Row vertical="center">
-            <Typography variant="headline" gutterBottom color="inherit">
+            <Typography variant="headline" color="inherit" style={{ marginRight: '20px' }} gutterBottom>
               Sport matchmaker
           </Typography>
             <Link to={routes.HOME} style={{ textDecoration: 'none' }}>
