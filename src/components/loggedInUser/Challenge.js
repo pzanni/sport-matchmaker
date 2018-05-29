@@ -172,23 +172,29 @@ const List = (props) => {
                 </TableCell>
                 <TableCell>
                   {condition
-
-                    ? //True (Accepted challenge)
+                    ? // True (accepted challenge)
                     <Row>
                       {challenge.match
-                        ? challenge.match.submitterUid === session.authUser.uid //Match has already been submitted
-                          ? 'Waiting for opponent to review result' //Match submitter is authuser - wait for opponent to accept/decline result
-                          : <ConnectedResultReviewDialog match={challenge.match} path={challenge.path} /> //Opponent has submitted a result, user can now review it before said result gets accepted / redone
-                        //Match has not been yet submitted
-                        : <ConnectedMatchResultDialog challenge={challenge} />}
+                        ? //Match result has already been submitted?
+                        challenge.completed
+                          ? //Match has also been completed?
+                          // ADDED BOOLEAN TO CONDITIONALLY RENDER DIALOG ACTIONS / TEXT WITHIN THE DIALOG ITSELF
+                          <ConnectedResultReviewDialog match={challenge.match} path={challenge.path} canComplete={false} /> //Opponent has submitted a result, user can now review it before said result gets accepted / redone
+                          : // challenge.match submitted, but not completed
+                          challenge.match.submitterUid === session.authUser.uid //Match has already been submitted
+                            ? 'Waiting for opponent to review result' //Match submitter is authuser - wait for opponent to accept/decline result
+                            : // ADDED BOOLEAN TO CONDITIONALLY RENDER DIALOG ACTIONS / TEXT WITHIN THE DIALOG ITSELF
+                            <ConnectedResultReviewDialog match={challenge.match} path={challenge.path} canComplete={true} /> //Opponent has submitted a result, user can now review it before said result gets accepted / redone
+                        : // Match has not been yet submitted
+                        <ConnectedMatchResultDialog challenge={challenge} />
+                      }
+                      {/* Chat dialog always available */}
                       <ConnectedChatDialog challenge={challenge} />
                     </Row>
-
-                    : //False (Pending challenge)
-                    challenge.to.uid === session.authUser.uid //False (Pending challenge)
+                    : // False (Challenge pending approval/declining)}
+                    challenge.to.uid === session.authUser.uid
                       ? <ChallengedBy path={challenge.path} uid={challenge.from.uid} />
-                      : <Challenging />
-                  }
+                      : <Challenging />}
                 </TableCell>
               </TableRow>
             )

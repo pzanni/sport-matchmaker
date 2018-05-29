@@ -76,26 +76,32 @@ class ResultReviewDialog extends React.Component {
 
   render() {
     const { open } = this.state
-    const { match, path, declineChallengeResult, completeChallenge } = this.props
+    const { match, path, declineChallengeResult, completeChallenge, canComplete } = this.props
     return (
       <div>
         <Button variant="raised" size="small" onClick={this.handleClick}>Review</Button>
         <Dialog open={open} onClose={this.handleClick}>
           <DialogTitle>Match result review</DialogTitle>
           <DialogContent>
-            <DialogContentText>Below is the proposed result</DialogContentText>
+            <DialogContentText>Below is the {canComplete ? 'proposed' : 'final'} result</DialogContentText>
             <ProposedResult match={match} />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClick}>
               Cancel
             </Button>
-            <Button color="secondary" onClick={this.declineChallenge}>
-              Decline
-            </Button>
-            <Button variant="raised" color="primary" onClick={this.acceptChallenge}>
-              Accept
-            </Button>
+            {canComplete
+              ?
+              <React.Fragment>
+                <Button color="secondary" onClick={this.declineChallenge}>
+                  Decline
+                </Button>
+                <Button variant="raised" color="primary" onClick={this.acceptChallenge}>
+                  Accept
+                </Button>
+              </React.Fragment>
+              :
+              null}
           </DialogActions>
         </Dialog>
       </div>
