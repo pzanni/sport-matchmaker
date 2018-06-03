@@ -4,9 +4,10 @@ import { ScaleLoader } from 'react-spinners'
 import { Button, Table, TableHead, TableCell, TableRow, TableBody } from 'material-ui'
 import { Row } from 'simple-flexbox'
 import { Select, MenuItem, FormControl, FormHelperText } from 'material-ui'
+import { compose } from 'recompose'
 
 import { toggleChallengeStatus } from '../../reducers/users'
-import { addFirebaseChallenge, acceptChallenge, declineChallenge } from '../../reducers/challenges'
+import challenges, { addFirebaseChallenge, acceptChallenge, declineChallenge } from '../../reducers/challenges'
 import { ConnectedMatchResultDialog } from './MatchResultDialog'
 import { ConnectedChatDialog } from './ChatDialog'
 import { ConnectedResultReviewDialog } from './ResultReviewDialog'
@@ -53,7 +54,8 @@ class Creator extends React.Component {
       || !disciplines[chosenDiscipline] // State remains unchanged (is a potential problem?) but atleast the button get disabled
 
     return (
-      <form>
+      // <form>
+      <React.Fragment>
         <FormControl>
           <Select value={chosenDiscipline} onChange={this.handleChange}>
             <MenuItem value=''><em>none</em></MenuItem>
@@ -64,7 +66,8 @@ class Creator extends React.Component {
             Challenge
           </Button>
         </FormControl>
-      </form>
+        {/* </form> */}
+      </React.Fragment>
     )
   }
 }
@@ -108,13 +111,95 @@ const ChallengedBy = (props) => {
   )
 }
 
-//TODO - ADD FILTERING FOR BOTH TYPES
-const List = (props) => {
-  // challenges, session from redux state. propFilter and condition from <MyChallenges/> component
-  const { challenges, session, propFilter, condition } = props
-  const challengesType = challenges.filter((challenge) => challenge.acceptedStatus === condition)
-  const all = challengesType.filter((challenge) => challenge.from.uid === session.authUser.uid || challenge.to.uid === session.authUser.uid)
+const PendingChallenge = (props) => {
+  const { challenge, session } = props
+  if (challenge.to.uid === session.authUser.uid) {
+    return <ChallengedBy path={challenge.path} uid={challenge.from.uid} />
+  }
+  return <Challenging />
+}
 
+const PendingAcceptedChallenge = (props) => {
+  const { challenge, session } = props
+  if (challenge.match.submitterUid === session.authUser.uid) {
+    return <p>Waiting for opponent to review result</p>
+  }
+  return <ConnectedResultReviewDialog match={challenge.match} path={challenge.path} canComplete={true} />
+}
+
+const AcceptedChallenge = (props) => {
+  const { challenge, session } = props
+  //Match has been submitted
+  if (challenge.match) {
+    //Match has been also completed
+    if (challenge.completed) {
+      return <ConnectedResultReviewDialog match={challenge.match} path={challenge.path} canComplete={false} />
+    }
+    //Match not yet completed, but match has been submitted - waiting actions from opponent
+    return <PendingAcceptedChallenge challenge={challenge} session={session} />
+  }
+  //Match has not been yet submitted
+  return <ConnectedMatchResultDialog challenge={challenge} />
+}
+
+const Challenges = (props) => {
+  const { challengesToShow, condition, session } = props
+  // console.log('Props from Challenges', props)
+  return (
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>Opponent</TableCell>
+          <TableCell>Discipline</TableCell>
+          {/* Perus if/elselle recompose -> overengineering */}
+          <TableCell>
+            {condition
+              //True (Accepted challenge)
+              ? 'Options'
+              //False (Pending challenge)
+              : 'Status'
+            }</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {challengesToShow.map(challenge => {
+          return (
+            <TableRow key={challenge.path}>
+              <TableCell component="th" scope="row">
+                {challenge.from.uid === session.authUser.uid
+                  //Render opponent name depending on logged in user name
+                  ? challenge.to.username
+                  : challenge.from.username}
+              </TableCell>
+              <TableCell>
+                {challenge.discipline}
+              </TableCell>
+              {/* Try to get help on how to change this into HoC ??? */}
+              {/* Try to get help on how to change this into HoC ??? */}
+              {/* Try to get help on how to change this into HoC ??? */}
+              <TableCell>
+                {condition
+                  ? // True (accepted challenge)
+                  <Row>
+                    {/* Chat dialog always available for accepted challenge */}
+                    <AcceptedChallenge challenge={challenge} session={session} />
+                    <ConnectedChatDialog challenge={challenge} />
+                  </Row>
+                  : // False (Challenge pending its approval/declining)}
+                  <PendingChallenge challenge={challenge} session={session} />}
+              </TableCell>
+            </TableRow>
+          )
+        })
+        }
+      </TableBody>
+    </Table>
+  )
+}
+
+const getChallenges = (props) => {
+  const { propFilter, all, session } = props
+  // console.log('props from getChallenges', props)
   let challengesToShow
   switch (propFilter) {
     case ALL:
@@ -135,86 +220,25 @@ const List = (props) => {
     default:
       break
   }
+  // console.log('challengesToShow from getChallenges', challengesToShow)
+  return challengesToShow
+}
 
-
-  // console.log(`${propFilter} for ${condition}`, challengesToShow)
-  //Conditions (meni järki näihin...)
-  const hasOwnChallenges = challengesToShow.length > 0
-
-  if (hasOwnChallenges) {
-    return (
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Opponent</TableCell>
-            <TableCell>Discipline</TableCell>
-            <TableCell>
-              {condition
-                //True (Accepted challenge)
-                ? 'Options'
-                //False (Pending challenge)
-                : 'Status'
-              }</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {challengesToShow.map(challenge => {
-            return (
-              <TableRow key={challenge.path}>
-                <TableCell component="th" scope="row">
-                  {challenge.from.uid === session.authUser.uid
-                    //Render opponent name depending on logged in user name
-                    ? challenge.to.username
-                    : challenge.from.username}
-                </TableCell>
-                <TableCell>
-                  {challenge.discipline}
-                </TableCell>
-                <TableCell>
-                  {condition
-                    ? // True (accepted challenge)
-                    <Row>
-                      {challenge.match
-                        ? //Match result has already been submitted?
-                        challenge.completed
-                          ? //Match has also been completed?
-                          // ADDED BOOLEAN TO CONDITIONALLY RENDER DIALOG ACTIONS / TEXT WITHIN THE DIALOG ITSELF
-                          <ConnectedResultReviewDialog match={challenge.match} path={challenge.path} canComplete={false} /> //Opponent has submitted a result, user can now review it before said result gets accepted / redone
-                          : // challenge.match submitted, but not completed
-                          challenge.match.submitterUid === session.authUser.uid //Match has already been submitted
-                            ? 'Waiting for opponent to review result' //Match submitter is authuser - wait for opponent to accept/decline result
-                            : // ADDED BOOLEAN TO CONDITIONALLY RENDER DIALOG ACTIONS / TEXT WITHIN THE DIALOG ITSELF
-                            <ConnectedResultReviewDialog match={challenge.match} path={challenge.path} canComplete={true} /> //Opponent has submitted a result, user can now review it before said result gets accepted / redone
-                        : // Match has not been yet submitted
-                        <ConnectedMatchResultDialog challenge={challenge} />
-                      }
-                      {/* Chat dialog always available */}
-                      <ConnectedChatDialog challenge={challenge} />
-                    </Row>
-                    : // False (Challenge pending approval/declining)}
-                    challenge.to.uid === session.authUser.uid
-                      ? <ChallengedBy path={challenge.path} uid={challenge.from.uid} />
-                      : <Challenging />}
-                </TableCell>
-              </TableRow>
-            )
-          })
-          }
-        </TableBody>
-      </Table>
-    )
-  } else {
-    // This has to get fixed at some point
-    // This has to get fixed at some point
-    return (
-      <div>
-        Loading / Nothing to show
-      </div>
-    )
-    // This has to get fixed at some point
-    // This has to get fixed at some point
-  }
-
+const List = (props) => {
+  // challenges, session from redux state. propFilter and condition from <MyChallenges/> component
+  const { challenges, session, propFilter, condition } = props
+  const challengesType = challenges.filter((challenge) => challenge.acceptedStatus === condition)
+  const all = challengesType.filter((challenge) => challenge.from.uid === session.authUser.uid || challenge.to.uid === session.authUser.uid)
+  let challengesToShow = getChallenges({ propFilter, all, session })
+  return (
+    <ChallengesWithConditionalRendering
+      challengesToShow={challengesToShow}
+      condition={condition}
+      session={session}
+      challengesType={challengesType}
+      all={all}
+    />
+  )
 }
 
 const mapStateToProps = (state) => {
@@ -233,6 +257,21 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
+//Rendering conditions here
+//TODO (ehkä..) - miten kiertää ongelma siten, että sekä loadaus / lataus ilmestyy
+const withNoOwnChallenges = (Component) => (props) => {
+  const { challengesToShow } = props
+  const noChallengesExist = challengesToShow.length === 0
+  if (noChallengesExist) {
+    return <p>No challenges to show</p>
+  }
+  return <Component {...props} />
+}
+
+//Käytössä aaltosulkeet -> wieruchin yhden objektin palautus ei tässä siis toimi (voisi laittaa kylläkin)
+//Käytössä ei ole null - objektia vaan aina on käytössä taulut (truthy)
+// HUOM - 1. with... - komponenttien oltava tämän yläpuolella!!
+const ChallengesWithConditionalRendering = compose(withNoOwnChallenges)(Challenges)
 
 const ConnectedList = connect(mapStateToProps)(List)
 const ConnectedDecliner = connect(null, mapDispatchToProps)(Decliner)
@@ -245,5 +284,6 @@ export {
   ConnectedCreator,
   ConnectedAccepter,
   ConnectedDecliner,
-  ConnectedList
+  ConnectedList,
+  ChallengesWithConditionalRendering
 }

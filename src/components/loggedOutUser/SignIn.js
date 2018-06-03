@@ -61,10 +61,10 @@ class SignInForm extends Component {
       const { setToken } = this.props
 
       const loggedInUser = await auth.signInWithEmailAndPassword(email, password)
-      await messaging.requestPermission()
-      const token = await messaging.getToken()
+      // await messaging.requestPermission()
+      // const token = await messaging.getToken()
       // console.log('token from onSubmit', token)
-      setToken(token)
+      // setToken(token)
 
       window.localStorage.setItem('user', loggedInUser) // Onko välttämätön? Check refreshtilanne
       this.props.history.push(routes.HOME);
