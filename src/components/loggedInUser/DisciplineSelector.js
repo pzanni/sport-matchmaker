@@ -17,9 +17,9 @@ const DisciplineSelector = (props) => {
   //Shorteners on discipline status - similar one can be applied to toggleDisciplineStatus function
   const tennisStatus = disciplines ? disciplines.tennis : false
   const badmintonStatus = disciplines ? disciplines.badminton : false
+  const squashStatus = disciplines ? disciplines.squash : false
   return (
     <FormControl>
-      <FormLabel component="legend">Select disciplines you play</FormLabel>
       <FormGroup>
         <FormControlLabel
           control={
@@ -38,6 +38,15 @@ const DisciplineSelector = (props) => {
             />
           }
           label="Badminton"
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={squashStatus}
+              onChange={() => toggleDisciplineStatus(userPath, { squash: disciplines ? !disciplines.squash : true })}
+            />
+          }
+          label="Squash"
         />
       </FormGroup>
     </FormControl>

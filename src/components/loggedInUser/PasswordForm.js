@@ -66,8 +66,8 @@ class PasswordForm extends React.Component {
 
         <Row>
           <Button style={styles.Button} variant="raised" disabled={ifNoMatchingPW} onClick={this.submitNewPW}>
-            Submit
-            </Button>
+            Change
+          </Button>
         </Row>
       </div>
     )

@@ -20,7 +20,7 @@ const styles = {
 const StatusChanger = (props) => {
   const { path, status, toggleChallengeStatus } = props
   return (
-    <Button variant="raised" onClick={() => toggleChallengeStatus(path, status)}>
+    <Button color="primary" style={{ border: '2px solid #B7C6CD', borderRadius: '5px' }} onClick={() => toggleChallengeStatus(path, status)}>
       Toggle challenge status
     </Button>
   )
@@ -144,7 +144,6 @@ const AcceptedChallenge = (props) => {
 
 const Challenges = (props) => {
   const { challengesToShow, condition, session } = props
-  // console.log('Props from Challenges', props)
   return (
     <Table>
       <TableHead>
@@ -174,18 +173,18 @@ const Challenges = (props) => {
               <TableCell>
                 {challenge.discipline}
               </TableCell>
-              {/* Try to get help on how to change this into HoC ??? */}
-              {/* Try to get help on how to change this into HoC ??? */}
-              {/* Try to get help on how to change this into HoC ??? */}
+              {/* Splitting into smaller component (with their own conditional renderings)
+              better option (have to pick a random end-case in this case unlike in <Challenges/>)
+              where every road eventually leads to 1 place. Here it splits instead */}
               <TableCell>
                 {condition
-                  ? // True (accepted challenge)
+                  ?
                   <Row>
                     {/* Chat dialog always available for accepted challenge */}
                     <AcceptedChallenge challenge={challenge} session={session} />
                     <ConnectedChatDialog challenge={challenge} />
                   </Row>
-                  : // False (Challenge pending its approval/declining)}
+                  :
                   <PendingChallenge challenge={challenge} session={session} />}
               </TableCell>
             </TableRow>
