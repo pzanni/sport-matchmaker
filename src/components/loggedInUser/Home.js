@@ -14,8 +14,18 @@ const styles = {
     borderRadius: '5px',
     boxShadow: '1px 1px 3px 0',
     marginTop: '20px',
+    marginLeft: '10px',
+    marginRight: '10px',
     minHeight: '400px',
-    padding: '20px'
+    padding: '20px',
+    width: '100%'
+  },
+  challengeContainer: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  tabMargin: {
+    marginLeft: '10px'
   }
 }
 
@@ -41,12 +51,14 @@ class ChallengeTabs extends React.Component {
 
     return (
       <div>
-        <Tabs value={value} onChange={this.handleChange}>
+        <Tabs style={styles.tabMargin} value={value} onChange={this.handleChange}>
           <Tab label="Pending challenges" />
           <Tab label="Ongoing challenges" />
         </Tabs>
-        {value === 0 && <ConnectedPendingChallenges />}
-        {value === 1 && <ConnectedAcceptedChallenges />}
+        <div style={styles.challengeContainer}>
+          {value === 0 && <ConnectedPendingChallenges />}
+          {value === 1 && <ConnectedAcceptedChallenges />}
+        </div>
       </div>
     )
   }

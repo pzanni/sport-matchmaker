@@ -14,7 +14,9 @@ import { ConnectedResultReviewDialog } from './ResultReviewDialog'
 import { ALL, SENT, RECEIVED, ACCEPTED, COMPLETED } from '../../constants/filterStates'
 
 const styles = {
-  Loader: { marginLeft: '140px', marginTop: '-37px' }
+  Loader: { marginLeft: '140px', marginTop: '-37px' },
+  optionStyle: { display: 'flex', flexDirection: 'row', alignItems: 'center', height: '100%' },
+  optionItemPadding: { paddingRight: '10px' }
 }
 
 const StatusChanger = (props) => {
@@ -179,11 +181,15 @@ const Challenges = (props) => {
               <TableCell>
                 {condition
                   ?
-                  <Row>
+                  <div style={styles.optionStyle}>
                     {/* Chat dialog always available for accepted challenge */}
-                    <AcceptedChallenge challenge={challenge} session={session} />
-                    <ConnectedChatDialog challenge={challenge} />
-                  </Row>
+                    <div style={styles.optionItemPadding}>
+                      <ConnectedChatDialog challenge={challenge} />
+                    </div>
+                    <div style={styles.optionItemPadding}>
+                      <AcceptedChallenge challenge={challenge} session={session} />
+                    </div>
+                  </div>
                   :
                   <PendingChallenge challenge={challenge} session={session} />}
               </TableCell>

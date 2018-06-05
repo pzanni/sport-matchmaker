@@ -79,7 +79,10 @@ class ResultReviewDialog extends React.Component {
     const { match, path, declineChallengeResult, completeChallenge, canComplete } = this.props
     return (
       <div>
-        <Button variant="raised" size="small" onClick={this.handleClick}>Review</Button>
+        {canComplete
+          ? <Button variant="raised" color="primary" size="small" onClick={this.handleClick}>Proposed result</Button>
+          : <Button size="small" style={{ border: '2px solid #B7C6CD', borderRadius: '5px' }} onClick={this.handleClick}>Final result</Button>
+        }
         <Dialog open={open} onClose={this.handleClick}>
           <DialogTitle>Match result review</DialogTitle>
           <DialogContent>

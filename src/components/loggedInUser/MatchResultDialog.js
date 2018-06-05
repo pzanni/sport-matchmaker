@@ -168,7 +168,7 @@ const MatchInputDialog = (props) => {
   const { handleClick, open, challenge, sets, changeSetAmount, changeScoreBoard, handleFocus, submitResult } = props
   return (
     <div>
-      <Button variant="raised" size="small" onClick={handleClick}>Result</Button>
+      <Button variant="raised" size="small" color="primary" onClick={handleClick}>Submit result</Button>
       <Dialog open={open} onClose={handleClick}>
         <DialogTitle>{`Submit your ${challenge.discipline} match result`}</DialogTitle>
         <DialogContent style={styles.centeredMatchResultInfo}>

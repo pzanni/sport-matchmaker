@@ -103,7 +103,7 @@ class ChatDialog extends React.Component {
 
     return (
       <form>
-        <Button color="secondary" variant="raised" size="small" onClick={this.handleClick}>Chat</Button>
+        <Button color="secondary" style={{ border: '2px solid #B7C6CD', borderRadius: '5px' }} size="small" onClick={this.handleClick}>Chat</Button>
         <Dialog open={this.state.open} onClose={this.handleClick}>
           <DialogTitle>Chat w/ {opponent}</DialogTitle>
           <DialogContent>
