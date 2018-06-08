@@ -22,6 +22,14 @@ export const setUsers = (users) => {
   }
 }
 
+export const addFriend = (currentUserPath, friendUid) => {
+  console.log('Current user path -> ', currentUserPath)
+  console.log('Friend uid', friendUid)
+  return async () => {
+
+  }
+}
+
 //Difference to toggleChallengeStatus is that discipline can be more than just 1 option
 //So a different way to apply toggling was done here
 export const toggleDisciplineStatus = (path, toggledDiscipline) => {

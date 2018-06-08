@@ -11,6 +11,19 @@ html{
   border-left: 5px solid lightcoral;
 }
 
+.friendIcon{
+  color: #00C853;
+  -webkit-transition: color .25s ease-out;
+  -moz-transition: color .25s ease-out;
+  -o-transition: color .25s ease-out;
+  transition: color .25s ease-out;
+}
+
+.friendIcon:hover{
+  color: rgb(1, 133, 56);
+  cursor: pointer;
+}
+
 body {
   position: relative;
   margin: 0;

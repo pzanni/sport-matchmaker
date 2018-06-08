@@ -9,6 +9,7 @@ import LandingPage from "./loggedOutUser/Landing";
 import SignInPage from "./loggedOutUser/SignIn";
 import SignUpPage from "./loggedOutUser/SignUp";
 import Home from "./loggedInUser/Home";
+import Help from './loggedInUser/HelpPage'
 import { firebase } from '../firebase/controller'
 import { authUserAdditionFor, authUserRemoval } from '../reducers/session'
 import { fetchAndSetFirebaseUsers } from '../reducers/users'
@@ -74,7 +75,8 @@ class App extends React.Component {
               <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
               <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
               <Route exact path={routes.HOME} component={() => <Home />} />
-              <Route exact path={routes.USERS} render={() => <Users users={users} />} />
+              <Route exact path={routes.HELP} component={() => <Help />} />
+              <Route exact path={routes.USERS} render={() => <Users />} />
               <Route exact path={routes.USERSwID} render={({ match }) => <User user={userById(match.params.id)} />} />
               {/* Switch laittaa tämän reitin aina, kun matchia ylläoleviin reitteihin ei löydy */}
               <Route component={() => <NotFoundPage />} />
