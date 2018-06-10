@@ -32,7 +32,7 @@ const NotFoundPage = () => {
 }
 
 class App extends React.Component {
-  componentDidMount() {
+  componentWillMount() {
     const { setAuthUserFor, removeAuthuser, subscribeToUsers, subscribeToChallenges } = this.props
     firebase.auth.onAuthStateChanged(
       authUser => {

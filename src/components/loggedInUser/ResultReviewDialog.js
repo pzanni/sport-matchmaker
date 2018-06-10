@@ -25,8 +25,9 @@ const styles = {
 
 const ProposedResult = (props) => {
   const { match } = props
-  const setColumnsP1 = match.p1Result.sets.map((setResult) => <li style={styles.listCellStyleType}>{setResult}</li>)
-  const setColumnsP2 = match.p2Result.sets.map((setResult) => <li style={styles.listCellStyleType}>{setResult}</li>)
+  //Hmm 2. parametri mapissa on indeksi.. Who knew that reading mozilla docs would be useful?
+  const setColumnsP1 = match.p1Result.sets.map((setResult, i) => <li key={i} style={styles.listCellStyleType}>{setResult}</li>)
+  const setColumnsP2 = match.p2Result.sets.map((setResult, i) => <li key={i} style={styles.listCellStyleType}>{setResult}</li>)
   return (
     <div style={styles.matchTotalContent}>
       <div style={styles.matchIndividualContent}>

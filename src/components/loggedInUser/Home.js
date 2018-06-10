@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Column, Row } from 'simple-flexbox'
 import { Paper, Typography, Tab, Tabs } from 'material-ui';
 
-import { ConnectedList } from './Challenge'
+import { ConnectedList, ConnectedFriendsCompletedChallenges } from './Challenge'
 import ChallengeVisibilityFilter from './VisibilityFilter'
 import { pendingFilterChange, acceptedFilterChange } from '../../reducers/filters'
 
@@ -53,15 +53,32 @@ class ChallengeTabs extends React.Component {
       <div>
         <Tabs style={styles.tabMargin} value={value} onChange={this.handleChange}>
           <Tab label="Pending challenges" />
-          <Tab label="Ongoing challenges" />
+          <Tab label="Succesful challenges" />
+          <Tab label="Feed" />
         </Tabs>
         <div style={styles.challengeContainer}>
           {value === 0 && <ConnectedPendingChallenges />}
           {value === 1 && <ConnectedAcceptedChallenges />}
+          {value === 2 && <ConnectedFriendsChallengeFeed />}
         </div>
       </div>
     )
   }
+}
+
+//TODO - Filter out own challenges - duplicates
+//included in current implementation
+const FriendsChallengeFeed = (props) => {
+  const { users, session } = props
+  const currentUser = users.find(user => user.uid === session.authUser.uid)
+  return (
+    <div style={styles.borderedDiv}>
+      <Typography variant="display1">
+        See how your friends are doing
+      </Typography>
+      {currentUser && <ConnectedFriendsCompletedChallenges friendList={currentUser.friends} />}
+    </div>
+  )
 }
 
 const PendingChallenges = (props) => {
@@ -130,7 +147,9 @@ const ChallengeType = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    filter: state.filter
+    filter: state.filter,
+    users: state.users,
+    session: state.session
   }
 }
 
@@ -141,8 +160,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
+const ConnectedFriendsChallengeFeed = connect(mapStateToProps)(FriendsChallengeFeed)
 const ConnectedPendingChallenges = connect(mapStateToProps, mapDispatchToProps)(PendingChallenges)
 const ConnectedAcceptedChallenges = connect(mapStateToProps, mapDispatchToProps)(AcceptedChallenges)
 
 export default connect(mapStateToProps)(Home)
-export { ConnectedPendingChallenges, ConnectedAcceptedChallenges }
+export { ConnectedPendingChallenges, ConnectedAcceptedChallenges, ConnectedFriendsChallengeFeed }

@@ -23,15 +23,12 @@ export const setUsers = (users) => {
 }
 
 export const addFriend = (currentUserPath, friendUid) => {
-  // console.log('Current user path -> ', currentUserPath)
-  // console.log('Friend uid', friendUid)
   return async () => {
     await db.ref(`users/${currentUserPath}/friends`).push(friendUid)
   }
 }
 
 export const removeFriend = (currentUserPath, friendUidKey) => {
-  // console.log('Friend uid key', friendUidKey)
   return async () => {
     await db.ref(`users/${currentUserPath}/friends/${friendUidKey}`).remove()
   }

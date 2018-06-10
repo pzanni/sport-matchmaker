@@ -42,9 +42,8 @@ const styles = {
 const Info = (props) => {
   const { user, session, users } = props
   const challenger = users.find(user => user.uid === session.authUser.uid)
-  // console.log('Challenger is', challenger)
+  // console.log('Challenger information', challenger)
   const challengerIsLoggedInUser = user.uid === session.authUser.uid
-  // console.log('Challenger is logged in user?', challengerIsLoggedInUser)
   return (
     <div style={styles.flexColumnDiv}>
       <div style={styles.flexSelfCenterAlign}>

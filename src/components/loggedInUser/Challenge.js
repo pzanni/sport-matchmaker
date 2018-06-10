@@ -7,7 +7,7 @@ import { Select, MenuItem, FormControl, FormHelperText } from 'material-ui'
 import { compose } from 'recompose'
 
 import { toggleChallengeStatus } from '../../reducers/users'
-import challenges, { addFirebaseChallenge, acceptChallenge, declineChallenge } from '../../reducers/challenges'
+import challenges, { addFirebaseChallenge, acceptChallenge, declineChallenge, completeChallenge } from '../../reducers/challenges'
 import { ConnectedMatchResultDialog } from './MatchResultDialog'
 import { ConnectedChatDialog } from './ChatDialog'
 import { ConnectedResultReviewDialog } from './ResultReviewDialog'
@@ -166,7 +166,7 @@ const Challenges = (props) => {
         {challengesToShow.map(challenge => {
           return (
             <TableRow key={challenge.path}>
-              <TableCell component="th" scope="row">
+              <TableCell>
                 {challenge.from.uid === session.authUser.uid
                   //Render opponent name depending on logged in user name
                   ? challenge.to.username
@@ -186,9 +186,7 @@ const Challenges = (props) => {
                     <div style={styles.optionItemPadding}>
                       <ConnectedChatDialog challenge={challenge} />
                     </div>
-                    <div style={styles.optionItemPadding}>
-                      <AcceptedChallenge challenge={challenge} session={session} />
-                    </div>
+                    <AcceptedChallenge challenge={challenge} session={session} />
                   </div>
                   :
                   <PendingChallenge challenge={challenge} session={session} />}
@@ -246,6 +244,69 @@ const List = (props) => {
   )
 }
 
+const FriendListCompletedTable = (props) => {
+  const { challenges } = props
+  return (
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>Player #1</TableCell>
+          <TableCell>Player #2</TableCell>
+          <TableCell>Options</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {challenges.map(challenge => {
+          return (
+            <TableRow key={challenge.path}>
+              <TableCell>{challenge.from.username}</TableCell>
+              <TableCell>{challenge.to.username}</TableCell>
+              <TableCell>
+                <ConnectedResultReviewDialog match={challenge.match} path={challenge.path} canComplete={false} />
+              </TableCell>
+            </TableRow>
+          )
+        })}
+      </TableBody>
+    </Table>
+  )
+}
+
+const FriendsCompletedChallenges = (props) => {
+  const { friendList, challenges } = props
+  if (friendList) {
+    let allFriendCompletedChallenges = []
+    //Filter challenges first
+    const completedChallenges = challenges.filter(challenge => challenge.completed)
+    for (let key in friendList) {
+      const friendUid = friendList[key]
+      const friendParticipationChallenges =
+        completedChallenges
+          .filter(completedChallenge => completedChallenge.from.uid === friendUid || completedChallenge.to.uid === friendUid)
+      allFriendCompletedChallenges = allFriendCompletedChallenges.concat(friendParticipationChallenges)
+    }
+    if (allFriendCompletedChallenges.length > 0) {
+      return <FriendListCompletedTable challenges={allFriendCompletedChallenges} />
+    }
+
+    //Friends do not have completed challenges
+    return <p>No challenges to show as of yet</p>
+  }
+  //No friends added
+  return <p>Add friends to see their results!</p>
+}
+
+//Alternative rendering conditions for regular challenges from here
+//TODO (ehkä..) - miten kiertää ongelma siten, että sekä loadaus / lataus ilmestyy
+const withNoOwnChallenges = (Component) => (props) => {
+  const { challengesToShow } = props
+  const noChallengesExist = challengesToShow.length === 0
+  if (noChallengesExist) {
+    return <p>No challenges to show</p>
+  }
+  return <Component {...props} />
+}
+
 const mapStateToProps = (state) => {
   return {
     challenges: state.challenges,
@@ -262,22 +323,12 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-//Rendering conditions here
-//TODO (ehkä..) - miten kiertää ongelma siten, että sekä loadaus / lataus ilmestyy
-const withNoOwnChallenges = (Component) => (props) => {
-  const { challengesToShow } = props
-  const noChallengesExist = challengesToShow.length === 0
-  if (noChallengesExist) {
-    return <p>No challenges to show</p>
-  }
-  return <Component {...props} />
-}
-
 //Käytössä aaltosulkeet -> wieruchin yhden objektin palautus ei tässä siis toimi (voisi laittaa kylläkin)
 //Käytössä ei ole null - objektia vaan aina on käytössä taulut (truthy)
 // HUOM - 1. with... - komponenttien oltava tämän yläpuolella!!
 const ChallengesWithConditionalRendering = compose(withNoOwnChallenges)(Challenges)
 
+const ConnectedFriendsCompletedChallenges = connect(mapStateToProps)(FriendsCompletedChallenges)
 const ConnectedList = connect(mapStateToProps)(List)
 const ConnectedDecliner = connect(null, mapDispatchToProps)(Decliner)
 const ConnectedAccepter = connect(null, mapDispatchToProps)(Accepter)
@@ -290,5 +341,6 @@ export {
   ConnectedAccepter,
   ConnectedDecliner,
   ConnectedList,
-  ChallengesWithConditionalRendering
+  ChallengesWithConditionalRendering,
+  ConnectedFriendsCompletedChallenges
 }
