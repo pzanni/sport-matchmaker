@@ -1,10 +1,9 @@
 import { db } from '../firebase/firebase'
 
-import { SET_AUTH, UNSET_AUTH, SET_TOKEN } from '../constants/types'
+import { SET_AUTH, UNSET_AUTH } from '../constants/types'
 
 const DEFAULT_STATE = {
-  authUser: null,
-  token: null
+  authUser: null
 }
 
 const sessionReducer = (state = DEFAULT_STATE, action) => {
@@ -17,20 +16,7 @@ const sessionReducer = (state = DEFAULT_STATE, action) => {
     case UNSET_AUTH: {
       return { ...state, authUser: null }
     }
-    //SET TOKEN ON LOGIN
-    case SET_TOKEN: {
-      return { ...state, token: action.token }
-    }
     default: return state
-  }
-}
-
-// Ei ole mahdollisesti välttämätön
-// componentDidUpdatessa voi heittää messaging.getToken() ??
-export const setToken = (token) => {
-  return {
-    type: SET_TOKEN,
-    token
   }
 }
 

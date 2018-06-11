@@ -8,8 +8,6 @@ import { Column, Row } from 'simple-flexbox'
 import * as routes from "../../constants/routes";
 import { auth } from "../../firebase/controller";
 import Message from '../Message'
-import { messaging } from '../../firebase/firebase'
-import { setToken } from '../../reducers/session'
 
 const styles = {
   Column: { marginTop: 50, textAlign: 'center' },
@@ -30,7 +28,7 @@ const SignInPage = ({ history }) => {
                 Sign in
               </Typography>
             </Row>
-            <ConnectedSignInForm history={history} />
+            <SignInForm history={history} />
           </Paper>
         </Column>
       </Row>
@@ -127,12 +125,6 @@ const SignUpLink = () => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setToken: (token) => dispatch(setToken(token))
-  }
-}
 
-const ConnectedSignInForm = connect(null, mapDispatchToProps)(SignInForm)
 export default withRouter(SignInPage);
-export { ConnectedSignInForm, SignUpLink };
+export { SignInForm, SignUpLink };

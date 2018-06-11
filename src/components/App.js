@@ -16,10 +16,10 @@ import { fetchAndSetFirebaseUsers } from '../reducers/users'
 import { fetchAndSetChallenges } from '../reducers/challenges'
 import Users from './loggedInUser/Users'
 import User from './loggedInUser/User'
+import { updateFirebaseToken } from '../reducers/session'
+import { messaging } from '../firebase/firebase'
 
 //TESTING PURPOSES ONLY
-// import { messaging } from '../firebase/firebase'
-import { updateFirebaseToken } from '../reducers/session'
 
 //END TESTING STUFF
 
@@ -49,11 +49,12 @@ class App extends React.Component {
 
   //Error with logout (authUser will be set to  null from componentDidMount)
   //Fix this by conditions
-  componentDidUpdate() {
+  async componentDidUpdate() {
     const { session, updateFirebaseToken } = this.props
     //Run this only if user logged in (eg. authUser !== null)
     if (session.authUser) {
-      const token = session.token
+      await messaging.requestPermission()
+      const token = await messaging.getToken()
       const uid = session.authUser.uid
       updateFirebaseToken(token, uid)
     }
