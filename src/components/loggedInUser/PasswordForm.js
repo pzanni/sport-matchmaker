@@ -1,6 +1,6 @@
 import React from 'react'
 import { updatePassword } from '../../firebase/auth'
-import { TextField, Button } from 'material-ui';
+import { TextField, Button } from '@material-ui/core';
 import { Row } from 'simple-flexbox'
 
 class PasswordForm extends React.Component {

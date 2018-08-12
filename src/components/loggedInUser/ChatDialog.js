@@ -1,17 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import Button from 'material-ui/Button'
-import TextField from 'material-ui/TextField'
-import List, {
-  ListItem
-} from 'material-ui/List'
-import Dialog, {
+
+import {
+  Button,
+  TextField,
+  List,
+  ListItem,
+  Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from 'material-ui/Dialog'
+} from '@material-ui/core'
 
 import { sendFirebaseMessage } from '../../reducers/challenges'
 

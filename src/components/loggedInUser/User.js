@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Paper, Typography, Divider } from 'material-ui';
+import { Paper, Typography, Divider } from '@material-ui/core/';
 
 import PasswordForm from './PasswordForm'
 import { ConnectedStatusChanger, ConnectedCreator } from './Challenge'
@@ -27,7 +27,7 @@ const styles = {
   flexRowSpacedDiv: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-around'
   },
   thumbsCenter: {
     display: 'flex',

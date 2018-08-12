@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { ScaleLoader } from 'react-spinners'
-import { Button, Table, TableHead, TableCell, TableRow, TableBody } from 'material-ui'
+import { Button, Table, TableHead, TableCell, TableRow, TableBody } from '@material-ui/core/'
 import { Row } from 'simple-flexbox'
-import { Select, MenuItem, FormControl, FormHelperText } from 'material-ui'
+import { Select, MenuItem, FormControl, FormHelperText } from '@material-ui/core/'
 import { compose } from 'recompose'
 
 import { toggleChallengeStatus } from '../../reducers/users'
@@ -165,7 +165,7 @@ const Challenges = (props) => {
       <TableBody>
         {challengesToShow.map(challenge => {
           return (
-            <TableRow key={challenge.path}>
+            <TableRow key={challenge.path} className="hoverableTableRow">
               <TableCell>
                 {challenge.from.uid === session.authUser.uid
                   //Render opponent name depending on logged in user name
@@ -179,17 +179,20 @@ const Challenges = (props) => {
               better option (have to pick a random end-case in this case unlike in <Challenges/>)
               where every road eventually leads to 1 place. Here it splits instead */}
               <TableCell>
-                {condition
-                  ?
-                  <div style={styles.optionStyle}>
-                    {/* Chat dialog always available for accepted challenge */}
-                    <div style={styles.optionItemPadding}>
-                      <ConnectedChatDialog challenge={challenge} />
+                {/* To be able to use visibility hidden / visible on hover -> need span or similar extra container */}
+                <span>
+                  {condition
+                    ?
+                    <div style={styles.optionStyle}>
+                      {/* Chat dialog always available for accepted challenge */}
+                      <div style={styles.optionItemPadding}>
+                        <ConnectedChatDialog challenge={challenge} />
+                      </div>
+                      <AcceptedChallenge challenge={challenge} session={session} />
                     </div>
-                    <AcceptedChallenge challenge={challenge} session={session} />
-                  </div>
-                  :
-                  <PendingChallenge challenge={challenge} session={session} />}
+                    :
+                    <PendingChallenge challenge={challenge} session={session} />}
+                </span>
               </TableCell>
             </TableRow>
           )

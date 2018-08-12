@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux'
 import { Column, Row } from 'simple-flexbox'
-import { Paper, Typography, Tab, Tabs } from 'material-ui';
+import { Paper, Typography, Tab, Tabs } from '@material-ui/core';
 
 import { ConnectedList, ConnectedFriendsCompletedChallenges } from './Challenge'
 import ChallengeVisibilityFilter from './VisibilityFilter'
@@ -20,6 +20,8 @@ const styles = {
     padding: '20px',
     width: '100%'
   },
+  // Container laittaa olemassaolevat haasteet keskelle (ei siis TABEJA)
+  // Ilman tätä tulee vertical scrollingia
   challengeContainer: {
     display: 'flex',
     justifyContent: 'center'
@@ -126,7 +128,7 @@ const ChallengeType = (props) => {
     thirdOption,
     condition,
     propFilter
-   } = props
+  } = props
 
 
   return (

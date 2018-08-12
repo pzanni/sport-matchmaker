@@ -7,7 +7,7 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText
-} from 'material-ui'
+} from '@material-ui/core/'
 
 import { declineChallengeResult, completeChallenge } from '../../reducers/challenges'
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import * as routes from "../constants/routes";
 import SignOut from './loggedInUser/SignOut';
 import { connect } from 'react-redux'
-import { AppBar, Toolbar, Typography, Button, Grid, Menu, MenuItem } from 'material-ui';
+import { AppBar, Toolbar, Typography, Button, Grid, Menu, MenuItem } from '@material-ui/core/';
 import { Row } from 'simple-flexbox'
 
 const Navigation = (props) => {

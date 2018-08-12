@@ -5,7 +5,7 @@ import * as routes from "../../constants/routes";
 import { addFirebaseUser } from '../../reducers/users'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { Typography, TextField, Button, Paper } from 'material-ui';
+import { Typography, TextField, Button, Paper } from '@material-ui/core';
 import { Column, Row } from 'simple-flexbox'
 
 class SignUpPage extends React.Component {

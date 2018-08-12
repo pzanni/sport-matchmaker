@@ -9,7 +9,6 @@ import LandingPage from "./loggedOutUser/Landing";
 import SignInPage from "./loggedOutUser/SignIn";
 import SignUpPage from "./loggedOutUser/SignUp";
 import Home from "./loggedInUser/Home";
-import Help from './loggedInUser/HelpPage'
 import { firebase } from '../firebase/controller'
 import { authUserAdditionFor, authUserRemoval } from '../reducers/session'
 import { fetchAndSetFirebaseUsers } from '../reducers/users'
@@ -48,7 +47,7 @@ class App extends React.Component {
   }
 
   //Error with logout (authUser will be set to  null from componentDidMount)
-  //Fix this by conditions
+  //Fix(ed, currently) this by conditions
   async componentDidUpdate() {
     const { session, updateFirebaseToken } = this.props
     //Run this only if user logged in (eg. authUser !== null)
@@ -76,7 +75,6 @@ class App extends React.Component {
               <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
               <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
               <Route exact path={routes.HOME} component={() => <Home />} />
-              <Route exact path={routes.HELP} component={() => <Help />} />
               <Route exact path={routes.USERS} render={() => <Users />} />
               <Route exact path={routes.USERSwID} render={({ match }) => <User user={userById(match.params.id)} />} />
               {/* Switch laittaa tämän reitin aina, kun matchia ylläoleviin reitteihin ei löydy */}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Radio } from 'material-ui'
+import { Radio } from '@material-ui/core'
 import { Row } from 'simple-flexbox'
 
 const styles = {

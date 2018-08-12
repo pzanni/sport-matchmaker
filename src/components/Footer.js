@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography } from 'material-ui';
+import { Typography } from '@material-ui/core/';
 import { Row } from 'simple-flexbox'
 
 import { messaging } from '../firebase/firebase'

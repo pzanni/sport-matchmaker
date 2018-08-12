@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { FormControl, FormHelperText, MenuItem, Select } from 'material-ui'
-import NativeSelect from 'material-ui'
-import Button from 'material-ui/Button'
-import Dialog, {
+import { FormControl, FormHelperText, MenuItem, Select, Button } from '@material-ui/core/'
+// import Button from 'material-ui/Button'
+import {
+  Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from 'material-ui/Dialog'
+} from '@material-ui/core/'
 
 import { setChallengeResult } from '../../reducers/challenges'
 

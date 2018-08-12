@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^1.4.3",
     "faker": "^4.1.0",
     "firebase": "^4.13.1",
-    "material-ui": "^1.0.0-beta.47",
+    "install": "^0.12.1",
     "moment": "^2.22.1",
+    "npm": "^6.3.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",

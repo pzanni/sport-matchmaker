@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux'
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Typography, TextField, Button, Paper } from 'material-ui';
+import { Typography, TextField, Button, Paper } from '@material-ui/core';
 import { Column, Row } from 'simple-flexbox'
 
 import * as routes from "../../constants/routes";

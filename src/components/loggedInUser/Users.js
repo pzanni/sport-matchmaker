@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Paper, Typography, Icon } from 'material-ui'
+import { Paper, Typography, Icon } from '@material-ui/core'
 import { connect } from 'react-redux'
 
 import { addFriend, removeFriend } from '../../reducers/users'

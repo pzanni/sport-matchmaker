@@ -6,7 +6,7 @@ import {
   FormGroup,
   FormControlLabel,
   Switch
-} from 'material-ui'
+} from '@material-ui/core'
 
 import { toggleDisciplineStatus } from '../../reducers/users'
 
