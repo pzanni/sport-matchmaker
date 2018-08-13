@@ -56,7 +56,6 @@ class Creator extends React.Component {
       || !disciplines[chosenDiscipline] // State remains unchanged (is a potential problem?) but atleast the button get disabled
 
     return (
-      // <form>
       <React.Fragment>
         <FormControl>
           <Select value={chosenDiscipline} onChange={this.handleChange}>
@@ -68,7 +67,6 @@ class Creator extends React.Component {
             Challenge
           </Button>
         </FormControl>
-        {/* </form> */}
       </React.Fragment>
     )
   }

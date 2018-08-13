@@ -2,18 +2,12 @@ import React from 'react'
 import { Typography } from '@material-ui/core/';
 import { Row } from 'simple-flexbox'
 
-import { messaging } from '../firebase/firebase'
-
 const Footer = (props) => {
-  //Footerista luokka -> tämä hoitaisi booleanin tms?
-  messaging.onMessage((payload) => {
-    console.log('message ', payload.notification.body)
-  })
-
   return (
     <div className="footer">
       <Row vertical="center" horizontal="center">
-        <Typography variant="caption">
+        {/* Body not applying color here -> body color applied here */}
+        <Typography variant="caption" style={{ color: '#4a4a4a' }}>
           Made by Anton & Anni
         </Typography>
       </Row>

@@ -75,7 +75,7 @@ const FriendsChallengeFeed = (props) => {
   const currentUser = users.find(user => user.uid === session.authUser.uid)
   return (
     <div style={styles.borderedDiv}>
-      <Typography variant="display1">
+      <Typography variant="display1" style={{ color: '#222' }}>
         See how your friends are doing
       </Typography>
       {currentUser && <ConnectedFriendsCompletedChallenges friendList={currentUser.friends} />}
@@ -133,7 +133,7 @@ const ChallengeType = (props) => {
 
   return (
     <div style={styles.borderedDiv}>
-      <Typography variant="display1">
+      <Typography variant="display1" style={{ color: '#222' }}>
         {title}
       </Typography>
       <ChallengeVisibilityFilter

@@ -25,8 +25,10 @@ const sendNotificationTo = (uid) => {
 
       const payload = {
         notification: {
-          title: 'Your challenge was accepted',
-          body: `Go check out whats up!!`,
+          title: 'Sport matchmaker',
+          body: 'A challenge was accepted!',
+          icon: 'https://image.flaticon.com/icons/svg/140/140602.svg',
+          click_action: 'http://localhost:3000'
         }
       }
 

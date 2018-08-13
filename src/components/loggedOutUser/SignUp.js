@@ -7,14 +7,30 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { Typography, TextField, Button, Paper } from '@material-ui/core';
 import { Column, Row } from 'simple-flexbox'
+import Message from '../Message'
+
+const styles = {
+  Headline: { margin: 20 },
+  TextField: { width: 350 },
+  Button: { margin: 10 },
+  MainColumn: { marginTop: 50 }
+}
 
 class SignUpPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       password1: '',
-      password2: ''
+      password2: '',
+      messageContent: ''
     };
+  }
+
+  setMessage = (content) => {
+    this.setState({ messageContent: content })
+    setTimeout(() => {
+      this.setState({ messageContent: '' })
+    }, 6250)
   }
 
   onSubmit = async (event) => {
@@ -39,6 +55,7 @@ class SignUpPage extends React.Component {
       this.props.history.push(routes.HOME);
 
     } catch (exception) {
+      this.setMessage(exception.message)
       console.log(exception);
     }
   };
@@ -50,24 +67,18 @@ class SignUpPage extends React.Component {
   };
 
   render() {
-    const styles = {
-      Headline: { margin: 20 },
-      TextField: { width: 350 },
-      Button: { margin: 10 },
-      MainColumn: { marginTop: 50 }
-    }
-    const { password1, password2 } = this.state;
+    const { password1, password2, messageContent } = this.state;
     const ifInvalidCondition = password1 !== password2 || password1.length === 0;
     return (
       <Row horizontal='center'>
         <Column flexGrow={0.2} style={styles.MainColumn}>
           <Paper>
             <Row style={styles.Headline} horizontal='center'>
-              <Typography variant="headline">
+              <Typography variant="display1" style={{ color: '#222' }}>
                 Create an account
               </Typography>
             </Row>
-
+            <Message content={messageContent} />
             <form onSubmit={this.onSubmit}>
               <Row horizontal='center'>
                 <TextField

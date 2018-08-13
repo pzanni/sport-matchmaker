@@ -46,7 +46,7 @@ class AuthNavigation extends React.Component {
       : 'false'
 
     return (
-      <AppBar position="static">
+      <AppBar position="static" style={{ backgroundColor: '#222' }}>
         <Toolbar>
           <Row vertical="center">
             <Typography variant="headline" color="inherit" style={{ marginRight: '20px' }} gutterBottom>
@@ -92,7 +92,7 @@ class AuthNavigation extends React.Component {
 
 const NonAuthNavigation = () => {
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{ backgroundColor: '#222' }}>
       <Toolbar>
         <Grid item xs={3}>
           <Typography variant="headline" gutterBottom color="inherit">

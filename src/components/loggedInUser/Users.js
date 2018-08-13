@@ -8,7 +8,7 @@ import { addFriend, removeFriend } from '../../reducers/users'
 const styles = {
   flexRow: { display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
   Paper: { padding: 20, margin: 10, borderRadius: '5px', width: '350px' },
-  Link: { color: '#0e0e0f', textDecoration: 'none' },
+  Link: { color: '#4a4a4a', textDecoration: 'none' },
 }
 
 //Keep paper on this one - unable to maintain className properties for whatever reason
@@ -23,13 +23,16 @@ const Users = (props) => {
         // id = path, uid = user id 
         <Paper className="list" style={styles.Paper} elevation={2} key={user.id}>
           <div style={styles.flexRow}>
-            <Typography className="individualUserName" variant="display1">
+            <Typography className="individualUserName" variant="display1" style={{ color: '#222' }}>
               {user.username}
             </Typography>
             <ConnectedConditionalIcon currentUser={currentUser} potentialFriendUid={user.uid} />
           </div>
           <Link style={styles.Link} to={`/users/${user.id}`} className="individualUserLink">
             view profile
+          </Link>
+          <Link style={styles.Link} to="#" className="individualUserLink">
+            a/r friend
           </Link>
         </Paper>)}
     </div>

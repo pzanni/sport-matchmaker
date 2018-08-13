@@ -47,18 +47,17 @@ const Info = (props) => {
   return (
     <div style={styles.flexColumnDiv}>
       <div style={styles.flexSelfCenterAlign}>
-        <Typography style={{ marginBottom: '30px' }} variant="display2">
+        <Typography style={{ marginBottom: '30px', color: '#222' }} variant="display2">
           {user.username}
         </Typography>
       </div>
       <div style={styles.flexRowSpacedDiv}>
         <div style={styles.borderedDiv}>
           {/* General info goes here */}
-          <Typography variant="title">
+          <Typography variant="title" style={{ color: '#222' }}>
             User info
           </Typography>
           <p>Email: {user.email}</p>
-          <p>TODO - Add wins / losses % or relevant info like that?</p>
         </div>
         {!challengerIsLoggedInUser
           ?
@@ -85,7 +84,7 @@ const AccountSettings = (props) => {
       <Divider style={{ marginTop: '30px', marginBottom: '30px' }} />
       <div style={styles.flexColumnDiv}>
         <div style={styles.flexSelfCenterAlign}>
-          <Typography style={{ marginBottom: '30px' }} variant="display1">
+          <Typography style={{ marginBottom: '30px', color: '#222' }} variant="display1">
             Account settings
         </Typography>
         </div>
@@ -100,9 +99,6 @@ const AccountSettings = (props) => {
             <Typography style={{ marginBottom: '15px' }} variant="title">
               Select disciplines you play
           </Typography>
-            {/* Add flex (3 on each column) WITHIN CONNECTEDDISCIPLINESELECTOR */}
-            {/* Add flex (3 on each column) WITHIN CONNECTEDDISCIPLINESELECTOR */}
-            {/* Add flex (3 on each column) WITHIN CONNECTEDDISCIPLINESELECTOR */}
             <ConnectedDisciplineSelector userPath={user.id} disciplines={user.disciplines} />
           </div>
           <div style={styles.borderedDiv}>

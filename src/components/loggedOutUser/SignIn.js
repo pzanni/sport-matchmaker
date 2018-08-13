@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import { connect } from 'react-redux'
-import { withRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { Typography, TextField, Button, Paper } from '@material-ui/core';
+import { withRouter } from "react-router-dom"
+import { Link } from "react-router-dom"
+import { Typography, TextField, Button, Paper } from '@material-ui/core'
 import { Column, Row } from 'simple-flexbox'
 
-import * as routes from "../../constants/routes";
-import { auth } from "../../firebase/controller";
+import * as routes from "../../constants/routes"
+import { auth } from "../../firebase/controller"
 import Message from '../Message'
 
 const styles = {
@@ -14,7 +14,10 @@ const styles = {
   Headline: { margin: 20 },
   TextField: { width: 350 },
   Button: { margin: 10 },
-  FormErrorSpace: { marginTop: 10 }
+  FormmessageContentSpace: { marginTop: 10 },
+  input: {
+    color: '#4a4a4a'
+  }
 }
 
 const SignInPage = ({ history }) => {
@@ -24,7 +27,7 @@ const SignInPage = ({ history }) => {
         <Column flexGrow={0.2} style={styles.Column}>
           <Paper>
             <Row style={styles.Headline} horizontal='center'>
-              <Typography variant="display2">
+              <Typography variant="display1" style={{ color: '#222' }}>
                 Sign in
               </Typography>
             </Row>
@@ -33,8 +36,8 @@ const SignInPage = ({ history }) => {
         </Column>
       </Row>
     </div>
-  );
-};
+  )
+}
 
 class SignInForm extends Component {
   constructor(props) {
@@ -42,7 +45,7 @@ class SignInForm extends Component {
     this.state = {
       email: '',
       password: '',
-      error: ''
+      messageContent: ''
     }
   }
 
@@ -52,6 +55,13 @@ class SignInForm extends Component {
     })
   }
 
+  setMessage = (content) => {
+    this.setState({ messageContent: content })
+    setTimeout(() => {
+      this.setState({ messageContent: '' })
+    }, 6250)
+  }
+
   onSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -59,30 +69,20 @@ class SignInForm extends Component {
       const { setToken } = this.props
 
       const loggedInUser = await auth.signInWithEmailAndPassword(email, password)
-      // await messaging.requestPermission()
-      // const token = await messaging.getToken()
-      // console.log('token from onSubmit', token)
-      // setToken(token)
-
       window.localStorage.setItem('user', loggedInUser) // Onko välttämätön? Check refreshtilanne
       this.props.history.push(routes.HOME);
     } catch (exception) {
-      this.setState({ error: exception.message })
-      setTimeout(() => {
-        this.setState({ error: '' })
-      }, 6250)
-
-      //Probably unnecessary now but you never know...
-      console.log(exception);
+      console.log(exception)
+      this.setMessage(exception.message)
     }
-  };
+  }
 
   render() {
-    const { error } = this.state
+    const { messageContent } = this.state
     return (
       <div className="formInput">
-        <Message content={error} />
-        <form style={styles.FormErrorSpace} onSubmit={this.onSubmit}>
+        <Message content={messageContent} />
+        <form style={styles.FormmessageContentSpace} onSubmit={this.onSubmit}>
           <Row horizontal='center'>
             <TextField
               className="emailInput"
@@ -113,7 +113,7 @@ class SignInForm extends Component {
         </form>
         <SignUpLink />
       </div >
-    );
+    )
   }
 }
 
@@ -122,9 +122,9 @@ const SignUpLink = () => {
     <p>
       Dont have an account? <Link to={routes.SIGN_UP}>Sign Up</Link>
     </p>
-  );
-};
+  )
+}
 
 
-export default withRouter(SignInPage);
-export { SignInForm, SignUpLink };
+export default withRouter(SignInPage)
+export { SignInForm, SignUpLink }
