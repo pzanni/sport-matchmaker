@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { ScaleLoader } from 'react-spinners'
 import { Button, Table, TableHead, TableCell, TableRow, TableBody } from '@material-ui/core/'
 import { Row } from 'simple-flexbox'
 import { Select, MenuItem, FormControl, FormHelperText } from '@material-ui/core/'
