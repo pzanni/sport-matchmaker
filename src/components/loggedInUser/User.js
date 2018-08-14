@@ -52,13 +52,6 @@ const Info = (props) => {
         </Typography>
       </div>
       <div style={styles.flexRowSpacedDiv}>
-        <div style={styles.borderedDiv}>
-          {/* General info goes here */}
-          <Typography variant="title" style={{ color: '#222' }}>
-            User info
-          </Typography>
-          <p>Email: {user.email}</p>
-        </div>
         {!challengerIsLoggedInUser
           ?
           <div style={styles.borderedDiv}>

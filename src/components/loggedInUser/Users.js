@@ -31,9 +31,6 @@ const Users = (props) => {
           <Link style={styles.Link} to={`/users/${user.id}`} className="individualUserLink">
             view profile
           </Link>
-          <Link style={styles.Link} to="#" className="individualUserLink">
-            a/r friend
-          </Link>
         </Paper>)}
     </div>
   )

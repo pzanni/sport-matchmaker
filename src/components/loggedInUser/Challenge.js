@@ -12,6 +12,7 @@ import { ConnectedMatchResultDialog } from './MatchResultDialog'
 import { ConnectedChatDialog } from './ChatDialog'
 import { ConnectedResultReviewDialog } from './ResultReviewDialog'
 import { ALL, SENT, RECEIVED, ACCEPTED, COMPLETED } from '../../constants/filterStates'
+import Message from '../Message'
 
 const styles = {
   Loader: { marginLeft: '140px', marginTop: '-37px' },
@@ -32,7 +33,8 @@ class Creator extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      chosenDiscipline: ''
+      chosenDiscipline: '',
+      messageContent: ''
     }
   }
 
@@ -40,9 +42,29 @@ class Creator extends React.Component {
     this.setState({ chosenDiscipline: event.target.value })
   }
 
+  setMessage = (content) => {
+    this.setState({ messageContent: content })
+    setTimeout(() => {
+      this.setState({ messageContent: '' })
+    }, 6250)
+  }
+
+  sendChallenge = async (event) => {
+    event.preventDefault()
+    try {
+      const { from, to, addFirebaseChallenge } = this.props
+      const { chosenDiscipline } = this.state
+      await addFirebaseChallenge(from, to, chosenDiscipline)
+      this.setState({ chosenDiscipline: '' })
+      this.setMessage(`Challenge created in ${chosenDiscipline}`)
+    } catch (exception) {
+      console.log(exception)
+    }
+  }
+
   render() {
-    const { from, to, addFirebaseChallenge, disciplines } = this.props
-    const { chosenDiscipline } = this.state
+    const { disciplines } = this.props
+    const { chosenDiscipline, messageContent } = this.state
 
     const selectableDisciplines = []
     for (let key in disciplines) {
@@ -56,18 +78,19 @@ class Creator extends React.Component {
       || !disciplines[chosenDiscipline] // State remains unchanged (is a potential problem?) but atleast the button get disabled
 
     return (
-      <React.Fragment>
+      <div>
+        <Message content={messageContent} />
         <FormControl>
           <Select value={chosenDiscipline} onChange={this.handleChange}>
             <MenuItem value=''><em>none</em></MenuItem>
             {selectableDisciplines}
           </Select>
           <FormHelperText>Select a discipline</FormHelperText>
-          <Button disabled={ifNoValidDiscipline} variant="raised" color="primary" onClick={() => addFirebaseChallenge(from, to, chosenDiscipline)}>
+          <Button disabled={ifNoValidDiscipline} variant="raised" color="primary" onClick={this.sendChallenge}>
             Challenge
           </Button>
         </FormControl>
-      </React.Fragment>
+      </div>
     )
   }
 }
@@ -259,11 +282,13 @@ const FriendListCompletedTable = (props) => {
       <TableBody>
         {challenges.map(challenge => {
           return (
-            <TableRow key={challenge.path}>
+            <TableRow key={challenge.path} className="hoverableTableRow">
               <TableCell>{challenge.from.username}</TableCell>
               <TableCell>{challenge.to.username}</TableCell>
               <TableCell>
-                <ConnectedResultReviewDialog match={challenge.match} path={challenge.path} canComplete={false} />
+                <span>
+                  <ConnectedResultReviewDialog match={challenge.match} path={challenge.path} canComplete={false} />
+                </span>
               </TableCell>
             </TableRow>
           )
